@@ -10,7 +10,22 @@ LDAP="DC=Test,DC=local"
 # Wordlists
 UserList="/usr/share/seclists/Usernames/Names/names.txt"
 
-
+###############################################################################
+# Help                                                                         #
+################################################################################
+Help()
+{
+   # Display Help
+   echo "Add description of the script functions here."
+   echo
+   echo "Syntax: scriptTemplate [-g|h|v|V]"
+   echo "options:"
+   echo "g     Print the GPL license notification."
+   echo "h     Print this Help."
+   echo "v     Verbose mode."
+   echo "V     Print software version and exit."
+   echo
+}
 
 red=$'\e[1;31m'
 green=$'\e[1;32m'
@@ -73,3 +88,33 @@ echo -e ""
 echo -e "crackmapexec winrm '$DC' -u '$Username' -p '$Password'"
 echo -e "evil-winrm -i '$DC' -u '$Username' -p '$Passowrd'"
 echo -e ""
+
+
+# Null mode
+
+Anonymous() 
+{
+
+echo -e '\e[1mSMB\033[0m'
+echo -e "smbclient -U '' -P '' -L '$DC'"
+  
+}
+
+
+################################################################################
+# Help                                                                         #
+################################################################################
+Help()
+{
+   # Display Help
+   echo "Add description of the script functions here."
+   echo
+   echo "Syntax: scriptTemplate [-g|h|v|V]"
+   echo "options:"
+   echo "g     Print the GPL license notification."
+   echo "h     Print this Help."
+   echo "v     Verbose mode."
+   echo "V     Print software version and exit."
+   echo
+}
+
