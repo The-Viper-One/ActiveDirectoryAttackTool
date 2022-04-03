@@ -21,14 +21,32 @@ DC="10.10.10.10"
 LDAP="DC=Test,DC=local"
 
 
-
 # Wordlists
 UserList="/usr/share/seclists/Usernames/Names/names.txt"
+PassList="/usr/share/wordlists/rockyou.txt"
 
 
-
+# DNS
 print()
 print(color.GREEN + color.BOLD + 'DNS' + color.END)
-print("nmap --script dns-brute --script-args dns-brute.threads=12", DC ,Domain)
+print("nmap --script dns-brute --script-args dns-brute.threads=12", f'{DC}' ,Domain)
 print("dnsenum --dnsserver" ,'{}'.format(DC) + "--enum" ,'{}'.format(Domain))
 print()
+
+# Kerberos
+print()
+print(color.GREEN + color.BOLD + 'Kerberos' + color.END)
+print("nmap -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm="'{}'.format(Domain),"userdb="'{}'.format(UserList) ,'{}'.format(DC))
+print()
+
+# NTP
+print()
+print(color.GREEN + color.BOLD + 'NTP' + color.END)
+print("sudo ntpdate" ,'{}'.format(DC))
+print("sudo nmap -sU -p 123 --script ntp-info" ,'{}'.format(DC))
+print()
+
+# NTP
+print()
+print(color.GREEN + color.BOLD + 'SMB' + color.END)
+print("enum4linux -u",'{}'.format(Username),"-p", '{}'.format(Password),"-r", '{}'.format(DC),"| grep 'Local User'")
