@@ -12,27 +12,47 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
    
-
-
-
-
    
-   
-#Target Information
+##################################################################################
+# Target Information
+##################################################################################
+
 Username="bob"
 Password="pass"
 Domain="test.local"
 DC="10.10.10.10"
 LDAP="DC=Test,DC=local"
 
-
-
+##################################################################################
 # Wordlists
+##################################################################################
+
 UserList="/usr/share/seclists/Usernames/Names/names.txt"
 PassList="/usr/share/wordlists/rockyou.txt"
 
+##################################################################################
+# Arguments
+##################################################################################
 
+import argparse
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-n', '--null', action='store_true', 
+    help="Displays command for null logins")
+
+args = parser.parse_args()
+
+if args.null:
+
+	print(color.GREEN + color.BOLD + 'LDAP' + color.END)
+	Username="''"
+	print("smbmap -H '10.10.10.10' -u '' -p ''")
+	
+	
+	
+##################################################################################
+# Port Commands
+##################################################################################
 
 # DNS
 print()
@@ -79,20 +99,11 @@ print("crackmapexec ldap",'{}'.format(DC), "-u", '{}'.format(Username), "-p", '{
 print("evil-winrm -i",'{}'.format(DC), "-u", '{}'.format(Username), "-p", '{}'.format(Password))
 print()
 
+##################################################################################
+# End
+##################################################################################
 
-# Arguments
 
-import argparse
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-n', '--null', action='store_true', 
-    help="Displays command for null logins")
-
-args = parser.parse_args()
-
-if args.null:
-
-	print(color.GREEN + color.BOLD + 'LDAP' + color.END)
-	print("smbmap -H '10.10.10.10' -u '' -p ''")
 
 
