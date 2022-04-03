@@ -12,6 +12,11 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
    
+
+
+
+
+   
    
 #Target Information
 Username="bob"
@@ -21,9 +26,12 @@ DC="10.10.10.10"
 LDAP="DC=Test,DC=local"
 
 
+
 # Wordlists
 UserList="/usr/share/seclists/Usernames/Names/names.txt"
 PassList="/usr/share/wordlists/rockyou.txt"
+
+
 
 
 # DNS
@@ -50,7 +58,41 @@ print()
 print()
 print(color.GREEN + color.BOLD + 'SMB' + color.END)
 print("enum4linux -u",'{}'.format(Username),"-p", '{}'.format(Password),"-r", '{}'.format(DC),"| grep 'Local User'")
-print()
 print("smbmap -H", '{}'.format(DC), "-u", '{}'.format(Username), "-p", '{}'.format(Password))
-print()
 print("smbclient -U", '{}'.format(Username), "-P", '{}'.format(Password), "-L", '\\\\\\\\' + '{}'.format(DC))
+print("crackmapexec smb",'{}'.format(DC), "-u", '{}'.format(Username), "-p", '{}'.format(Password))
+print("crackmapexec smb",'{}'.format(DC), "-u", '{}'.format(Username), "-p", '{}'.format(Password), "--shares")
+print()
+
+# LDAP
+print()
+print(color.GREEN + color.BOLD + 'LDAP' + color.END)
+print("nmap -n -sV --script \"ldap* and not brute\"",'{}'.format(DC))
+print("ldapsearch -x -h",'{}'.format(DC), "-D '' -w '' -b", '{}'.format(LDAP), "| grep 'userPrincipalName'")
+print("ldapsearch -x -h",'{}'.format(DC), "-D '' -w '' -b", '{}'.format(LDAP), "| grep 'userPrincipalName' | sed 's/userPrincipalName: //'")
+print()
+
+# WinRM
+print()
+print(color.GREEN + color.BOLD + 'WinRM' + color.END)
+print("crackmapexec ldap",'{}'.format(DC), "-u", '{}'.format(Username), "-p", '{}'.format(Password))
+print("evil-winrm -i",'{}'.format(DC), "-u", '{}'.format(Username), "-p", '{}'.format(Password))
+print()
+
+
+# Arguments
+
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-n', '--null', action='store_true', 
+    help="Displays command for null logins")
+
+args = parser.parse_args()
+
+if args.null:
+
+	print(color.GREEN + color.BOLD + 'LDAP' + color.END)
+	print("smbmap -H '10.10.10.10' -u '' -p ''")
+
+
