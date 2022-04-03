@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 class color:
    PURPLE = '\033[95m'
    CYAN = '\033[96m'
@@ -9,8 +11,9 @@ class color:
    BOLD = '\033[1m'
    UNDERLINE = '\033[4m'
    END = '\033[0m'
-
-
+   
+   
+#Target Information
 Username="bob"
 Password="pass"
 Domain="test.local"
@@ -22,8 +25,10 @@ LDAP="DC=Test,DC=local"
 # Wordlists
 UserList="/usr/share/seclists/Usernames/Names/names.txt"
 
-print('{}'.format(DC))
+
+
+print()
 print(color.GREEN + color.BOLD + 'DNS' + color.END)
 print("nmap --script dns-brute --script-args dns-brute.threads=12", DC ,Domain)
 print("dnsenum --dnsserver" ,'{}'.format(DC) + "--enum" ,'{}'.format(Domain))
-
+print()
