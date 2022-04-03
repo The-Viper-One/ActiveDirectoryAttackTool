@@ -46,7 +46,11 @@ print("sudo ntpdate" ,'{}'.format(DC))
 print("sudo nmap -sU -p 123 --script ntp-info" ,'{}'.format(DC))
 print()
 
-# NTP
+# SMB
 print()
 print(color.GREEN + color.BOLD + 'SMB' + color.END)
 print("enum4linux -u",'{}'.format(Username),"-p", '{}'.format(Password),"-r", '{}'.format(DC),"| grep 'Local User'")
+print()
+print("smbmap -H", '{}'.format(DC), "-u", '{}'.format(Username), "-p", '{}'.format(Password))
+print()
+print("smbclient -U", '{}'.format(Username), "-P", '{}'.format(Password), "-L", '\\\\\\\\' + '{}'.format(DC))
