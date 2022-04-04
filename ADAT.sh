@@ -49,12 +49,21 @@ echo -e "smbclient -U '' -P '' -L '$DC'"
 # Options                                                                      #
 ################################################################################
 
-while getopts "n:" opt; do
-  case "$opt" in
-    n)	null;;
-    h)	Help;;
-    ?) echo "Unknown Options";;
-    esac
+while [ $# -gt 0 ]; do
+        key="$1"
+
+        case "${key}" in
+        -H | --host)
+                DC="$2"
+                shift
+                shift
+                ;;
+
+        *)
+                POSITIONAL="${POSITIONAL} $1"
+                shift
+                ;;
+        esac
 done
 
 
