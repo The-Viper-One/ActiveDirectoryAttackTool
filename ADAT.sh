@@ -5,28 +5,15 @@ set -u
 set -o pipefail
 
 
-Username="bob"
-Password="pass"
-Domain="test.local"
-DC="10.10.10.10"
-LDAP="DC=Test,DC=local"
+Username="bob";
+Password="pass";
+Domain="test.local";
+DC="10.10.10.10";
+LDAP="DC=Test,DC=local";
 
 # Wordlists
 UserList="/usr/share/seclists/Usernames/Names/names.txt"
 
-
-
-################################################################################
-# Options                                                                      #
-################################################################################
-
-while getopts "ha:" opt; do
-  case "$opt" in
-    h)	Help;;
-    a)	Anonymous;;
-    ?) echo "Unknown Options";;
-    esac
-done
 
 ###############################################################################
 # Help                                                                         #
@@ -44,6 +31,31 @@ Help()
    echo "V     Print software version and exit."
    echo
 }
+
+################################################################################
+# Options                                                                      #
+################################################################################
+
+null() 
+{
+
+echo -e '\e[1mSMB\033[0m'
+echo -e '\e[1mAnon Mode\033[0m'
+echo -e "smbclient -U '' -P '' -L '$DC'"
+
+}
+
+################################################################################
+# Options                                                                      #
+################################################################################
+
+while getopts "n:" opt; do
+  case "$opt" in
+    n)	null;;
+    h)	Help;;
+    ?) echo "Unknown Options";;
+    esac
+done
 
 
 red=$'\e[1;31m'
@@ -112,16 +124,4 @@ echo -e ""
 echo -e "crackmapexec winrm '$DC' -u '$Username' -p '$Password'"
 echo -e "evil-winrm -i '$DC' -u '$Username' -p '$Password'"
 echo -e ""
-
-
-# Null mode
-
-Anonymous() 
-{
-
-echo -e '\e[1mSMB\033[0m'
-echo -e "smbclient -U '' -P '' -L '$DC'"
-  
-}
-
 
