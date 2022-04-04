@@ -4,6 +4,13 @@ set -e
 set -u
 set -o pipefail
 
+echo -e ""
+echo -e ""
+
+echo -e "\e[1;31mhttps://github.com/The-Viper-One/ActiveDirectoryAttackTool \e[0m"
+echo -e "\e[1;31mhttps://viperone.gitbook.io/pentest-everything/ \e[0m"
+echo -e ""
+
 
 Username="bob";
 Password="pass";
@@ -25,7 +32,9 @@ Help()
    echo
    echo "Syntax: scriptTemplate [-g|h|v|V]"
    echo "options:"
-   echo "g     Print the GPL license notification."
+   echo "n     Displays commands for when credentials are not known."
+   echo "c     Displays many crackmapexec commands."
+   echo "i     Sets the target IP address."
    echo "h     Print this Help."
    echo "v     Verbose mode."
    echo "V     Print software version and exit."
@@ -33,38 +42,26 @@ Help()
 }
 
 ################################################################################
-# Options                                                                      #
+# Null                                                                    #
 ################################################################################
 
 null() 
 {
 
-echo -e '\e[1mSMB\033[0m'
 echo -e '\e[1mAnon Mode\033[0m'
-echo -e "smbclient -U '' -P '' -L '$DC'"
 
 }
 
 ################################################################################
-# Options                                                                      #
+# User Discovery                                                               #
 ################################################################################
 
-while [ $# -gt 0 ]; do
-        key="$1"
 
-        case "${key}" in
-        -H | --host)
-                DC="$2"
-                shift
-                shift
-                ;;
 
-        *)
-                POSITIONAL="${POSITIONAL} $1"
-                shift
-                ;;
-        esac
-done
+
+################################################################################
+# Colors                                                                    #
+################################################################################
 
 
 red=$'\e[1;31m'
@@ -78,12 +75,9 @@ bold=$'\e[1m'
 norm=$'\e[21m'
 reset=$'\e[0m'
 
-echo -e ""
-echo -e ""
+all()
+{
 
-echo -e "\e[1;31mhttps://github.com/The-Viper-One/ActiveDirectoryAttackTool \e[0m"
-echo -e "\e[1;31mhttps://viperone.gitbook.io/pentest-everything/ \e[0m"
-echo -e ""
 
 # DNS
 echo -e '\e[1mDNS\033[0m'
@@ -134,3 +128,62 @@ echo -e "crackmapexec winrm '$DC' -u '$Username' -p '$Password'"
 echo -e "evil-winrm -i '$DC' -u '$Username' -p '$Password'"
 echo -e ""
 
+}
+
+################################################################################
+# Options                                                                      #
+################################################################################
+
+while [ $# -gt 0 ]; do
+        key="$1"
+
+        case "${key}" in
+        -i | --ip)
+                DC="$2"
+                shift
+                shift
+                ;;
+                
+        -u | --username)
+                Username="$2"
+                shift
+                shift
+                ;;
+                
+        -p | --password)
+                Password="$2"
+                shift
+                shift
+                ;;    
+
+        -n | --null)
+                null;
+                shift
+                shift
+                ;;
+                
+        -c | --cme)
+                crackmapexec;
+                shift
+                shift
+                ;;
+
+        -h | --help)
+                Help;
+                shift
+                shift
+                ;;
+                
+        -a | --all)
+                all;
+                shift
+                shift
+                ;;                                                             
+                
+
+        *)
+                POSITIONAL="${POSITIONAL} $1"
+                shift
+                ;;
+        esac
+done
