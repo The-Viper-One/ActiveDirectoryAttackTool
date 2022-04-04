@@ -12,14 +12,60 @@ echo -e "\e[1;31mhttps://viperone.gitbook.io/pentest-everything/ \e[0m"
 echo -e ""
 
 
-Username="bob";
-Password="pass";
-Domain="test.local";
-DC="10.10.10.10";
-LDAP="DC=Test,DC=local";
+Username="";
+Password="";
+Domain="";
+IP="";
+LDAP="";
 
 # Wordlists
 UserList="/usr/share/seclists/Usernames/Names/names.txt"
+
+################################################################################
+# Options                                                                      #
+################################################################################
+
+while [ $# -gt 0 ]; do
+        key="$1"
+
+        case "${key}" in
+              
+        -i | --ip)
+                IP="'$2'"
+                shift
+                shift
+                ;;
+                
+        -u | --username)
+                Username="'$2'"
+                shift
+                shift
+                ;;
+                
+        -p | --password)
+                Password="'$2'"
+                shift
+                shift
+                ;;    
+
+        -h | --help)
+                Help;
+                shift
+                shift
+                ;;
+                
+        -d | --domain)
+                Domain="'$2'";
+                shift
+                shift
+                ;;                                                                               
+                
+        *)
+                POSITIONAL="${POSITIONAL} $1"
+                shift
+                ;;
+        esac
+done
 
 
 ###############################################################################
@@ -64,126 +110,84 @@ echo -e '\e[1mAnon Mode\033[0m'
 ################################################################################
 
 
-red=$'\e[1;31m'
-green=$'\e[1;32m'
-blue=$'\e[1;34m'
-magenta=$'\e[1;35m'
-cyan=$'\e[1;36m'
-yellow=$'\e[1;93m'
-white=$'\e[0m'
-bold=$'\e[1m'
-norm=$'\e[21m'
-reset=$'\e[0m'
+RESTORE='\033[0m'
 
-all()
-{
+RED='\033[00;31m'
+GREEN='\033[00;32m'
+YELLOW='\033[00;33m'
+BLUE='\033[00;34m'
+PURPLE='\033[00;35m'
+CYAN='\033[00;36m'
+LIGHTGRAY='\033[00;37m'
+
+LRED='\033[01;31m'
+LGREEN='\033[01;32m'
+LYELLOW='\033[01;33m'
+LBLUE='\033[01;34m'
+LPURPLE='\033[01;35m'
+LCYAN='\033[01;36m'
+WHITE='\033[01;37m'
 
 
 # DNS
-echo -e '\e[1mDNS\033[0m'
+echo -e "${LGREEN}DNS${RESTORE}"
 echo -e ""
 echo -e "nmap --script dns-brute --script-args dns-brute.threads=12 '$Domain'"
-echo -e "dnsenum --dnsserver '$DC' --enum '$Domain'"
+echo -e "dnsenum --dnsserver $IP --enum '$Domain'"
 echo -e ""
 
 # Kerberos
-echo -e '\e[1mKerberos\033[0m'
+echo -e "${LGREEN}Kerberos${RESTORE}"
 echo -e ""
-echo -e "nmap -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm='$Domain',userdb='$UserList' '$DC'"
-echo -e "msfconsole -q -x 'use auxiliary/gather/kerberos_enumusers; set rhost $DC; set lport 4444; set DOMAIN $Domain; set USER_FILE $UserList; exploit'"
+echo -e "nmap -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm='$Domain',userdb='$UserList' '$IP'"
+echo -e "msfconsole -q -x 'use auxiliary/gather/kerberos_enumusers; set rhost $IP; set lport 4444; set DOMAIN $Domain; set USER_FILE $UserList; exploit'"
 echo -e ""
 
 # NTP
-echo -e '\e[1mNTP\033[0m'
+echo -e "${LGREEN}NTP${RESTORE}"
 echo -e ""
-echo -e "sudo ntpdate '$DC'"
-echo -e "sudo nmap -sU -p 123 --script ntp-info '$DC'"
+echo -e "sudo ntpdate '$IP'"
+echo -e "sudo nmap -sU -p 123 --script ntp-info '$IP'"
 echo -e ""
 
 # SMB
-echo -e '\e[1mSMB\033[0m'
+echo -e "${LGREEN}SMB${RESTORE}"
 echo -e ""
-echo -e "enum4linux -u '$Username' -p '$Password' -r $DC| grep 'Local User'"
+echo -e "nmap --script=smb-enum-users,smb-enum-shares,smb-os-discovery -p 139,445 $IP"
 echo -e ""
-echo -e "smbmap -H '$DC' -u '$Username' -p '$Password'"
+echo -e "enum4linux -u '$Username' -p '$Password' -r $IP| grep 'Local User'"
 echo -e ""
-echo -e "smbclient -U '' -P '' -L '$DC'"
+echo -e "smbmap -H '$IP' -u '$Username' -p '$Password'"
 echo -e ""
-echo -e "crackmapexec smb '$DC' -u '$Username' -p '$Password'"
-echo -e "crackmapexec smb '$DC' -u '$Username' -p '$Password' --shares"
+echo -e "smbclient -U '' -P '' -L '$IP'"
+echo -e ""
+echo -e "crackmapexec smb '$IP' -u '$Username' -p '$Password'"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --rid-brute"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --lsa"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --sam"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --pass-pol"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --local-groups"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --groups"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --users"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --sessions"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --disks"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --loggedon-users"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --loggedon-users --sessions --users --groups --local-groups --pass-pol --sam --rid-brute 2000"
 echo -e ""
 
 # LDAP
-echo -e '\e[1mLDAP\033[0m'
+echo -e "${LGREEN}LDAP${RESTORE}"
 echo -e ""
-echo -e "nmap -n -sV --script "ldap* and not brute" '$DC'"
-echo -e "ldapsearch -x -h '$DC' -D '' -w '' -b "$LDAP" | grep userPrincipalName"
-echo -e "ldapsearch -x -h $DC -D '' -w '' -b "$LDAP" | grep userPrincipalName | sed 's/userPrincipalName: //'"
+echo -e "nmap -n -sV --script "ldap* and not brute" '$IP'"
+echo -e "ldapsearch -x -h '$IP' -D '' -w '' -b "$LDAP" | grep userPrincipalName"
+echo -e "ldapsearch -x -h $IP -D '' -w '' -b "$LDAP" | grep userPrincipalName | sed 's/userPrincipalName: //'"
 echo -e ""
 
 #WinRM
-echo -e '\e[1mWinRM\033[0m'
+echo -e "${LGREEN}WinRM${RESTORE}"
 echo -e ""
-echo -e "crackmapexec winrm '$DC' -u '$Username' -p '$Password'"
-echo -e "evil-winrm -i '$DC' -u '$Username' -p '$Password'"
+echo -e "crackmapexec winrm $IP -u $Username -p $Password"
+echo -e "evil-winrm -i $IP -u $Username -p $Password"
 echo -e ""
 
-}
 
-################################################################################
-# Options                                                                      #
-################################################################################
-
-while [ $# -gt 0 ]; do
-        key="$1"
-
-        case "${key}" in
-        -i | --ip)
-                DC="$2"
-                shift
-                shift
-                ;;
-                
-        -u | --username)
-                Username="$2"
-                shift
-                shift
-                ;;
-                
-        -p | --password)
-                Password="$2"
-                shift
-                shift
-                ;;    
-
-        -n | --null)
-                null;
-                shift
-                shift
-                ;;
-                
-        -c | --cme)
-                crackmapexec;
-                shift
-                shift
-                ;;
-
-        -h | --help)
-                Help;
-                shift
-                shift
-                ;;
-                
-        -a | --all)
-                all;
-                shift
-                shift
-                ;;                                                             
-                
-
-        *)
-                POSITIONAL="${POSITIONAL} $1"
-                shift
-                ;;
-        esac
-done
