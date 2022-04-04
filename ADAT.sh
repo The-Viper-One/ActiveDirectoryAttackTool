@@ -8,12 +8,15 @@ set -o pipefail
 # Variables                                                                    #
 ################################################################################
 
-Username="";
-Password="";
-Domain="";
-IP="";
-LDAP="";
-NS="IP";
+Username="";	#
+Password="";	#
+Domain="";	#
+IP="";		#
+LDAP="";	#
+DC="";		#
+NS="IP";	#
+GC="";		#
+
 
 # Wordlists
 UserList="/usr/share/seclists/Usernames/Names/names.txt"
