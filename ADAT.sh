@@ -4,13 +4,9 @@ set -e
 set -u
 set -o pipefail
 
-echo -e ""
-echo -e ""
-
-echo -e "\e[1;31mhttps://github.com/The-Viper-One/ActiveDirectoryAttackTool \e[0m"
-echo -e "\e[1;31mhttps://viperone.gitbook.io/pentest-everything/ \e[0m"
-echo -e ""
-
+################################################################################
+# Variables                                                                    #
+################################################################################
 
 Username="";
 Password="";
@@ -128,6 +124,33 @@ LPURPLE='\033[01;35m'
 LCYAN='\033[01;36m'
 WHITE='\033[01;37m'
 
+################################################################################
+# Banner                                                                     #
+################################################################################
+
+echo 'CSAgICBfICAgIF9fX18gICAgXyAgX19fX18gCgkgICAvIFwgIHwgIF8gXCAgLyBcfF8gICBffAoJICAvIF8gXCB8IHwgfCB8LyBfIFwgfCB8ICAKCSAvIF9fXyBcfCB8X3wgLyBfX18gXHwgfCAgCgkvXy8gICBcX1xfX19fL18vICAgXF9cX3w=' | base64 -d
+echo -e ""
+echo -e ""
+echo -e "	${LGREEN}Active Directory Attack Tool v0.1${RESTORE}"
+echo -e  "	${GREEN}Author:	ViperOne${RESTORE}"
+
+echo -e ""
+echo -e ""
+
+################################################################################
+# Links                                                                     #
+################################################################################
+
+echo -e "\e[1;31mhttps://github.com/The-Viper-One/ActiveDirectoryAttackTool \e[0m"
+echo -e "\e[1;31mhttps://viperone.gitbook.io/pentest-everything/ \e[0m"
+echo -e ""
+
+echo -e ""
+echo -e ""
+
+################################################################################
+# Main                                                                     #
+################################################################################
 
 # DNS
 echo -e "${LGREEN}DNS${RESTORE}"
@@ -137,7 +160,7 @@ echo -e "dnsenum --dnsserver $IP --enum '$Domain'"
 echo -e ""
 
 # Kerberos
-echo -e "${LGREEN}Kerberos${RESTORE}"
+echo -e "${LGREEN}אKerberosא${RESTORE}"
 echo -e ""
 echo -e "nmap -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm='$Domain',userdb='$UserList' '$IP'"
 echo -e "msfconsole -q -x 'use auxiliary/gather/kerberos_enumusers; set rhost $IP; set lport 4444; set DOMAIN $Domain; set USER_FILE $UserList; exploit'"
