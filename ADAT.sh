@@ -9,9 +9,12 @@ set -o pipefail
 ################################################################################
 
 Username="";	#
+NQUsername="";	#
 Password="";	#
 Domain="";	#
+NQDomain="";	#
 IP="";		#
+NQIP="";	#
 LDAP="";	#
 DC="";		#
 NS="IP";	#
@@ -31,19 +34,21 @@ while [ $# -gt 0 ]; do
         case "${key}" in
               
         -i | --ip)
-                IP="'$2'"
+                IP="'$2'";
+                NQIP="$2";
                 shift
                 shift
                 ;;
                 
         -u | --username)
-                Username="'$2'"
+                Username="'$2'";
+                NQUsername="$2";
                 shift
                 shift
                 ;;
                 
         -p | --password)
-                Password="'$2'"
+                Password="'$2'";
                 shift
                 shift
                 ;;    
@@ -56,18 +61,10 @@ while [ $# -gt 0 ]; do
                 
         -d | --domain)
                 Domain="'$2'";
+                NQDomain="$2";
                 shift
                 shift
-                ;;   
-
-	-N | --NullMode)
-                Username="''";
-                Anonymous="'anonymous'";
-            	Password="''";
-            	NullMode;
-                shift
-                shift
-                ;;                                                                                            
+                ;;                                                                                           
                 
         *)
                 POSITIONAL="${POSITIONAL} $1"
@@ -176,7 +173,7 @@ echo -e ""
 echo -e "${LGREEN}Kerberos${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Impacket${RESTORE}"
-echo -e "GetNPUsers.py $Domain -usersfile $UserList -dc-ip $IP -format 'hashcat'"
+echo -e "GetNPUsers.py $Domain/ -usersfile $UserList -dc-ip $IP -format 'hashcat'"
 echo -n -e "GetNPUsers.py $Domain/$Username:$Password -request -dc-ip $IP -format 'Hashcat'" ;echo -e " ${YELLOW}# Requires valid credentials${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Kerbrute${RESTORE}"
@@ -247,7 +244,7 @@ echo -e "${IBLUE}Nmap${RESTORE}"
 echo -e "nmap -n -sV --script "\"ldap* and not brute"\" $IP"
 echo -e ""
 echo -e "${IBLUE}LDAPdomaindump${RESTORE}"
-echo -e "ldapdomaindump -u $Domain\\\\$Username -p $Password ldap://$IP"
+echo -e "ldapdomaindump -u $NQDomain\\\\$NQUsername -p $Password ldap://$NQIP"
 echo -e ""
 echo -e "${IBLUE}LDAPsearch${RESTORE}"
 echo -e "ldapsearch -x -h $IP -D '' -w '' -b "$LDAP" | grep userPrincipalName"
@@ -277,71 +274,22 @@ echo -e ""
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 
-# Pywerview
-echo -e "${LRED}Pywerview${RESTORE}"
-echo -e "${RED}https://github.com/the-useless-one/pywerview${RESTORE}"
-echo -e ""
-echo -e "${IBLUE}Find${RESTORE}"
-echo -e "python3 pywerview.py find-gpocomputeradmin -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e ""
-echo -e echo -e "${IBLUE}Get${RESTORE}"
-echo -e "python3 pywerview.py get-dfsshare -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-domainpolicy -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-group -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-netcomputer -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-netdomaincontroller -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-netfileserver -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-netgpo -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-netgpogroup -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-netou-u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-netsession -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-netsite -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py get-netuser -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e ""
-echo -e "${IBLUE}Invoke${RESTORE}"
-echo -e "python3 pywerview.py invoke-eventhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py invoke-processhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "python3 pywerview.py invoke-userhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
-echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-echo -e ""
-echo -e ""
-
 # Impacket
 echo -e "${LGREEN}Impacket${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}GetADUsers${RESTORE}"
-echo -e "GetADUsers.py $Domain/$Username:$Password -dc-ip $IP"
+echo -e "GetADUsers.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
 echo -e ""
 echo -e "${IBLUE}GetNPUsers${RESTORE}"
 echo -e "GetNPUsers.py $Domain -usersfile $UserList -dc-ip $IP -format 'hashcat'"
-echo -n -e "GetNPUsers.py $Domain/$Username:$Password -request -dc-ip $IP -format 'Hashcat'" ;echo -e " ${YELLOW}# Requires valid credentials${RESTORE}"
+echo -n -e "GetNPUsers.py $NQDomain/$NQUsername:$Password -request -dc-ip $IP -format 'hashcat'" ;echo -e " ${YELLOW}# Requires valid credentials${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}GetUserSPNs${RESTORE}"
-echo -n -e "GetUserSPNs.py $Domain/$Username:$Password -dc-ip $IP" ;echo -e " ${YELLOW}# Requires valid credentials${RESTORE}"
+echo -n -e "GetUserSPNs.py $NQDomain/$NQUsername:$Password -dc-ip $IP" ;echo -e " ${YELLOW}# Requires valid credentials${RESTORE}"
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 echo -e ""
-################################################################################
-# Null Mode                                                                    #
-################################################################################
 
-NullMode()
-{
-
-
-echo -e "${LGREEN}SMB${RESTORE}"
-echo -e ""
-echo -e "nmap --script=smb-enum-users,smb-enum-shares,smb-os-discovery -p 139,445 $IP"
-echo -e ""
-echo -e "nmblookup -A $IP"
-echo -e ""
-echo -e "enum4linux -u $Username -p $Password -r $IP| grep 'Local User'"
-echo -e ""
-echo -e "smbmap -H $IP -u $Username -p $Password"
-echo -e ""
-echo -e "smbclient -U '' -P '' -L $IP"
-
-}
 
 ################################################################################
 # End	                                                                       #
