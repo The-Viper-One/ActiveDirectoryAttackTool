@@ -1,6 +1,6 @@
 # ActiveDirectoryAttackTool
 
-ADAT is a small tool used to assist CTF players and Penetration testers with easy commands to run against an Active Directory Domain Controller. This tool is generally designed around having known user credentials.
+ADAT is a small tool used to assist CTF players and Penetration testers with easy commands to run against an Active Directory Domain Controller. This tool is best utilized using a set of known credentials against the host.
 
 # Usage
 
