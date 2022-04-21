@@ -19,7 +19,6 @@ LDAP="";	#
 baseLDAP="";	#
 DC="";		#
 NS="IP";	#
-GC="";		#
 
 
 # Wordlists
@@ -142,7 +141,6 @@ echo -e ""
 echo -e ""
 echo -e "	${LGREEN}Active Directory Attack Tool v1.0${RESTORE}"
 echo -e  "	${LGREEN}Author:	ViperOne${RESTORE}"
-
 echo -e ""
 echo -e ""
 
@@ -153,7 +151,6 @@ echo -e ""
 echo -e "\e[1;31mhttps://github.com/The-Viper-One/ActiveDirectoryAttackTool \e[0m"
 echo -e "\e[1;31mhttps://viperone.gitbook.io/pentest-everything/everything/everything-active-directory \e[0m"
 echo -e ""
-
 echo -e ""
 echo -e ""
 
@@ -353,7 +350,6 @@ echo -e "wmiexec.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
 echo -e ""
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
-echo -e ""
 
 # RDP
 echo -e "${LGREEN}RDP${RESTORE}"
@@ -391,7 +387,6 @@ echo -e "python3 pywerview.py invoke-eventhunter -u $Username -p $Password -w $D
 echo -e "python3 pywerview.py invoke-processhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
 echo -e "python3 pywerview.py invoke-userhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-echo -e ""
 echo -e ""
 
 ################################################################################
