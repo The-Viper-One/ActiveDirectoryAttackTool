@@ -4,6 +4,8 @@ ADAT is a small tool used to assist CTF players and Penetration testers with eas
 
 # Usage
 
+```
+bash ADAT.sh -u ViperOne -p Password123 -i 10.10.10.100 -d Security.local   
+```
+![image](https://user-images.githubusercontent.com/68926315/164532557-276b04b8-50f4-4369-8a40-e08c0fb3fcf9.png)
 
-
-![ADAT](https://user-images.githubusercontent.com/68926315/163265220-56b3a86a-5ece-4c72-8255-3ee595bb265b.png)
