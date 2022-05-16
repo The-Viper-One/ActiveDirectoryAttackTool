@@ -114,7 +114,7 @@ echo -e ""
 echo 'CSAgICBfICAgIF9fX18gICAgXyAgX19fX18gCgkgICAvIFwgIHwgIF8gXCAgLyBcfF8gICBffAoJICAvIF8gXCB8IHwgfCB8LyBfIFwgfCB8ICAKCSAvIF9fXyBcfCB8X3wgLyBfX18gXHwgfCAgCgkvXy8gICBcX1xfX19fL18vICAgXF9cX3w=' | base64 -d
 echo -e ""
 echo -e ""
-echo -e "	${LGREEN}Active Directory Attack Tool v1.0${RESTORE}"
+echo -e "	${LGREEN}Active Directory Attack Tool v1.1${RESTORE}"
 echo -e  "	${LGREEN}Author:	ViperOne${RESTORE}"
 echo -e ""
 echo -e ""
