@@ -132,7 +132,26 @@ echo -e ""
 ################################################################################
 # Main                                                                     #
 ################################################################################
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
 
+# Port Scan
+echo -e "${LGREEN}Port Scan${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "${IBLUE}# Quick Scans${RESTORE}"
+echo -n -e "nmap -Pn -sV --top-ports 100 --open $IP" ;echo -e " ${YELLOW}# Top 100 ports scan${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}# Intensive Scans${RESTORE}"
+echo -n -e "nmap -Pn -p- -sS -sV -sC -v $IP" ;echo -e " ${YELLOW}# Scan all ports, version checking, script scans${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}# Vulnerability Scans${RESTORE}"
+echo -n -e "nmap -Pn --script vulners.nse -p- -sV -v $IP" ;echo -e " ${YELLOW}# Full vuln scan${RESTORE}"
+echo -n -e "nmap -Pn --script smb-vuln* -p 139,445 -v $IP" ;echo -e " ${YELLOW}# SMB vuln scan${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}# Misc Scans${RESTORE}"
+echo -n -e "nmap -Pn -sU -sC -sV -v $IP # UDP Scan" ;echo -e " ${YELLOW}# UDP Scan${RESTORE}"
+echo -e ""
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 
