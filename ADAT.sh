@@ -565,7 +565,7 @@ echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-Printnightmare.ps1);Invoke-
 echo -e ""
 
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-echo -e "									  ${LGREEN}♠ Enumeration ♠${RESTORE}"
+echo -e "									${LGREEN}♠ Enumeration ♠${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e ""
 echo -e "${LGREEN}Local Enumeration${RESTORE}"
@@ -584,14 +584,20 @@ echo -e "${IBLUE}Invoke-WinEnum${RESTORE}"
 echo -e "${LRED}WORK IN PROGRESS${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-WinEnum.ps1);Invoke-WinEnum"
 echo -e ""
+echo -e ""
+echo -e ""
 echo -e "${LGREEN}Network Enumeration${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Invoke-ARPScan${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-ARPScan.ps1);Invoke-ARPScan -CIDR '<CIDR>'"
 echo -e ""
+echo -e "${IBLUE}Invoke-PortScan${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR> or <IP>' -TopPorts 50 -Open -GrepOut Scan.txt"
+echo -e ""
+echo -e "${IBLUE}Invoke-Bloodhound${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/BloodHound.ps1);Invoke-Bloodhound"
 echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
-
 
 
 
