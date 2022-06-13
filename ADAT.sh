@@ -470,8 +470,10 @@ echo -e ""
 # Internal Access	                                                       #
 ################################################################################
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-echo -e "     	 									${LGREEN}♠ Internal Commands ♠${RESTORE}"
-echo -e "     	 					${LIGHTGRAY}This section is used for running scripts and commands internally on a Domain Controller${RESTORE}"									
+echo -e "     	 								  ${LRED} WORK IN PROGRESS${RESTORE}"
+echo -e "									${LGREEN}♠ Internal Commands ♠${RESTORE}"
+echo -e "     	 					${LIGHTGRAY}This section is used for running scripts and commands internally on a Domain Controller${RESTORE}"
+echo -e "							                  ${LRED} WORK IN PROGRESS${RESTORE}"		
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 # Credential Dumping
