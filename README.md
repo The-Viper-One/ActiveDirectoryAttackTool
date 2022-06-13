@@ -25,6 +25,8 @@ Some of the tools ADAT prints out commands for:
 - pywerview
 - xfreerdp
 
+ADAT is a work in progress and subject to much change.
+
 ADAT does not execute commands on behalf of the user and is OSCP friendly.
 
 # Usage
