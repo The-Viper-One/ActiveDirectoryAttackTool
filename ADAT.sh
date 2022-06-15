@@ -8,7 +8,7 @@ set -o pipefail
 # Variables                                                                    #
 ################################################################################
 
-LocalIP="0.0.0.0";	#
+LocalIP="0.0.0.0";		#
 LocalPort="8080";		#
 
 Username="";			#
@@ -39,11 +39,12 @@ DownloadMethod="$iwr"
 # Prerequisites                                                                #
 ################################################################################
 
-#ansi2html
-#seclists
-#Repo's
+Function_Prerequisites () {
+
+pip3 install ansi2html
 
 
+}
 
 ################################################################################
 # Wordlists                                                                    #
@@ -82,19 +83,76 @@ ICYAN='\033[02;36m'
 
 Function_LocalRepo () {
 
+
+
 mkdir -p $HOME/ADAT
 mkdir -p $HOME/ADAT/LocalRepo
 cd $HOME/ADAT
 
 
-echo -e "${LGREEN}Cloning Empire Repo${RESTORE}"
-git clone --quiet --recursive https://github.com/BC-SECURITY/Empire.git &> /dev/null &
-echo -e "${LGREEN}Cloning Nishang Repo${RESTORE}"
-git clone --quiet --recursive https://github.com/samratashok/nishang.git &> /dev/null &
-echo -e "${LGREEN}Cloning PowerSploit Repo${RESTORE}"
-git clone --quiet --recursive https://github.com/PowerShellMafia/PowerSploit.git &> /dev/null &
-echo -e "${LGREEN}Cloning WinPwn Repo${RESTORE}"
-git clone --recursive https://github.com/S3cur3Th1sSh1t/WinPwn.git &> /dev/null &
+EmpireLocalRepo="$HOME/ADAT/Empire"
+NishangLocalRepo="$HOME/ADAT/nishang"
+PowerSploitLocalRepo="$HOME/ADAT/PowerSploit"
+WinPwnLocalRepo="$HOME/ADAT/WinPwn"
+
+if [ -d "$EmpireLocalRepo" ] 
+then
+	echo -e ""
+    	echo "Empire is installed, checking if updated to latest version."
+    	cd $EmpireLocalRepo
+    	git pull "https://github.com/BC-SECURITY/Empire.git"
+    	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Empire Repo${RESTORE}"
+	git clone --quiet --recursive "https://github.com/BC-SECURITY/Empire.git" $HOME/ADAT/Empire
+	echo -e ""
+fi
+
+if [ -d "$NishangLocalRepo" ] 
+then
+    	echo -e ""
+    	echo "Nishang is installed, checking if updated to latest version."
+    	cd $NishangLocalRepo
+    	git pull "https://github.com/samratashok/nishang.git"
+    	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Nishang Repo${RESTORE}"
+	git clone --quiet --recursive "https://github.com/samratashok/nishang.git" $HOME/ADAT/nishang
+	echo -e ""
+fi
+
+
+
+if [ -d "$PowerSploitLocalRepo" ] 
+then
+	echo -e ""
+    	echo "PowerSploit is installed, checking if updated to latest version."
+    	cd $PowerSploitLocalRepo
+    	git pull "https://github.com/PowerShellMafia/PowerSploit.git"
+    	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning PowerSploit Repo${RESTORE}"
+	git clone --quiet --recursive "https://github.com/PowerShellMafia/PowerSploit.git" $HOME/ADAT/PowerSploit
+	echo -e ""
+fi
+
+
+if [ -d "$WinPwnLocalRepo" ] 
+then
+	echo -e ""
+    	echo "WinPwn is installed, checking if updated to latest version."
+    	cd $WinPwnLocalRepo
+    	git pull "https://github.com/S3cur3Th1sSh1t/WinPwn.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning WinPwn Repo${RESTORE}"
+	git clone --quiet --recursive "https://github.com/S3cur3Th1sSh1t/WinPwn.git" $HOME/ADAT/WinPwn
+	echo -e ""
+fi
 
 
 cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
@@ -177,14 +235,13 @@ while [ $# -gt 0 ]; do
 done
 
 
-
 ################################################################################
 # Banner                                                                     #
 ################################################################################
 echo -e ""
 echo -e ""
 echo -e ""
-echo 'CSAgICBfICAgIF9fX18gICAgXyAgX19fX18gCgkgICAvIFwgIHwgIF8gXCAgLyBcfF8gICBffAoJICAvIF8gXCB8IHwgfCB8LyBfIFwgfCB8ICAKCSAvIF9fXyBcfCB8X3wgLyBfX18gXHwgfCAgCgkvXy8gICBcX1xfX19fL18vICAgXF9cX3w=' | base64 -d
+echo -e "CSAgICBfICAgIF9fX18gICAgXyAgX19fX18gCgkgICAvIFwgIHwgIF8gXCAgLyBcfF8gICBffAoJICAvIF8gXCB8IHwgfCB8LyBfIFwgfCB8ICAKCSAvIF9fXyBcfCB8X3wgLyBfX18gXHwgfCAgCgkvXy8gICBcX1xfX19fL18vICAgXF9cX3w=" | base64 -d
 echo -e ""
 echo -e ""
 echo -e "	${LGREEN}Active Directory Attack Tool v2.0${RESTORE}"
@@ -196,11 +253,13 @@ echo -e ""
 # Links                                                                     #
 ################################################################################
 
-echo -e "\e[1;31mhttps://github.com/The-Viper-One/ActiveDirectoryAttackTool \e[0m"
-echo -e "\e[1;31mhttps://viperone.gitbook.io/pentest-everything/everything/everything-active-directory \e[0m"
+echo -e "\033[00;34mhttps://github.com/The-Viper-One/ActiveDirectoryAttackTool \e[0m"
+echo -e "\033[00;34mhttps://viperone.gitbook.io/pentest-everything/everything/everything-active-directory \e[0m"
 echo -e ""
 echo -e ""
 echo -e ""
+
+sleep "5"
 
 ################################################################################
 # Main                                                                     #
@@ -654,33 +713,35 @@ echo -e "${LRED}└────────────────────�
 # Cleanup	                                                               #
 ################################################################################
 
+sleep "3"
+
 echo -e ""
 echo -e ""
 echo -e ""
 
 if [ $LocalRepo == "True" ]
 then
-	echo -e "					${LYELLOW}		---> Press "K" to terminate script and python server <---${RESTORE}"
+	echo -e "					${LYELLOW}			---> Press "'K'" to terminate script and python server <---${RESTORE}"
 	echo -e ""
 	echo -e ""
 	echo -e ""
 	echo -e ""
 	echo -e ""
 	echo -e ""
-	read KillScript
+	read -s KillScript
 	
 	case $KillScript in
 		k)
 echo -e "${LYELLOW}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-											fuser -k "$LocalPort/tcp" 2> /dev/null
-		echo -e "										Script Terminated"
+											fuser -k "$LocalPort/tcp" 2> /dev/null &
+		echo -e "										Script Terminated gracefully"
 echo -e "${LYELLOW}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 		;;
 		
 		K)
 echo -e "${LYELLOW}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-											fuser -k "$LocalPort/tcp" 2> /dev/null
-		echo -e "									Script Terminated"
+											fuser -k "$LocalPort/tcp" 2> /dev/null &
+		echo -e "										Script Terminated gracefully"
 echo -e "${LYELLOW}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 		;;
 	esac
