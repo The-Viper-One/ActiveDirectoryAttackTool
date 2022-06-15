@@ -8,8 +8,8 @@ set -o pipefail
 # Variables                                                                    #
 ################################################################################
 
-LocalIP="192.168.254.190";	#
-LocalPort="8085";		#
+LocalIP="0.0.0.0";	#
+LocalPort="8080";		#
 
 Username="";			#
 NQUsername="";			#
