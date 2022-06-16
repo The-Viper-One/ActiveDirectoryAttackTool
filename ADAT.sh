@@ -73,6 +73,11 @@ ICYAN='\033[02;36m'
 # Prerequisites                                                                #
 ################################################################################
 
+echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e "									${LGREEN}Checking Prerequisites${RESTORE}"
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+
 ansi2htmlInstalled="$HOME/.local/lib/python3.9/site-packages/ansi2html"
 
 if [ -d "$ansi2htmlInstalled" ]
@@ -116,7 +121,7 @@ then
 else
 	echo -e ""
 	echo -e "${LGREEN}Cloning Empire Repo${RESTORE}"
-	git clone --quiet --recursive "https://github.com/BC-SECURITY/Empire.git" $HOME/ADAT/Empire
+	git clone --recursive "https://github.com/BC-SECURITY/Empire.git" $HOME/ADAT/Empire
 	echo -e ""
 fi
 
@@ -130,7 +135,7 @@ then
 else
 	echo -e ""
 	echo -e "${LGREEN}Cloning Nishang Repo${RESTORE}"
-	git clone --quiet --recursive "https://github.com/samratashok/nishang.git" $HOME/ADAT/nishang
+	git clone --recursive "https://github.com/samratashok/nishang.git" $HOME/ADAT/nishang
 	echo -e ""
 fi
 
@@ -146,7 +151,7 @@ then
 else
 	echo -e ""
 	echo -e "${LGREEN}Cloning PowerSploit Repo${RESTORE}"
-	git clone --quiet --recursive "https://github.com/PowerShellMafia/PowerSploit.git" $HOME/ADAT/PowerSploit
+	git clone --recursive "https://github.com/PowerShellMafia/PowerSploit.git" $HOME/ADAT/PowerSploit
 	echo -e ""
 fi
 
@@ -161,7 +166,7 @@ then
 else
 	echo -e ""
 	echo -e "${LGREEN}Cloning WinPwn Repo${RESTORE}"
-	git clone --quiet --recursive "https://github.com/S3cur3Th1sSh1t/WinPwn.git" $HOME/ADAT/WinPwn
+	git clone --recursive "https://github.com/S3cur3Th1sSh1t/WinPwn.git" $HOME/ADAT/WinPwn
 	echo -e ""
 fi
 
@@ -173,6 +178,7 @@ cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
 
 python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
 
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 
 }
 
