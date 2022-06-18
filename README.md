@@ -18,13 +18,14 @@ bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local -l "DC
 ```
 <br/>
 
-Usage with GitHub for script repositories
+Usage with GitHub for script repositories (Target system has internet access)
 ```
 bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local
 ```
 <br/>
 
-Usage with local system for script repositories (ensure LocalIP and LocalPort variables are set within the script)
+# Systems with no internet access
+If the system you are testing has no internet access or is a CTF machine, ADAT will download the required GitHub repositories to your attacking system. Ensure you specify the ```-L``` parameter and set both the LocalIP and LocalPort variables within the script to that of your attacking system.
 ```
 bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local -L
 ```
