@@ -1,7 +1,7 @@
 # ActiveDirectoryAttackTool
 
 
-ActiveDirectoryAttackTool (ADAT) tool used to assist CTF players and Penetration testers with helpful commands to run against an Active Directory Domain Controller. This tool is best utilized using a set of known working credentials against the host.
+ActiveDirectoryAttackTool (ADAT) tool is used to assist CTF players and Penetration testers with helpful commands to run against an Active Directory Domain Controller. This tool is best utilized using a set of known working credentials against the host.
 <br/>
 
 # Usage
