@@ -82,7 +82,7 @@ ADAT produces commands for both external and internal usage.
 
 # OSCP
 
-ADAT is OSCP friendly, the commands it prints out may not be. Please be cautious about what commands and scripts invoke before running in an exam envionment.
+ADAT is OSCP friendly, the commands it prints out might not be. Please be cautious about what commands and scripts invoke before running in an exam environment.
 
 # Discalimer
 
