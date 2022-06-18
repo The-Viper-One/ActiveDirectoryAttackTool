@@ -33,15 +33,20 @@ ADAT does not execute commands on behalf of the user and is OSCP friendly.
 
 Standard usage
 ```
-bash ADAT.sh -u ViperOne -p Password123 -i 10.10.10.100 -d Security.local
+bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local
 ```
 Usage with LDAP base search
 ```
-bash ADAT.sh -u ViperOne -p Password123 -i 10.10.10.100 -d Security.local -l "DC=Security,DC=Local"
+bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local -l "DC=Security,DC=Local"
+```
+Usage with GitHub for script repositories
+```
+bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local
+```
+Usage with local system for script repositories (ensure LocalIP and LocalPort variables are set)
+```
+bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local -L
 ```
 
-![image](https://user-images.githubusercontent.com/68926315/168901209-56e8f0af-7fa6-4683-b8c2-f18222c8ad4d.png)
-![image](https://user-images.githubusercontent.com/68926315/168901299-0437f26f-d080-4baa-8173-920d34b08f27.png)
-![image](https://user-images.githubusercontent.com/68926315/168901342-c8b8029b-f361-41c8-9173-a0e897921fd4.png)
-![image](https://user-images.githubusercontent.com/68926315/168901406-7c8bf42d-2821-4696-92d7-9e09c2d28a64.png)
+
 
