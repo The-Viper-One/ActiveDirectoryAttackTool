@@ -30,7 +30,9 @@ bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local -L
 ```
 <br/>
 
-Usage for non domain joined systems, whilst not officially supported by ADAT many of the commands can be run against a WORKGROUP joined Windows system.
+# Standalone Windows Systems
+
+Usage for non domain joined systems, whilst not officially supported by ADAT, many of the commands can be run against a standalone Windows system.
 ```
 bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d . -L
 bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d WORKGROUP -L
