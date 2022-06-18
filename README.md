@@ -4,7 +4,7 @@
 ActiveDirectoryAttackTool (ADAT) tool is used to assist CTF players and Penetration testers with helpful commands to run against an Active Directory Domain Controller. This tool is best utilized using a set of known working credentials against the host.
 <br/>
 
-# Usage
+# Usage - General
 
 Standard usage
 ```
@@ -24,14 +24,14 @@ bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local
 ```
 <br/>
 
-# Systems with no internet access
+# Usage - Systems with no internet access
 If the system you are testing has no internet access or is a CTF machine, ADAT will download the required GitHub repositories to your attacking system. Ensure you specify the ```-L``` parameter and set both the LocalIP and LocalPort variables within the script to that of your attacking system.
 ```
 bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local -L
 ```
 <br/>
 
-# Standalone Windows Systems
+# Usage - Standalone Windows Systems
 
 Usage for non domain joined systems, whilst not officially supported by ADAT, many of the commands can be run against a standalone Windows system.
 ```
