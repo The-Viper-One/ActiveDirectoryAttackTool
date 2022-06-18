@@ -8,7 +8,7 @@ set -o pipefail
 # Variables                                                                    #
 ################################################################################
 
-LocalIP="0.0.0.0";		#
+LocalIP="0.0.0.0;		#
 LocalPort="8080";		#
 
 Username="";			#
@@ -201,7 +201,7 @@ while [ $# -gt 0 ]; do
 
         case "${key}" in
               
-        -i | --ip)
+        -t | --target)
                 IP="'$2'";
                 NQIP="$2";
                 shift
@@ -323,18 +323,18 @@ echo -e "${LGREEN}Port Scan${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Nmap${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}# Quick Scans${RESTORE}"
+echo -e "${IBLUE}Quick Scans${RESTORE}"
 echo -n -e "nmap -Pn -sV --top-ports 50 --open $IP" ;echo -e " ${YELLOW}# Top 50 ports scan${RESTORE}"
 echo -n -e "nmap -Pn -sV --top-ports 100 --open $IP" ;echo -e " ${YELLOW}# Top 100 ports scan${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}# Intensive Scans${RESTORE}"
+echo -e "${IBLUE}Intensive Scans${RESTORE}"
 echo -n -e "nmap -Pn -p- -sS -sV -sC -v $IP" ;echo -e " ${YELLOW}# Scan all ports, version checking, script scans${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}# Vulnerability Scans${RESTORE}"
+echo -e "${IBLUE}Vulnerability Scans${RESTORE}"
 echo -n -e "nmap -Pn --script vulners -script-args mincvss=5.0 -p- -sV -v $IP" ;echo -e " ${YELLOW}# Full vuln scan${RESTORE}"
 echo -n -e "nmap -Pn --script smb-vuln* -p 139,445 -v $IP" ;echo -e " ${YELLOW}# SMB vuln scan${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}# Misc Scans${RESTORE}"
+echo -e "${IBLUE}Misc Scans${RESTORE}"
 echo -n -e "nmap -Pn -sU -sC -sV -v $IP # UDP Scan" ;echo -e " ${YELLOW}# UDP Scan${RESTORE}"
 echo -e ""
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
