@@ -8,7 +8,7 @@ ActiveDirectoryAttackTool (ADAT) tool is used to assist CTF players and Penetrat
 
 Standard usage
 ```
-bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local
+bash ADAT.sh -u ViperOne -p Password123 -t 10.10.10.100 -d Security.local
 ```
 <br/>
 
