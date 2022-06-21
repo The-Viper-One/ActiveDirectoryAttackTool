@@ -85,6 +85,6 @@ ADAT produces commands for both external and internal usage.
 
 ADAT is OSCP friendly, the commands it prints out might not be. Please be cautious about what commands and scripts invoke before running in an exam environment.
 
-# Discalimer
+# Disclaimer
 
 The resulting commands printed by ADAT should only be used within an authorized envionment. The author is not responsible for any damages caused.
