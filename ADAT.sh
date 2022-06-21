@@ -79,21 +79,7 @@ echo -e "									${LGREEN}Checking Prerequisites${RESTORE}"
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 
-ansi2htmlInstalled="$HOME/.local/bin/ansi2html"
 
-if [ -f "$ansi2htmlInstalled" ]
-then
-	echo -e ""
-	echo -e "${LGREEN}ansi2html is installed${RESTORE}"
-else
-	echo -e ""
-	echo -e "${LGREEN}Installing ansi2html${RESTORE}"
-    	pip3 install ansi2html
-    	echo -e ""
-    	echo -e "${LGREEN}ansi2html is installed${RESTORE}"
-    	echo -e ""
-    
-fi
 
 ################################################################################
 # Functions                                                                    #
