@@ -14,20 +14,20 @@ bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local
 
 Usage with LDAP base search
 ```
-bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local -l "DC=Security,DC=Local"
+bash ADAT.sh -u ViperOne -p Password123 -t 10.10.10.100 -d Security.local -l "DC=Security,DC=Local"
 ```
 <br/>
 
 Usage with GitHub for script repositories (Target system has internet access)
 ```
-bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local
+bash ADAT.sh -u ViperOne -p Password123 -t 10.10.10.100 -d Security.local
 ```
 <br/>
 
 # Usage: Systems with no internet access
 If the system you are testing has no internet access or is a CTF machine, ADAT will download the required GitHub repositories to your attacking system. Ensure you specify the ```-L``` parameter and set both the LocalIP and LocalPort variables within the script to that of your attacking system.
 ```
-bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local -L
+bash ADAT.sh -u ViperOne -p Password123 -t 10.10.10.100 -d Security.local -L
 ```
 <br/>
 
@@ -35,8 +35,8 @@ bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d Security.local -L
 
 Usage for non domain joined systems, whilst not officially supported by ADAT, many of the commands can be run against a standalone Windows system.
 ```
-bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d . -L
-bash ADAT.sh -U ViperOne -P Password123 -t 10.10.10.100 -d WORKGROUP -L
+bash ADAT.sh -u ViperOne -p Password123 -t 10.10.10.100 -d . -L
+bash ADAT.sh -u ViperOne -p Password123 -t 10.10.10.100 -d WORKGROUP -L
 ```
 <br/>
 
