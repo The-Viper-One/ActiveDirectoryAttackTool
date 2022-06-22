@@ -29,6 +29,8 @@ If the system you are testing has no internet access or is a CTF machine, ADAT w
 ```
 bash ADAT.sh -u ViperOne -p Password123 -t 10.10.10.100 -d Security.local -L
 ```
+ADAT will run a http python3 server on the attacking system using the LocalIP and LocalPort parameters.
+
 <br/>
 
 # Usage: Standalone Windows Systems
