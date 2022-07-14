@@ -597,7 +597,7 @@ echo -e "python3 pywerview.py get-netgpo -u $Username -p $Password -w $Domain --
 echo -e "python3 pywerview.py get-netgpogroup -u $Username -p $Password -w $Domain --dc-ip $IP"
 echo -e "python3 pywerview.py get-netou -u $Username -p $Password -w $Domain --dc-ip $IP | sed 's/distinguishedname: //' | sort"
 echo -e "python3 pywerview.py get-netsite -u $Username -p $Password -w $Domain --dc-ip $IP | sed 's/name: //' | sort"
-echo -e "python3 pywerview.py get-netuser -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netuser -u $Username -p $Password -w $Domain --dc-ip $IP  | grep 'samaccountname:' | sed 's/samaccountname:        //' | sort"
 echo -e ""
 echo -e "${IBLUE}Hunting${RESTORE}"
 echo -e "python3 pywerview.py invoke-eventhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
