@@ -825,6 +825,11 @@ echo -e "${LRED}└────────────────────�
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e ""
 # Powerview
+echo -e "${LGREEN}Computer Enumeration${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Properties Name,OperatingSystem,distinguishedname "
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Ping"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -OperatingSystem 'Windows 10 Pro'"
+echo -e ""
 echo -e "${LGREEN}User Enumeration${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}User Properties${RESTORE}"
