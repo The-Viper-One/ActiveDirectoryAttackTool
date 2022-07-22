@@ -538,7 +538,7 @@ echo -e ""
 echo -e "${LGREEN}MSSQL${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Nmap${RESTORE}"
-echo -e "nmap -Pn -p 1433 -sU --script=ms-sql-info.nse $IP"
+echo -e "nmap -Pn -p 1433 --script=ms-sql-info.nse $IP"
 echo -e 
 echo -e "${IBLUE}Crackmapexec${RESTORE}"
 echo -n -e "crackmapexec mssql $IP -u $Username -p $Password -d $Domain -x whoami" ;echo -e " ${YELLOW}# PowerShell${RESTORE}"
