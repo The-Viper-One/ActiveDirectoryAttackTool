@@ -538,7 +538,7 @@ echo -e ""
 echo -e "${LGREEN}MSSQL${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Nmap${RESTORE}"
-echo -e "nmap -Pn -p 1433 -sU --script=ms-sql-info.nse $IP"
+echo -e "sudo nmap -Pn -p 1433 --script=ms-sql-info.nse $IP"
 echo -e 
 echo -e "${IBLUE}Crackmapexec${RESTORE}"
 echo -n -e "crackmapexec mssql $IP -u $Username -p $Password -d $Domain -x whoami" ;echo -e " ${YELLOW}# PowerShell${RESTORE}"
@@ -565,7 +565,6 @@ echo -e ""
 
 # BloodHound
 echo -e "${LGREEN}BloodHound${RESTORE}"
-echo -e "${LRED}WORK IN PROGRESS${RESTORE}"
 echo -e "${RED}https://github.com/fox-it/BloodHound.py${RESTORE}"
 echo -e ""
 echo -e "python2 bloodhound.py -u $Username -p $Password -ns $IP -d $Domain"
