@@ -467,6 +467,8 @@ echo -e "enum4linux -u $Username -p $Password -r $IP -w $Domain| grep 'Local Use
 echo -e ""
 echo -e "${IBLUE}SMBmap${RESTORE}"
 echo -e "smbmap -H $IP -u $Username -p $Password -d $Domain"
+echo -e "smbmap -H $IP -u $Username -p $Password -d $Domain -R"
+echo -e "smbmap -H $IP -u $Username -p $Password -d $Domain -A .zip"
 echo -e ""
 echo -e "${IBLUE}SMBclient${RESTORE}"
 echo -e "smbclient -U $Username -P $Password -L \\\\\\\\\\\\\\\\$NQIP -W $Domain"
