@@ -45,6 +45,7 @@ DownloadMethod="$iwr"
 ################################################################################
 
 UserList="'/usr/share/seclists/Usernames/Names/names.txt'"
+UserListXato="'/usr/share/seclists/Usernames/xato-net-10-million-usernames.txt'"
 
 ################################################################################
 # Colors                                                                       #
@@ -374,9 +375,7 @@ echo -e "${LBLUE}┌────────────────────
 echo -e ""
 
 # Port Scan
-echo -e "${LGREEN}Port Scan${RESTORE}"
-echo -e ""
-echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "${LGREEN}Nmap${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Quick Scans${RESTORE}"
 echo -n -e "nmap -Pn -sV --top-ports 50 --open $IP" ;echo -e " ${YELLOW}# Top 50 ports scan${RESTORE}"
@@ -435,6 +434,7 @@ echo -e "GetNPUsers.py $Domain/$Username:$Password -request -dc-ip $IP -format '
 echo -e ""
 echo -e "${IBLUE}Kerbrute${RESTORE}"
 echo -e "kerbrute userenum $UserList --dc $IP --domain $Domain"
+echo -e "kerbrute userenum $UserListXato --dc $IP --domain $Domain"
 echo -e ""
 echo -e "${IBLUE}Nmap${RESTORE}"
 echo -e "nmap -Pn -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm=$Domain,userdb=$UserList $IP"
@@ -571,7 +571,8 @@ echo -e ""
 
 # BloodHound
 echo -e "${LGREEN}BloodHound${RESTORE}"
-echo -e "${RED}https://github.com/fox-it/BloodHound.py${RESTORE}"
+echo -e ""
+echo -e "${LYELLOW}Link:${RESTORE}https://github.com/fox-it/BloodHound.py"
 echo -e ""
 echo -e "python2 bloodhound.py -u $Username -p $Password -ns $IP -d $Domain"
 echo -e ""
@@ -631,7 +632,8 @@ echo -e ""
 
 # Pywerview
 echo -e "${LGREEN}Pywerview${RESTORE}"
-echo -e "${RED}https://github.com/the-useless-one/pywerview${RESTORE}"
+echo -e ""
+echo -e "${LYELLOW}Link:${RESTORE}https://github.com/the-useless-one/pywerview"
 echo -e ""
 echo -e "${IBLUE}Information Gathering${RESTORE}"
 echo -e "python3 pywerview.py get-dfsshare -u $Username -p $Password -w $Domain --dc-ip $IP"
