@@ -22,7 +22,7 @@ LDAP="";			#
 baseLDAP="";			#
 DC="";				#
 NS="IP";			#
-Version="v3.0"			#
+Version="v2.1"			#
 MainCheck="1"			#
 
 BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/";
