@@ -40,6 +40,14 @@ bash ADAT.sh -u ViperOne -p Password123 -t 10.10.10.100 -d WORKGROUP -L
 ```
 <br/>
 
+# Usage: "Null" Mode
+
+If you do not have any valid credentials for the system you are testing against, null mode can be utilized to help identify information where credentials may not be required.
+```
+bash ADAT.sh -u ViperOne -p Password123 -t 10.10.10.100 -d Security.local -N
+```
+<br/>
+
 # Supported Protocols
 Some of the protocols ADAT prints out commands for:
 
