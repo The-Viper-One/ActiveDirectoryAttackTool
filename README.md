@@ -42,6 +42,14 @@ bash ADAT.sh -u ViperOne -p Password123 -t 10.10.10.100 -d WORKGROUP -L
 ```
 <br/>
 
+# Usage: Null Mode
+
+Null mode is useful for when you do not have any valid usernames or credentials to run against the target Domain Controller.
+```
+bash ADAT.sh 0.10.10.100 -d 'Security.Local' -N
+```
+<br/>
+
 # Supported Protocols
 Some of the protocols ADAT prints out commands for:
 
