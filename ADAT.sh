@@ -543,11 +543,11 @@ echo -e "${LBLUE}└────────────────────
 echo -e ""
 
 # BloodHound
-echo -e "${LGREEN}BloodHound${RESTORE}"
+echo -e "${LGREEN}BloodHound Python${RESTORE}"
 echo -e ""
-echo -e "${LYELLOW}Link:${RESTORE}https://github.com/fox-it/BloodHound.py"
+echo -e "${LYELLOW}Install:${RESTORE}pip install bloodhound"
 echo -e ""
-echo -e "python2 bloodhound.py -u $Username -p $Password -ns $IP -d $Domain"
+echo -e "bloodhound-python -u $Username -p $Password -ns $IP -d $Domain"
 echo -e ""
 echo -e ""
 echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
