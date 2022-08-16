@@ -22,6 +22,8 @@ LDAP="";			#
 baseLDAP="";			#
 DC="";				#
 NS="IP";			#
+Version="v2.1"			#
+MainCheck="1"			#
 
 BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/";
 EmpireRepo="https://raw.githubusercontent.com/BC-SECURITY/Empire/master/empire/server/data/module_source/";
@@ -243,101 +245,7 @@ rm -rfv $HOME/ADAT
 
 }
 
-
-################################################################################
-# Options                                                                      #
-################################################################################
-
-while [ $# -gt 0 ]; do
-        key="$1"
-
-        case "${key}" in
-              
-        -t | --target)
-                IP="'$2'";
-                NQIP="$2";
-                shift
-                shift
-                ;;
-                
-        -u | --username)
-                Username="'$2'";
-                NQUsername="$2";
-                shift
-                shift
-                ;;
-                
-        -p | --password)
-                Password="'$2'";
-                shift
-                shift
-                ;;    
-
-        -h | --help)
-                Help;
-                shift
-                shift
-                ;;
-                
-        -d | --domain)
-                Domain="'$2'";
-                NQDomain="$2";
-                shift
-                shift
-                ;;
-                
-        -l | --LDAP)
-                LDAP="'$2'";
-                shift
-                shift
-                ;;
-       
-        -L | --localrepo)
-                EmpireRepo="http://$LocalIP:$LocalPort/"
-		NishangRepo="http://$LocalIP:$LocalPort/"
-		PentestFactoryRepo="http://$LocalIP:$LocalPort/"
-		LazagneRepo="http://$LocalIP:$LocalPort/"
-		PowerSploitRepo="http://$LocalIP:$LocalPort/"
-		S3cur3Th1sSh1tRepo="http://$LocalIP:$LocalPort/"
-		JAWSRepo="http://$LocalIP:$LocalPort/"
-		GetSystemTechniquesRepo="http://$LocalIP:$LocalPort/"
-		BloodHoundRepo="http://$LocalIP:$LocalPort/"
-		PowersploitRepo="http://$LocalIP:$LocalPort/"
-		LocalRepo="True"
-		Function_LocalRepo;
-                shift
-                ;;
-
-        -P | --purge)
-                Function_Purge
-                break;
-                shift
-                shift
-                ;;
-                                                                                                                                                      
-                
-        #*)
-                #POSITIONAL="${POSITIONAL} $1"
-                #shift
-                #;;
-        esac
-done
-
-################################################################################
-# Main                                                                   #
-################################################################################
-echo -e ""
-echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
-echo -e "							${LGREEN}Prerequisite checks completed. Preparing to launch ADAT${RESTORE}"
-echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
-echo -e ""
-echo -e ""
-echo -e ""
-
-sleep 7
-
-clear
-
+Function_NullMode(){
 
 ################################################################################
 # Banner                                                                     #
@@ -348,7 +256,7 @@ echo -e ""
 echo -e "CSAgICBfICAgIF9fX18gICAgXyAgX19fX18gCgkgICAvIFwgIHwgIF8gXCAgLyBcfF8gICBffAoJICAvIF8gXCB8IHwgfCB8LyBfIFwgfCB8ICAKCSAvIF9fXyBcfCB8X3wgLyBfX18gXHwgfCAgCgkvXy8gICBcX1xfX19fL18vICAgXF9cX3w=" | base64 -d
 echo -e ""
 echo -e ""
-echo -e "	${LGREEN}Active Directory Attack Tool v2.0${RESTORE}"
+echo -e "	${LGREEN}Active Directory Attack Tool $Version${RESTORE}"
 echo -e  "	${LGREEN}Author:	ViperOne${RESTORE}"
 echo -e ""
 echo -e ""
@@ -363,6 +271,71 @@ echo -e ""
 echo -e ""
 echo -e ""
 
+echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e "	 								${LGREEN}Null Mode${RESTORE}"	
+echo -e "     	 				${LIGHTGRAY}This section is used for running scripts and commands externally against a Domain Controller${RESTORE}"															
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+echo -e "${LBLUE}┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐${RESTORE}"
+echo -e ""
+
+echo -e "${IBLUE}crackmapexec${RESTORE}"
+echo -e "crackmapexec smb $IP -u '' -p '' -d $Domain --rid-brute"
+echo -e "crackmapexec smb $IP -u 'a' -p '' -d $Domain --rid-brute"
+echo -e "crackmapexec smb $IP -u 'guest' -p '' -d $Domain --rid-brute"
+echo -e ""
+echo -e "${IBLUE}enum4linux${RESTORE}"
+echo -e "enum4linux -u '' -p '' -r $IP -w $Domain| grep 'Local User'"
+echo -e "enum4linux -u 'a' -p '' -r $IP -w $Domain| grep 'Local User'"
+echo -e "enum4linux -u 'guest' -p '' -r $IP -w $Domain| grep 'Local User'"
+echo -e ""
+echo -e "${IBLUE}Nmap SMB Users${RESTORE}"
+echo -e "nmap --script=smb-enum-users -p 445 $IP"
+echo -e ""
+echo -e "${IBLUE}SMBclient${RESTORE}"
+echo -e "smbclient -U '' -L \\\\\\\\\\\\\\\\$NQIP -W $Domain"
+echo -e "smbclient -U '%'-L \\\\\\\\\\\\\\\\$NQIP -W $Domain"
+echo -e ""
+echo -e "${IBLUE}Kerberos${RESTORE}"
+echo -e "kerbrute userenum $UserList --dc $IP --domain $Domain"
+echo -e "kerbrute userenum $UserListXato --dc $IP --domain $Domain"
+echo -e "nmap -Pn -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm=$Domain,userdb=$UserList $IP"
+echo -e ""
+echo -e "${IBLUE}LDAP${RESTORE}"
+echo -e "nmap -Pn -n -sV --script "\"ldap* and not brute"\" $IP"
+echo -e ""
+echo -e ""
+echo -e "${LBLUE}└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘${RESTORE}"
+
+}
+
+
+
+
+Function_Main(){
+
+################################################################################
+# Banner                                                                     #
+################################################################################
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "CSAgICBfICAgIF9fX18gICAgXyAgX19fX18gCgkgICAvIFwgIHwgIF8gXCAgLyBcfF8gICBffAoJICAvIF8gXCB8IHwgfCB8LyBfIFwgfCB8ICAKCSAvIF9fXyBcfCB8X3wgLyBfX18gXHwgfCAgCgkvXy8gICBcX1xfX19fL18vICAgXF9cX3w=" | base64 -d
+echo -e ""
+echo -e ""
+echo -e "	${LGREEN}Active Directory Attack Tool $Version${RESTORE}"
+echo -e  "	${LGREEN}Author:	ViperOne${RESTORE}"
+echo -e ""
+echo -e ""
+
+################################################################################
+# Links                                                                     #
+################################################################################
+
+echo -e "\033[00;34mhttps://github.com/The-Viper-One/ActiveDirectoryAttackTool \e[0m"
+echo -e "\033[00;34mhttps://viperone.gitbook.io/pentest-everything/everything/everything-active-directory \e[0m"
+echo -e ""
+echo -e ""
+echo -e ""
 
 ################################################################################
 # Main                                                                     #
@@ -961,6 +934,102 @@ echo -e ""
 echo -e ""
 echo -e ""
 
+}
+
+################################################################################
+# Options                                                                      #
+################################################################################
+
+while [ $# -gt 0 ]; do
+        key="$1"
+
+        case "${key}" in
+              
+        -t | --target)
+                IP="'$2'";
+                NQIP="$2";
+                shift
+                shift
+                ;;
+                
+        -u | --username)
+                Username="'$2'";
+                NQUsername="$2";
+                shift
+                shift
+                ;;
+                
+        -p | --password)
+                Password="'$2'";
+                shift
+                shift
+                ;;    
+
+        -h | --help)
+                Help;
+                shift
+                shift
+                ;;
+                
+        -d | --domain)
+                Domain="'$2'";
+                NQDomain="$2";
+                shift
+                shift
+                ;;
+                
+        -l | --LDAP)
+                LDAP="'$2'";
+                shift
+                shift
+                ;;
+       
+        -L | --localrepo)
+                EmpireRepo="http://$LocalIP:$LocalPort/"
+		NishangRepo="http://$LocalIP:$LocalPort/"
+		PentestFactoryRepo="http://$LocalIP:$LocalPort/"
+		LazagneRepo="http://$LocalIP:$LocalPort/"
+		PowerSploitRepo="http://$LocalIP:$LocalPort/"
+		S3cur3Th1sSh1tRepo="http://$LocalIP:$LocalPort/"
+		JAWSRepo="http://$LocalIP:$LocalPort/"
+		GetSystemTechniquesRepo="http://$LocalIP:$LocalPort/"
+		BloodHoundRepo="http://$LocalIP:$LocalPort/"
+		PowersploitRepo="http://$LocalIP:$LocalPort/"
+		LocalRepo="True"
+		Function_LocalRepo;
+                shift
+                ;;
+
+        -P | --purge)
+                Function_Purge
+                break;
+                shift
+                shift
+                ;;
+                
+        -N | --null)
+                Function_NullMode
+                MainCheck="0"
+                break;
+                shift
+                shift
+                ;;
+                                                                                                                                                      
+                
+        #*)
+                #POSITIONAL="${POSITIONAL} $1"
+                #shift
+                #;;
+        esac
+done
+
+
+if [ $MainCheck -eq 0 ]
+then
+	:
+else
+	Function_Main
+fi
 
 ################################################################################
 # End	                                                                       #
