@@ -169,11 +169,6 @@ echo -ne " Select Domain Recon Type
 }
 
 
-
-
-
-}
-
 Internal_Menu_Recon_Domain_Computers_Servers(){
 
     clear
