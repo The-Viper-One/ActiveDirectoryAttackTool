@@ -751,7 +751,7 @@ Internal_Menu_Recon_Local_Host(){
 echo -e ""
 echo -e ""
 echo -e ""      
-echo -e "${LGREEN}Local Enumeration${RESTORE}"
+echo -e "${LGREEN}Local Host Enumeration${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}HostRecon${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/HostRecon.ps1);Invoke-HostRecon"
@@ -766,6 +766,19 @@ echo -e "${IBLUE}JAWS${RESTORE}"
 echo -e "$DownloadMethod "$JAWSRepo"jaws-enum.ps1);JAWS-ENUM"
 echo -e ""
 echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Recon ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
 
 }
 
@@ -783,12 +796,13 @@ echo -ne " Select Domain Recon Type
 	1)  ->	[ Domain ACL's			]
 	2)  -> 	[ Domain Controllers		]
         3)  ->  [ Domain Computers and Servers 	]
-        4)  ->	[ Domain Forests 		]
-        5)  ->	[ Domain GPO's			]
-        6)  ->	[ Domain Groups			]
-        7)  -> 	[ Domain Policies 		]
-        8)  ->	[ Domain Trusts 		]
-        9)  ->  [ Domain Users 			]
+        4)  ->	[ Domain Delegation		]
+        5)  ->	[ Domain Forests 		]
+        6)  ->	[ Domain GPO's			]
+        7)  ->	[ Domain Groups			]
+        8)  -> 	[ Domain Policies 		]
+        9)  ->	[ Domain Trusts 		]
+        10) -> 	[ Domain Users 			]
         T)  ->  [ Tools				]
         
                 
@@ -796,16 +810,18 @@ echo -ne " Select Domain Recon Type
 "
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain_ACL ;;
-        	2) Internal_Menu_Recon_Domain_Controllers ;;	
-	        3) Internal_Menu_Recon_Domain_Computers_Servers ;;
-	        4) Internal_Menu_Recon_Domain_Forests ;;
-	        5) Internal_Menu_Recon_Domain_GPO ;;
-	        6) Internal_Menu_Recon_Domain_Groups ;;
-	        7) Internal_Menu_Recon_Domain_Policies ;;
-	        8) Internal_Menu_Recon_Domain_Trusts ;;
-	        9) Internal_Menu_Recon_Domain_Users ;;
-	        t|T) Internal_Menu_Recon_Domain_Tools ;;
+        	1) 	Internal_Menu_Recon_Domain_ACL ;;
+        	2) 	Internal_Menu_Recon_Domain_Controllers ;;	
+	        3) 	Internal_Menu_Recon_Domain_Computers_Servers ;;
+	        4) 	Internal_Menu_Recon_Domain_Delegation ;;
+	        5) 	Internal_Menu_Recon_Domain_Forests ;;
+	        6) 	Internal_Menu_Recon_Domain_GPO ;;
+	        7) 	Internal_Menu_Recon_Domain_Groups ;;
+	        8) 	Internal_Menu_Recon_Domain_Policies ;;
+	        9) 	Internal_Menu_Recon_Domain_Trusts ;;
+	        10) 	Internal_Menu_Recon_Domain_Users ;;
+	        t|T) 	Internal_Menu_Recon_Domain_Tools ;;
+	        q|Q)	Internal_Menu_Recon ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -920,6 +936,41 @@ echo -ne  "Return to Domain Recon Menu?
         esac
 
 }
+
+
+Internal_Menu_Recon_Domain_Delegation (){
+
+	clear
+ 
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Domain Delegation${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Constrained Delegation${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -TrustedToAuth"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainUser -TrustedToAuth"
+echo -e ""
+echo -e "${IBLUE}Unconstrained Delegation${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-DomainComputer -Unconstrained | select -ExpandProperty name"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Domain Recon Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	1) Internal_Menu_Recon_Domain ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
 
 Internal_Menu_Recon_Domain_Forests(){
 
@@ -1188,6 +1239,19 @@ echo -e "$DownloadMethod "$BloodHoundRepo"Collectors/SharpHound.ps1);Invoke-Bloo
 echo -e ""
 echo -e ""
 
+echo -ne  "Return to Previous Menu?
+
+      
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) Internal_Menu_Recon_Domain ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
 
 }
 
@@ -1205,12 +1269,29 @@ echo -e "${IBLUE}Invoke-ARPScan${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-ARPScan.ps1);Invoke-ARPScan -CIDR '<CIDR>'"
 echo -e ""
 echo -e "${IBLUE}Invoke-PortScan${RESTORE}"
-echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR> or <IP>' -TopPorts 50 -Open -GrepOut Scan.txt"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR> or <IP>' -TopPorts 1000 -oA -GrepOut Scan.txt"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR>' -P 135,445 -Open -oA SMB.txt"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR>' -P 1433 -Open -oA MSSQL.txt"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR>' -P 80,443,8080 -Open -oA Web.txt"
 echo -e ""
-echo -e "${IBLUE}Invoke-Bloodhound${RESTORE}"
+echo -e "${IBLUE}BloodHound${RESTORE}"
 echo -e "$DownloadMethod "$BloodHoundRepo"Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod All"
+echo -e "$DownloadMethod "$BloodHoundRepo"Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod All -Loop -Loopduration 06:00:00 -LoopInterval 00:15:00"
 echo -e ""
 echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+      
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) Internal_Menu_Recon ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
 
 }
 
@@ -1226,12 +1307,29 @@ echo -e "${LGREEN}File and Share Enumeration${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Share Enumeration${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-ShareFinder -verbose"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpShares.ps1);Invoke-SharpShares -Command "\"--shares"\""
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-ShareFinder -CheckAccess"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Sharpshares.ps1);Invoke-SharpShares -Command "\"--shares"\""
 echo -e ""
 echo -e "${IBLUE}File Enumeration${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -verbose"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -OfficeDocs"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -Include *.ps1,*.bak,*.vbs,*.config,*.conf"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -Terms account*,pass*,secret*,conf*,test*,salar*"
 echo -e ""
 echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Recon ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
 
 }
 
