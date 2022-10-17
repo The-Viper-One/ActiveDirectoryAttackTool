@@ -14,7 +14,6 @@ NQDomain="";			#
 IP="''";			#
 NQIP="";			#
 LDAP="";			#
-baseLDAP="";			#
 DC="";				#
 NS="<IP>";			#
 Version="v2.1"			#
@@ -1565,6 +1564,8 @@ echo -ne " What would you like to do?
 	10) -> 	[ RDP		]
 	11) ->	[ SMB		]
 	12) ->	[ WinRM		]
+	
+	Q)  -> 	[ Options	]
         
 "
         read a
@@ -1581,6 +1582,7 @@ echo -ne " What would you like to do?
                 10)	External_Menu_RDP ;;
                 11)	External_Menu_SMB ;;
                 12)	External_Menu_WinRM ;;
+                q|Q)	External_Menu_Options ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -2145,9 +2147,11 @@ Password	:	$PasswordRead
 DC IP		:	$IPRead
 Domain		:	$DomainRead
 
+
+
 "
 
-DeclareVariables(){
+Declare_Variables(){
 
 # Variables for commands with quotes
 
@@ -2164,18 +2168,76 @@ NQIP=$IPRead
 
 }
 
-DeclareVariables
+Declare_Variables
 
 echo -ne "
             Choose Option
             
-       	1) -> External Command
+       	1) -> External Commands
+       	2) -> Set optional variables
 
         Q) -> Previous Menu
 "
         read a
         case $a in
         	1)	External_Menu_Main ;;
+        	2)	External_Variables_Optional ;;
+	        q|Q) 	External_Menu_Options ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+External_Variables_Optional(){
+
+	clear
+	
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Optional Variables${RESTORE}"
+echo -e ""
+read -p "Enter Base LDAP:        (DC=Security,DC=Local)" LDAPRead
+echo -e ""
+echo -e ""
+read -p "Enter Nameserver IP " NSRead
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "The following variables have been set:"
+
+echo -ne "
+
+LDAP		:	$LDAPRead
+NameServer	:	$NSRead
+
+
+
+"
+Declare_Variables_Optional(){
+
+# Variables for commands with quotes
+
+Username=\""$UsernameRead"\"
+Password=\""$PasswordRead"\"
+
+}
+
+Declare_Variables_Optional
+
+echo -ne "
+            Choose Option
+            
+       	1) -> External Commands
+       	2) -> Set Required Variables
+
+        Q) -> Previous Menu
+"
+        read a
+        case $a in
+        	1)	External_Menu_Main ;;
+        	2)	External_Variables_Required ;;
 	        q|Q) 	External_Menu_Options ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
@@ -2197,11 +2259,13 @@ echo -ne "
 
         1) -> Continue to external commands
         2) -> Set script variables (Required)
+        3) -> Set script variables (Optional)
 "
         read a
         case $a in
-	        1) External_Menu_Main ;;
-	        2) External_Variables_Required ;;
+	        1) 	External_Menu_Main ;;
+	        2) 	External_Variables_Required ;;
+	        3)	External_Variables_Optional ;;	
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
