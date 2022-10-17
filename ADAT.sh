@@ -6,13 +6,13 @@
 
 LocalIP="10.10.14.10";		#
 LocalPort="8080";		#
-Username="<Username>";			#
+Username="''";			#
 NQUsername="";			#
-Password="<Password>";			#
-Domain="<Domain>";			#
+Password="''";			#
+Domain="''";			#
 NQDomain="";			#
-IP="<IP>";				#
-NQIP="<IP>";			#
+IP="''";			#
+NQIP="";			#
 LDAP="";			#
 baseLDAP="";			#
 DC="";				#
@@ -1603,7 +1603,7 @@ echo -e ""
 echo -e "bloodhound-python -u $Username -p $Password -ns $IP -d $Domain -c All,LoggedOn"
 echo -e ""
 echo -e "${IBLUE}BloodHound Crackmapexec${RESTORE}"
-echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}bloodhound${RESTORE}"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M bloodhound"
 echo -e ""
 echo -e ""
 
@@ -2114,6 +2114,100 @@ echo -ne  "Return to Previous Menu?
         
 }
 
+External_Variables_Required(){
+
+	clear
+	
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Required Variables${RESTORE}"
+echo -e ""
+read -p "Enter domain username: " UsernameRead
+echo -e ""
+echo -e ""
+read -p "Enter domain user password " PasswordRead
+echo -e ""
+echo -e ""
+read -p "Enter Domain Controller IP " IPRead
+echo -e ""
+echo -e ""
+read -p "Enter Domain Name " DomainRead
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "The following variables have been set:"
+
+echo -ne "
+
+Username	:	$UsernameRead
+Password	:	$PasswordRead
+DC IP		:	$IPRead
+Domain		:	$DomainRead
+
+"
+
+DeclareVariables(){
+
+# Variables for commands with quotes
+
+Username=\""$UsernameRead"\"
+Password=\""$PasswordRead"\"
+IP=\""$IPRead"\"
+Domain=\""$DomainRead"\"
+
+# Variables for command no quotes
+
+NQUsername=$UsernameRead
+NQDomain=$DomainRead
+NQIP=$IPRead
+
+}
+
+DeclareVariables
+
+echo -ne "
+            Choose Option
+            
+       	1) -> External Command
+
+        Q) -> Previous Menu
+"
+        read a
+        case $a in
+        	1)	External_Menu_Main ;;
+	        q|Q) 	External_Menu_Options ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+External_Menu_Options(){
+
+	clear
+	
+echo -e ""
+echo -e ""
+echo -e ""
+
+echo -ne "
+	
+	What would you like to do?
+
+        1) -> Continue to external commands
+        2) -> Set script variables (Required)
+"
+        read a
+        case $a in
+	        1) External_Menu_Main ;;
+	        2) External_Variables_Required ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+
+}
 
 
 Main_Menu(){
@@ -2124,12 +2218,12 @@ echo -ne "
             Main Menu
 
         1) -> Internal
-        2) -> External (WIP)
+        2) -> External
 "
         read a
         case $a in
 	        1) Internal_Menu_Main ;;
-	        2) External_Menu_Main ;;
+	        2) External_Menu_Options ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
