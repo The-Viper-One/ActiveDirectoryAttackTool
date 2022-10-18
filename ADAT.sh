@@ -259,12 +259,25 @@ echo -e ""
 echo -e ""
 echo -e "${LGREEN}Set Local Host Variables${RESTORE}"
 echo -e ""
-read -p "Enter Local IP address : " LocalIP
+echo -ne "	
+  	This option is used for when hosting the scripts utlizied by ADAT 
+	are required on the local host rather than being called from GitHub.
+	   
+	This is preferable under two primary circumstances
+	   
+	- GitHub is not reachable from within the network you are testing on
+	- You are doing a CTF and the machine has no access to the internet
+	
+	
+"
+echo -e "${YELLOW}External IP${RESTORE}" & dig +short myip.opendns.com @resolver1.opendns.com
 echo -e ""
 echo -e ""
-read -p "Enter Local Port to use : " LocalPort
+echo -e "${YELLOW}Network adapter IPs${RESTORE}" & ip -br addr show
 echo -e ""
 echo -e ""
+
+read -p "Enter Local IP to use: " LocalIP && read -p "Enter Local Port to use: " LocalPort
 echo -e ""
 echo -e "The following variables have been set:"
 
