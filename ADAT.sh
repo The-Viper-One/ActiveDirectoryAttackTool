@@ -1886,7 +1886,7 @@ echo -e ""
 echo -e "${IBLUE}Load into memory ${RESTORE}"
 echo -e "$DownloadMethod "$InveighRepo"Inveigh.ps1)"
 echo -e ""
-echo -e "Invoke-Inveigh Y -NBNS Y -mDNS Y -HTTPS N -Proxy Y -Console-Output Y -IP [Host-IP]"
+echo -e "Invoke-Inveigh Y -NBNS Y -mDNS Y -HTTPS N -Proxy Y -ConsoleOutput Y -IP [Host-IP]"
 echo -e ""
 echo -ne "${IBLUE}Commands${RESTORE}
 Get-Inveigh -Log
