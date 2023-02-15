@@ -91,6 +91,7 @@ PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSy
 PowerSharpPackRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/";
 PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
 PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/";
+PowerUpSQL="https://raw.githubusercontent.com/NetSPI/PowerUpSQL/master/";
 S3cur3Th1sSh1tCredsRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Creds/master/";
 SecListsRepo="https://github.com/danielmiessler/SecLists/";
 
@@ -2128,6 +2129,22 @@ echo -ne  "Return to Previous Menu?
 		*) echo -e "Wrong option."
         esac
         
+
+}
+
+Internal_Menu_MSSQL(){
+
+    clear
+    
+echo -e ""
+echo -e ""
+echo -e ""
+echo -e "${LGREEN}PowerUpSQL${RESTORE}"
+echo -e ""
+echo -e "${IBLUE}Load into memory ${RESTORE}"
+echo -e "$DownloadMethod "$PowerUpSQL"PowerUpSQL.ps1)"
+
+
 
 }
 
