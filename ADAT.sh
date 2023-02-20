@@ -441,7 +441,7 @@ echo -ne "
 # Download Methods                                                             #
 ################################################################################
 
-iwr="IEX (iwr"
+iwr="IEX(IWR -UseBasicParsing"
 DownloadMethod="$iwr"
 
 
