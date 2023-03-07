@@ -2428,7 +2428,7 @@ echo -e "dig @$NQIP $Domain NS"
 echo -e "dig @$NQIP $Domain PTR"
 echo -e ""
 echo -e "${IBLUE}Fierce${RESTORE}"
-echo -e "fierce -dns $Domain"
+echo -e "fierce -domain $Domain"
 echo -e ""
 echo -e ""
 
