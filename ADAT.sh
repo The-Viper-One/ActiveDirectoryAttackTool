@@ -80,6 +80,32 @@ Main_Menu
 
 }
 
+Colour_Profile_Restore(){
+
+RESTORE='\033[0m'
+
+RED='\033[00;31m'
+GREEN='\033[00;32m'
+YELLOW='\033[00;33m'
+BLUE='\033[00;34m'
+PURPLE='\033[00;35m'
+CYAN='\033[00;36m'
+LIGHTGRAY='\033[00;37m'
+
+LRED='\033[01;31m'
+LGREEN='\033[01;32m'
+LYELLOW='\033[01;33m'
+LBLUE='\033[01;34m'
+LPURPLE='\033[01;35m'
+LCYAN='\033[01;36m'
+WHITE='\033[01;37m'
+
+IBLUE='\033[02;34m'
+
+Main_Menu
+
+}
+
 
 ################################################################################
 # Public Repo List                                                             #
@@ -485,6 +511,8 @@ echo -ne " What would you like to do?
         E)  ->	[ Recent CVE's			]
         L)  -> 	[ Host scripts on local host	]
         
+        Q)  ->	[Previous Menu			]
+        
 "
         read a
         case $a in
@@ -500,7 +528,7 @@ echo -ne " What would you like to do?
 	        a|A)	Internal_Menu_AMSI_Bypasses ;;
 	        e|E)	Internal_Menu_CVEs ;;
 	        l|L)	Internal_Menu_Host_Local ;;
-	        q|q)	Main_Menu ;;
+	        q|Q)	Main_Menu ;;
 		0) exit 0 ;;
 		*) Internal_Menu_Main;;
         esac
@@ -3555,6 +3583,7 @@ echo -ne "
 
         1) -> Colour Profile #1
         2) -> Colour Profile #2
+        3) -> Restore to default values
 
         Q) -> Previous Menu
 "
@@ -3563,6 +3592,7 @@ echo -ne "
         case $a in
 	        1) 	Colour_Profile_1 ;;
 	        2) 	Colour_Profile_2 ;;
+	        3) 	Colour_Profile_Restore ;;
 	        q|Q)	Main_Menu;;
 		0) 	exit 0 ;;
 		*) 	Colour_Profiles_Menu;;
