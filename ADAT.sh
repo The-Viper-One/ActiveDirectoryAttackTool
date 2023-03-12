@@ -77,7 +77,7 @@ ICYAN='\033[02;36m'
 
 adPEASRepo="https://raw.githubusercontent.com/61106960/adPEAS/main/";
 BloodHoundRepo="https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/";
-DomainPasswordSprayRepo="https://raw.githubusercontent.com/dafthack/DomainPasswordSpray/master/"
+DomainPasswordSprayRepo="https://raw.githubusercontent.com/The-Viper-One/DomainPasswordSpray/master/"
 EmpireRepo="https://raw.githubusercontent.com/BC-SECURITY/Empire/master/empire/server/data/module_source/";
 GetSystemTechniquesRepo="https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/";
 Group3rRepo="https://github.com/Group3r/Group3r/releases/download/1.0.41/Group3r.exe";
@@ -490,7 +490,7 @@ echo -ne " What would you like to do?
 	        e|E)	Internal_Menu_CVEs ;;
 	        l|L)	Internal_Menu_Host_Local ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Main;;
         esac
 }
 
@@ -517,7 +517,7 @@ echo -ne " Select Alternate Authentication Material Type
         	2) 	Internal_Menu_Alternate_Authentication_Pass_Ticket ;;
         	q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Alternate_Authentication;;
         esac
 
 }
@@ -589,7 +589,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Alternate_Authentication ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Alternate_Authentication_Pass_Hash;;
         esac
         
 }
@@ -647,7 +647,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Alternate_Authentication ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Alternate_Authentication_Pass_Ticket;;
         esac
         
 }
@@ -708,7 +708,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Certificate_Services;;
         esac
         
 }
@@ -743,7 +743,7 @@ echo -ne " Select Credential Access Type
 	        5) 	Internal_Menu_Credential_Access_Unsecured_Credentials ;;
 	        q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access;;
         esac
 
 }
@@ -778,7 +778,7 @@ echo -ne " Select Credential Dumping Type
 	        5)	Internal_Menu_Credential_Access_Credential_Dumping_SAM ;;
 	        q|Q)	Internal_Menu_Credential_Access ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Dumping;;
         esac
 
 }
@@ -810,7 +810,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Credential_Access_Credential_Dumping ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Dumping_Cached_Domain_Credentials;;
         esac
 
 
@@ -841,7 +841,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Credential_Access_Credential_Dumping ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Dumping_LSA_Secrets;;
         esac
 
 
@@ -887,7 +887,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Credential_Access_Credential_Dumping ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Dumping_LSASS_Memory;;
         esac
 
 
@@ -923,7 +923,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Credential_Access_Credential_Dumping ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Dumping_NTDS;;
         esac
 
 
@@ -963,7 +963,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Credential_Access_Credential_Dumping ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Dumping_SAM;;
         esac
 
 
@@ -999,7 +999,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Credential_Access ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Manager;;
         esac
 
 }
@@ -1034,7 +1034,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Credential_Access ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Group_Policy;;
         esac
 
 }
@@ -1067,7 +1067,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Credential_Access ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Web_Browsers;;
         esac
 
 }
@@ -1096,7 +1096,7 @@ echo -ne " Select Unsecured Credentials Type
 	        2) 	Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Registry ;;
 	        q|Q)	Internal_Menu_Credential_Access ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Unsecured_Credentials;;
         esac
 }
 
@@ -1140,7 +1140,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Credential_Access_Unsecured_Credentials ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Files;;
         esac
         
 }
@@ -1188,7 +1188,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Credential_Access_Unsecured_Credentials ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Registry;;
         esac
         
 }
@@ -1220,7 +1220,7 @@ echo -ne " Select Recon Type
 	        4) 	Internal_Menu_Recon_Network ;;
 	        q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon;;
         esac
 }
 
@@ -1247,7 +1247,7 @@ echo -ne " Select Token Manipulation tool Type
 	        2) 	Internal_Menu_Token_TokenVator ;;
 	        q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Token;;
         esac
 
 }
@@ -1293,7 +1293,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Token ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Token_SharpImpersonation;;
         esac
 
 }
@@ -1309,7 +1309,7 @@ echo -e ""
 echo -e "${LGREEN}Invoke-TokenVator${RESTORE}"
 echo -e ""
 echo -e "${YELLOW}Load into memory${RESTORE}"
-echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-TokenVator.ps1)"
+echo -e "$DownloadMethod "$PowerSharpPackRepo"Invoke-Tokenvator.ps1)"
 echo -e ""
 echo -e "${IBLUE}List tokens on current system (Sample)${RESTORE}"
 echo -e "Invoke-Tokenvator -Command "\"Sample_Processes\"""
@@ -1341,7 +1341,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Token ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Token_TokenVator;;
         esac
         
 }
@@ -1381,7 +1381,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Recon ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Local_Host;;
         esac
 
 }
@@ -1427,7 +1427,7 @@ echo -ne " Select Domain Recon Type
 	        t|T) 	Internal_Menu_Recon_Domain_Tools ;;
 	        q|Q)	Internal_Menu_Recon ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain;;
         esac
 }
 
@@ -1468,7 +1468,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_ACL;;
         esac
 
 }
@@ -1501,7 +1501,7 @@ echo -ne  "Return to Domain Recon Menu?
         case $a in
         	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_Controllers;;
         esac
 }
 
@@ -1544,13 +1544,13 @@ echo -ne  "Return to Domain Recon Menu?
         case $a in
         	q|Q) Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_Computers_Servers;;
         esac
 
 }
 
 
-Internal_Menu_Recon_Domain_Delegation (){
+Internal_Menu_Recon_Domain_Delegation(){
 
 	clear
  
@@ -1581,7 +1581,7 @@ echo -ne  "Return to Domain Recon Menu?
         case $a in
         	q|Q) Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_Delegation;;
         esac
 
 }
@@ -1623,7 +1623,7 @@ echo -ne  "Return to Domain Recon Menu?
         case $a in
         	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_Forests;;
         esac
 
 }
@@ -1660,7 +1660,7 @@ echo -ne  "Return to Domain Recon Menu?
         case $a in
         	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_GPO;;
         esac
 
 }
@@ -1706,7 +1706,7 @@ echo -ne  "Return to Domain Recon Menu?
         case $a in
         	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_Groups;;
         esac
 
 }
@@ -1742,7 +1742,7 @@ echo -ne  "Return to Domain Recon Menu?
         case $a in
         	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_Policies;;
         esac
 
 }
@@ -1788,7 +1788,7 @@ echo -ne  "Return to Domain Recon Menu?
         case $a in
         	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_Trusts;;
         esac
 
 }
@@ -1845,7 +1845,7 @@ echo -ne  "Return to Domain Recon Menu?
         case $a in
         	q|Q) 	Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_Users;;
         esac
 
 }
@@ -1881,7 +1881,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) Internal_Menu_Recon_Domain ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Domain_Tools;;
         esac
 
 
@@ -1923,7 +1923,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) Internal_Menu_Recon ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_Network;;
         esac
 
 }
@@ -1966,7 +1966,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q)	Internal_Menu_Recon ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Recon_File_Share;;
         esac
 
 }
@@ -1993,7 +1993,7 @@ echo -ne " Select Privilege Escalation Type
 	        2) 	Internal_Menu_Privilege_Escalation_Exploits ;;
 	        q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Privilege_Escalation;;
         esac
 }
 
@@ -2036,7 +2036,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	Internal_Menu_Privilege_Escalation ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Privilege_Escalation_Checks;;
         esac
         
 }
@@ -2068,7 +2068,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	Internal_Menu_Privilege_Escalation ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Privilege_Escalation_Exploits;;
         esac
           
 }
@@ -2095,7 +2095,7 @@ echo -ne " Select MiTM Type
                 1) 	Internal_Menu_MiTM_Inveigh ;;
         	q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_MiTM_Attacks;;
         esac
 }
 
@@ -2132,7 +2132,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	Internal_Menu_MiTM_Attacks ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_MiTM_Inveigh;;
         esac
         
 
@@ -2149,8 +2149,22 @@ echo -e "${LGREEN}PowerUpSQL${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Load into memory ${RESTORE}"
 echo -e "$DownloadMethod "$PowerUpSQL"PowerUpSQL.ps1)"
+echo -e ""
+
+echo -ne  "Return to Previous Menu?
+
+    
+        Q)  ->	[Previous Menu		    ]
+"
 
 
+        read a
+        case $a in
+        	q|Q) 	Internal_Menu_Main ;;
+		0) exit 0 ;;
+		*) Internal_Menu_MSSQL;;
+        esac
+        
 
 }
 
@@ -2192,7 +2206,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	Internal_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_Password_Spraying;;
         esac
         
 }
@@ -2241,7 +2255,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	Internal_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_AMSI_Bypasses;;
         esac
 
 }
@@ -2269,7 +2283,7 @@ echo -ne " What would you like to do?
                 1) 	Internal_Menu_CVEs_NoPac_Exploit ;;
                 q|Q)	Internal_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_CVEs;;
         esac
 
 }
@@ -2308,7 +2322,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	Internal_Menu_CVEs ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Internal_Menu_CVEs_NoPac_Exploit;;
         esac
 }
 
@@ -2357,7 +2371,7 @@ echo -ne " What would you like to do?
                 q|Q)	External_Menu_Options ;;
                 e|E)	External_Menu_CVEs ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_Main;;
         esac
 
 }
@@ -2392,7 +2406,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_BloodHound;;
         esac
 
 }
@@ -2428,7 +2442,7 @@ echo -e "dig @$NQIP $Domain NS"
 echo -e "dig @$NQIP $Domain PTR"
 echo -e ""
 echo -e "${IBLUE}Fierce${RESTORE}"
-echo -e "fierce -domain $Domain"
+echo -e "fierce -dns $Domain"
 echo -e ""
 echo -e ""
 
@@ -2442,7 +2456,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_DNS;;
         esac
 }
 
@@ -2493,7 +2507,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_Impacket;;
         esac
            
 }
@@ -2534,7 +2548,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_Kerberos;;
         esac
         
 }
@@ -2586,7 +2600,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_LDAP;;
         esac
         
 }
@@ -2613,7 +2627,7 @@ echo -ne " What would you like to do?
                 1) 	External_Menu_MiTM_SMB;;
                 q|Q)	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_MiTM;;
         esac
         
 }
@@ -2662,7 +2676,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_MiTM ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_MiTM_SMB;;
         esac
 
 }
@@ -2719,7 +2733,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_MSSQL;;
         esac
         
 }
@@ -2752,7 +2766,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_NTP;;
         esac
 
 }
@@ -2793,7 +2807,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_Nmap;;
         esac
         
 }
@@ -2840,7 +2854,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_Pyerview;;
         esac
         
 }
@@ -2882,7 +2896,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_RDP;;
         esac
         
 }
@@ -2973,7 +2987,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_SMB;;
         esac
         
 }
@@ -3007,7 +3021,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_WinRM;;
         esac
         
 }
@@ -3038,7 +3052,7 @@ echo -ne " What would you like to do?
                 3)	External_Menu_CVEs_Zerologon ;;
                 q|Q)	External_Menu_Main ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_CVEs;;
         esac
 
 }
@@ -3067,7 +3081,7 @@ echo -ne " What would you like to do?
                 2)	External_Menu_CVEs_NoPac_Exploit ;;
                 q|Q) 	External_Menu_CVEs ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_CVEs_NoPac;;
         esac
         
 }
@@ -3098,7 +3112,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_CVEs_NoPac ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_CVEs_NoPac_Check;;
         esac
 
 }
@@ -3133,7 +3147,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_CVEs_NoPac ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_CVEs_NoPac_Exploit;;
         esac
 
 }
@@ -3162,7 +3176,7 @@ echo -ne " What would you like to do?
                 2)	External_Menu_CVEs_PrintNightmare_Exploit ;;
                 q|Q) 	External_Menu_CVEs ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_CVEs_PrintNightmare;;
         esac
 
 
@@ -3199,7 +3213,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_CVEs_PrintNightmare ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_CVEs_PrintNightmare_Check;;
         esac
 
 
@@ -3255,7 +3269,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_CVEs_PrintNightmare ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_CVEs_PrintNightmare_Exploit;;
         esac
 
 
@@ -3285,7 +3299,7 @@ echo -ne " What would you like to do?
                 2)	External_Menu_CVEs_Zerologon_Exploit ;;
                 q|Q) 	External_Menu_CVEs ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_CVEs_Zerologon;;
         esac
 
 }
@@ -3316,7 +3330,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_CVEs_Zerologon ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_CVEs_Zerologon_Check;;
         esac
 
 }
@@ -3352,7 +3366,7 @@ echo -ne  "Return to Previous Menu?
         case $a in
         	q|Q) 	External_Menu_CVEs_Zerologon ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_CVEs_Zerologon_Exploit;;
         esac
 
 
@@ -3425,7 +3439,7 @@ echo -ne "
         	2)	External_Variables_Optional ;;
 	        q|Q) 	External_Menu_Options ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Declare_Variables;;
         esac
 
 }
@@ -3481,7 +3495,7 @@ echo -ne "
         	2)	External_Variables_Required ;;
 	        q|Q) 	External_Menu_Options ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Declare_Variables_Optional;;
         esac
 
 }
@@ -3508,7 +3522,7 @@ echo -ne "
 	        2) 	External_Variables_Required ;;
 	        3)	External_Variables_Optional ;;	
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) External_Menu_Options;;
         esac
 
 
@@ -3522,15 +3536,15 @@ Main_Menu(){
 echo -ne "
             Main Menu
 
-        1) -> Internal
-        2) -> External
+        1) -> Internal (Windows Commands)
+        2) -> External (Linux Commands)
 "
         read a
         case $a in
 	        1) Internal_Menu_Main ;;
 	        2) External_Menu_Options ;;
 		0) exit 0 ;;
-		*) echo -e "Wrong option."
+		*) Main_Menu;;
         esac
 }
 
